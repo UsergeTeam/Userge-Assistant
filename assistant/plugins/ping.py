@@ -6,6 +6,7 @@
 #
 # All rights reserved.
 
+import asyncio
 from datetime import datetime
 
 from pyrogram import Message, Filters
@@ -20,3 +21,5 @@ async def _ping(_, message: Message):
     end = datetime.now()
     m_s = (end - start).microseconds / 1000
     await replied.edit(f"**Pong!**\n`{m_s} ms`")
+    await asyncio.sleep(5)
+    await replied.delete()
