@@ -6,18 +6,19 @@
 #
 # All rights reserved.
 
+import time
+
 from pyrogram import Client
 
-from assistant import Config, logging
+from . import Config, logging
 
 LOG = logging.getLogger(__name__)
+START_TIME = time.time()
 
-bot = Client(
-    "userge-assistant",
-    api_id=Config.APP_ID,
-    api_hash=Config.API_HASH,
-    bot_token=Config.BOT_TOKEN,
-    plugins={'root': "assistant/plugins"}
-)
+bot = Client(":memory:",
+             api_id=Config.APP_ID,
+             api_hash=Config.API_HASH,
+             bot_token=Config.BOT_TOKEN,
+             plugins={'root': "assistant.plugins"})
 
 LOG.info("assistant-bot initialized!")

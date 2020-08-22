@@ -12,13 +12,14 @@ from pyrogram import Message, Filters
 from pyrogram.errors.exceptions import FileIdInvalid, FileReferenceEmpty
 from pyrogram.errors.exceptions.bad_request_400 import BadRequest
 
-from assistant import bot, Config, versions
-from assistant.utils import START_TIME, time_formatter
+from assistant import bot, filters, versions
+from assistant.bot import START_TIME
+from assistant.utils import time_formatter
 
 LOGO_STICKER_ID, LOGO_STICKER_REF = None, None
 
 
-@bot.on_message(Config.AUTH_CHATS & Filters.command("alive"))
+@bot.on_message(Filters.command("alive") & filters.auth_chats)
 async def _alive(_, message: Message):
     try:
         if LOGO_STICKER_ID:
@@ -29,12 +30,12 @@ async def _alive(_, message: Message):
     except (FileIdInvalid, FileReferenceEmpty, BadRequest):
         await refresh_id()
         await sendit(LOGO_STICKER_ID, LOGO_STICKER_REF, message)
-    output = f"""
-**Userge-Assistant is Up**
+    output = f"""**Userge-Assistant is Up**
+
 • **uptime** : `{time_formatter(time.time() - START_TIME)}`
 • **python version** : `{versions.__python_version__}`
 • **pyrogram version** : `{versions.__pyro_version__}`
-• **bot version** : `v1.0`
+• **bot version** : `{versions.__assistant_version__}`
 • **license** : {versions.__license__}
 • **copyright** : {versions.__copyright__}
 • **repo** : [Userge-Assistant](https://github.com/UsergeTeam/Userge-Assistant)

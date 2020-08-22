@@ -6,4 +6,4 @@
 #
 # All rights reserved.
 
-from assistant.logger import START_TIME, time_formatter  # noqa
+from .tools import time_formatter  # noqa

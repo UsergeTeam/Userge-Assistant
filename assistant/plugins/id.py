@@ -6,17 +6,15 @@
 #
 # All rights reserved.
 
-from datetime import datetime
-
 from pyrogram import Message, Filters
 
 from assistant import bot, filters
 
 
-@bot.on_message(Filters.command("ping") & filters.auth_chats)
-async def _ping(_, message: Message):
-    start = datetime.now()
-    replied = await message.reply('`Pong!`')
-    end = datetime.now()
-    m_s = (end - start).microseconds / 1000
-    await replied.edit(f"**Pong!**\n`{m_s} ms`")
+@bot.on_message(Filters.command("id") & filters.auth_chats)
+async def _id(_, message: Message):
+    replied = message.reply_to_message
+    if replied and replied.from_user:
+        await message.reply(f"**USER_ID** : `{replied.from_user.id}`")
+    else:
+        await message.reply(f"**CHAT_ID** : `{message.chat.id}`")

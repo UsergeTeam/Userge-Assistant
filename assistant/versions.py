@@ -12,9 +12,7 @@ from sys import version_info
 
 from pyrogram import __version__ as __pyro_version__  # noqa
 
-__major__ = 0
-__minor__ = 1
-__micro__ = 6
+__assistant_version__ = "v1"
 
 __python_version__ = f"{version_info[0]}.{version_info[1]}.{version_info[2]}"
 

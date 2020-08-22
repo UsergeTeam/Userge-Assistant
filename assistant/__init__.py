@@ -9,3 +9,4 @@
 from .logger import logging  #noqa
 from .config import Config  #noqa
 from .bot import bot  #noqa
+from . import filters  #noqa

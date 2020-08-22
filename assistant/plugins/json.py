@@ -6,17 +6,15 @@
 #
 # All rights reserved.
 
-from datetime import datetime
-
 from pyrogram import Message, Filters
 
-from assistant import bot, filters
+from assistant import bot, filters, Config
 
 
-@bot.on_message(Filters.command("ping") & filters.auth_chats)
-async def _ping(_, message: Message):
-    start = datetime.now()
-    replied = await message.reply('`Pong!`')
-    end = datetime.now()
-    m_s = (end - start).microseconds / 1000
-    await replied.edit(f"**Pong!**\n`{m_s} ms`")
+@bot.on_message(Filters.command("json") & filters.is_admin)
+async def _json(_, message: Message):
+    msg = str(message.reply_to_message) if message.reply_to_message else str(message)
+    if len(msg) > Config.MAX_MSG_LENGTH:
+        await message.reply("`too large !`")
+    else:
+        await message.reply(msg)
