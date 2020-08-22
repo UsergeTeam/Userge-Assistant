@@ -1,0 +1,3 @@
+git+https://github.com/pyrogram/pyrogram.git@asyncio-dev
+aiofiles
+aiohttp
