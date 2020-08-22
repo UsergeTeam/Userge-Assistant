@@ -19,6 +19,7 @@ logging.basicConfig(
 
 logging.getLogger("pyrogram").setLevel(logging.WARNING)
 
+
 def time_formatter(seconds: float) -> str:
     """ humanize time """
     minutes, seconds = divmod(int(seconds), 60)
