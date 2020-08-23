@@ -21,7 +21,7 @@ LOGO_ID, LOGO_REF = None, None
 
 @bot.on_message(Filters.command("alive") & filters.auth_chats)
 async def _alive(_, message: Message):
-    
+
     output = f"""
 **🤖 Bot Uptime** : `{time_formatter(time.time() - START_TIME)}`
 **🤖 Bot Version** : `{versions.__assistant_version__}`
