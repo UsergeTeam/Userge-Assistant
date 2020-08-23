@@ -13,14 +13,19 @@ from assistant import bot, filters
 
 DATA = {}
 
+MSG_LIMIT = 5
+WARN_LIMIT = 3
+MIN_DELAY = 3
 
-@bot.on_message(Filters.incoming & ~Filters.edited & filters.auth_chats & ~filters.is_admin)
+
+@bot.on_message(
+    Filters.incoming & ~Filters.edited & filters.auth_chats & ~filters.is_admin, group=1)
 async def flood(_, message: Message):
-    limit = 5
     chat_flood = DATA.get(message.chat.id)
     if chat_flood is None:
         data = {
             'user_id': message.from_user.id,
+            'time': time.time(),
             'count': 1
         }
         DATA[message.chat.id] = data
@@ -29,14 +34,21 @@ async def flood(_, message: Message):
     if cur_user != chat_flood['user_id']:
         data = {
             'user_id': cur_user,
+            'time': time.time(),
             'count': 1
         }
         DATA[message.chat.id] = data
         return
     prev_count = chat_flood['count']
-    count = prev_count + 1
-    if count >= limit:
-        await message.chat.kick_member(cur_user, until_date=int(time.time() + 45))
-        await message.reply("**MAX FLOOD LIMIT REACHED**\n User Has been Kicked.")
-        return
-    DATA[message.chat.id] = {'user_id': cur_user, 'count': count}
+    prev_time = chat_flood['time']
+    if (time.time() - prev_time) < MIN_DELAY:
+        count = prev_count + 1
+        if count >= MSG_LIMIT:
+            await message.chat.kick_member(cur_user, until_date=int(time.time() + 45))
+            await message.reply("**MAX FLOOD LIMIT REACHED**\n User Has been Kicked.")
+        elif count == WARN_LIMIT:
+            await message.reply("**WARN**\n `Flood Detected !`")
+    else:
+        count = 1
+    DATA[message.chat.id] = {'user_id': cur_user, 'time': time.time(), 'count': count}
+    message.continue_propagation()
