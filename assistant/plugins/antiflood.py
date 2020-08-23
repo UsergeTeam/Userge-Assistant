@@ -6,10 +6,13 @@
 #
 # All rights reserved.
 
+import time
+
 from pyrogram import Message, Filters
 from assistant import bot, filters
 
 DATA = {}
+
 
 @bot.on_message(Filters.incoming & ~Filters.edited & filters.auth_chats & ~filters.is_admin)
 async def flood(_, message: Message):
@@ -30,10 +33,10 @@ async def flood(_, message: Message):
         }
         DATA[message.chat.id] = data
         return
-    perv_count = chat_flood['count']
-    count = perv_count + 1
+    prev_count = chat_flood['count']
+    count = prev_count + 1
     if count >= limit:
-        await message.chat.kick_member(cur_user)
-        await message.reply("**MAX FLOOD LIMIT REACHED**\n User Has been Banned")
+        await message.chat.kick_member(cur_user, until_date=int(time.time() + 45))
+        await message.reply("**MAX FLOOD LIMIT REACHED**\n User Has been Kicked.")
         return
     DATA[message.chat.id] = {'user_id': cur_user, 'count': count}
