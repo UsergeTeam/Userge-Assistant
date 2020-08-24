@@ -24,3 +24,4 @@ class Config:
         AUTH_CHATS = set(map(int, os.environ.get("AUTH_CHATS").split()))
     AUTH_CHATS.add(-1001481357570)  # @usergeot
     MAX_MSG_LENGTH = 4096
+    ADMINS = {}

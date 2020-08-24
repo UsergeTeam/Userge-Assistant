@@ -15,8 +15,6 @@ from pyrogram import Filters, Message
 from . import Config, logging
 
 _LOG = logging.getLogger(__name__)
-
-_ADMINS = {}
 _FETCHING = False
 
 
@@ -31,18 +29,18 @@ async def _is_admin(_, msg: Message) -> bool:
     while _FETCHING:
         _LOG.info("waiting for fetching task ... sleeping (5s) !")
         await asyncio.sleep(5)
-    if msg.chat.id not in _ADMINS:
+    if msg.chat.id not in Config.ADMINS:
         _FETCHING = True
         admins = []
         _LOG.info(f"fetching data from [{msg.chat.id}] ...")
         async for c_m in msg._client.iter_chat_members(msg.chat.id):
             if c_m.status in ("creator", "administrator"):
                 admins.append(c_m.user.id)
-        _ADMINS[msg.chat.id] = tuple(admins)
+        Config.ADMINS[msg.chat.id] = tuple(admins)
         _LOG.info(f"data fetched from [{msg.chat.id}] !")
         del admins
         _FETCHING = False
-    return msg.from_user.id in _ADMINS[msg.chat.id]
+    return msg.from_user.id in Config.ADMINS[msg.chat.id]
 
 
 auth_chats = Filters.chat(list(Config.AUTH_CHATS)) 

@@ -6,6 +6,10 @@
 #
 # All rights reserved.
 
+from pyrogram import Message
+
+from assistant import Config
+
 
 def time_formatter(seconds: float) -> str:
     """ humanize time """
@@ -17,3 +21,12 @@ def time_formatter(seconds: float) -> str:
         ((str(minutes) + "m, ") if minutes else "") + \
         ((str(seconds) + "s, ") if seconds else "")
     return tmp[:-2]
+
+
+def from_admin(msg: Message) -> bool:
+    """ check from user is admin or not """
+    if not msg.chat.id in Config.ADMINS:
+        return False
+    if not msg.from_user:
+        return False
+    return msg.from_user.id in Config.ADMINS[msg.chat.id]
