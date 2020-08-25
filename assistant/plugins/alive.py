@@ -17,8 +17,6 @@ from assistant import bot, filters, versions
 from assistant.bot import START_TIME
 from assistant.utils import time_formatter
 
-LOGO_ID, LOGO_REF = None, None
-
 
 @bot.on_message(Filters.command("alive") & filters.auth_chats)
 async def _alive(_, message: Message):
@@ -28,24 +26,13 @@ async def _alive(_, message: Message):
 **🤖 Bot Version** : `{versions.__assistant_version__}`
 **️️⭐ Python** : `{versions.__python_version__}`
 **💥 Pyrogram** : `{versions.__pyro_version__}` """
-    try:
-        if LOGO_ID:
-            await sendit(message, LOGO_ID, LOGO_REF, output)
-        else:
-            await refresh_id()
-            await sendit(message, LOGO_ID, LOGO_REF, output)
-    except (FileIdInvalid, FileReferenceEmpty, BadRequest):
-        await refresh_id()
-        await sendit(message, LOGO_ID, LOGO_REF, output)
-
-
-async def refresh_id():
-    global LOGO_ID, LOGO_REF
     msg_id = random.choice(
         499509, 499428, 496502, 496360, 496498)  # Too many GiF 😂
     gif = (await bot.get_messages('UserGeOt', msg_id)).animation
-    LOGO_ID = gif.file_id
-    LOGO_REF = gif.file_ref
+    file_id = gif.file_id
+    file_ref = gif.file_ref
+    await sendit(message, file_id, file_ref, output)
+
 
 
 async def sendit(message, fileid, fileref, caption):
