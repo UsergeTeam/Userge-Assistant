@@ -21,8 +21,15 @@ def time_formatter(seconds: float) -> str:
     return tmp[:-2]
 
 
-def is_admin(chat_id: int, user_id: int) -> bool:
+def is_admin(chat_id: int, user_id: int, check_devs: bool = False) -> bool:
     """ check user is admin or not in this chat """
+    if check_devs and is_dev(user_id):
+        return True
     if chat_id not in Config.ADMINS:
         return False
     return user_id in Config.ADMINS[chat_id]
+
+
+def is_dev(user_id: int) -> bool:
+    """ returns user is dev or not """
+    return user_id in Config.DEV_USERS

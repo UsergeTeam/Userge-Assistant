@@ -12,8 +12,8 @@ from pyrogram import (
     Message, Filters, CallbackQuery, ChatPermissions,
     InlineKeyboardMarkup, InlineKeyboardButton)
 
-from assistant import bot, filters, Config
-from assistant.utils import is_admin
+from assistant import bot, filters
+from assistant.utils import is_admin, is_dev
 
 WARN_LIMIT = 5
 WARN_MODE = "kick"
@@ -22,7 +22,7 @@ DATA = {}
 
 
 @bot.on_message(
-    Filters.command("warn") & filters.auth_chats & filters.is_admin)
+    Filters.command("warn") & filters.auth_chats & filters.auth_users)
 async def warn_user(_, msg: Message):
     global WARN_MODE, WARN_LIMIT  # pylint: disable=global-statement
 
@@ -33,7 +33,7 @@ async def warn_user(_, msg: Message):
     user_id = replied.from_user.id
     mention = f"[{replied.from_user.first_name}](tg://user?id={user_id})"
 
-    if user_id in Config.DEV_USERS:
+    if is_dev(user_id):
         await msg.reply("`He is My Master, Can't Warn him.`")
         return
     if user_id == (await bot.get_me()).id:
@@ -112,7 +112,7 @@ async def warn_user(_, msg: Message):
 @bot.on_callback_query(Filters.regex(pattern=r"rm_warn\((.+?)\)"))
 async def remove_warn(_, c_q: CallbackQuery):
     user_id = int(c_q.matches[0].group(1))
-    if is_admin(c_q.message.chat.id, c_q.from_user.id):
+    if is_admin(c_q.message.chat.id, c_q.from_user.id, check_devs=True):
         if DATA.get(user_id):
             up_l = DATA[user_id]['limit'] - 1  # up_l = updated limit
             if up_l > 0:
@@ -132,7 +132,7 @@ async def remove_warn(_, c_q: CallbackQuery):
 
 
 @bot.on_message(
-    Filters.command("setwarn") & filters.auth_chats & filters.is_admin)
+    Filters.command("setwarn") & filters.auth_chats & filters.auth_users)
 async def set_warn_mode_and_limit(_, msg: Message):
     global WARN_MODE, WARN_LIMIT  # pylint: disable=global-statement
     cmd = len(msg.text)
@@ -162,13 +162,13 @@ async def set_warn_mode_and_limit(_, msg: Message):
 
 
 @bot.on_message(
-    Filters.command("resetwarn") & filters.auth_chats & filters.is_admin)
+    Filters.command("resetwarn") & filters.auth_chats & filters.auth_users)
 async def reset_all_warns(_, msg: Message):
     replied = msg.reply_to_message
     if not replied:
         return
     user_id = replied.from_user.id
-    if user_id in Config.DEV_USERS:
+    if is_dev(user_id):
         await msg.reply("`He is My Master, I never Warned him.`")
         return
     if user_id == (await bot.get_me()).id:
@@ -194,7 +194,7 @@ async def check_warns_of_user(_, msg: Message):
     else:
         user_id = msg.from_user.id
         mention = f"[{msg.from_user.first_name}](tg://user?id={user_id})"
-    if user_id in Config.DEV_USERS:
+    if is_dev(user_id):
         await msg.reply("`He is My Master, I never Warned him.`")
         return
     if user_id == (await bot.get_me()).id:
@@ -203,7 +203,7 @@ async def check_warns_of_user(_, msg: Message):
     if is_admin(msg.chat.id, user_id):
         await msg.reply("`He is admin, I never Warned him.`")
         return
-    if replied and not is_admin(msg.chat.id, msg.from_user.id):
+    if replied and not is_admin(msg.chat.id, msg.from_user.id, check_devs=True):
         await msg.reply("`You can Only see your Warnings.`")
         return
     if DATA.get(user_id):

@@ -17,7 +17,8 @@ from assistant import bot, filters, versions
 from assistant.bot import START_TIME
 from assistant.utils import time_formatter
 
-LOGO_ID, LOGO_REF = None, None
+LOGO_DATA = []
+MSG_IDS = [499509, 499428, 496502, 496360, 496498]
 
 
 @bot.on_message(Filters.command("alive") & filters.auth_chats)
@@ -29,26 +30,24 @@ async def _alive(_, message: Message):
 **️️⭐ Python** : `{versions.__python_version__}`
 **💥 Pyrogram** : `{versions.__pyro_version__}` """
     try:
-        if LOGO_ID:
-            await sendit(message, LOGO_ID, LOGO_REF, output)
-        else:
-            await refresh_id()
-            await sendit(message, LOGO_ID, LOGO_REF, output)
+        await sendit(message.chat.id, output)
     except (FileIdInvalid, FileReferenceEmpty, BadRequest):
-        await refresh_id()
-        await sendit(message, LOGO_ID, LOGO_REF, output)
+        await refresh_data()
+        await sendit(message.chat.id, output)
 
 
-async def refresh_id():
-    global LOGO_ID, LOGO_REF
-    msg_id = random.choice(
-        499509, 499428, 496502, 496360, 496498)  # Too many GiF 😂
-    gif = (await bot.get_messages('UserGeOt', msg_id)).animation
-    LOGO_ID = gif.file_id
-    LOGO_REF = gif.file_ref
+async def refresh_data():
+    LOGO_DATA.clear()
+    for msg in await bot.get_messages('UserGeOt', MSG_IDS):
+        if not msg.animation:
+            continue
+        gif = msg.animation
+        LOGO_DATA.append((gif.file_id, gif.file_ref))
 
 
-async def sendit(message, fileid, fileref, caption):
+async def sendit(chat_id, caption):
+    if not LOGO_DATA:
+        await refresh_data()
     button = InlineKeyboardMarkup(
         [
             [
@@ -62,7 +61,9 @@ async def sendit(message, fileid, fileref, caption):
             ]
         ]
     )
-    await bot.send_animation(
-        chat_id=message.chat.id,
-        animation=fileid, file_ref=fileref,
-        caption=caption, reply_markup=button)
+    file_id, file_ref = random.choice(LOGO_DATA)
+    await bot.send_animation(chat_id=chat_id,
+                             animation=file_id,
+                             file_ref=file_ref,
+                             caption=caption,
+                             reply_markup=button)

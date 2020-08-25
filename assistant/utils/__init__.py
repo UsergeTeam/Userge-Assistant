@@ -6,4 +6,4 @@
 #
 # All rights reserved.
 
-from .tools import is_admin, time_formatter  # noqa
+from .tools import is_admin, is_dev, time_formatter  # noqa
