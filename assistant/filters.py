@@ -40,7 +40,7 @@ async def _is_admin(_, msg: Message) -> bool:
         _LOG.info(f"data fetched from [{msg.chat.id}] !")
         del admins
         _FETCHING = False
-    return msg.from_user.id in (Config.ADMINS[msg.chat.id] or Config.DEV_USERS)
+    return msg.from_user.id in Config.ADMINS[msg.chat.id] or msg.from_user.id in Config.DEV_USERS
 
 
 auth_chats = Filters.chat(list(Config.AUTH_CHATS)) 
