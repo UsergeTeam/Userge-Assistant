@@ -23,5 +23,8 @@ class Config:
     if os.environ.get("AUTH_CHATS"):
         AUTH_CHATS = set(map(int, os.environ.get("AUTH_CHATS").split()))
     AUTH_CHATS.add(-1001481357570)  # @usergeot
+    DEV_USERS = set()
+    if os.environ.get("DEV_USERS"):
+        DEV_USERS = set(map(int, os.environ.get("DEV_USERS").split()))
     MAX_MSG_LENGTH = 4096
     ADMINS = {}
