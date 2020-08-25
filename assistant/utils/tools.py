@@ -6,8 +6,6 @@
 #
 # All rights reserved.
 
-from pyrogram import Message
-
 from assistant import Config
 
 
