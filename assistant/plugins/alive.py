@@ -7,6 +7,7 @@
 # All rights reserved.
 
 import time
+import random
 
 from pyrogram import Message, Filters, InlineKeyboardMarkup, InlineKeyboardButton
 from pyrogram.errors.exceptions import FileIdInvalid, FileReferenceEmpty
@@ -25,8 +26,8 @@ async def _alive(_, message: Message):
     output = f"""
 **🤖 Bot Uptime** : `{time_formatter(time.time() - START_TIME)}`
 **🤖 Bot Version** : `{versions.__assistant_version__}`
-    **__python__** : `{versions.__python_version__}`
-    **__pyrogram__** : `{versions.__pyro_version__}` """
+**️️⭐ Python** : `{versions.__python_version__}`
+**💥 Pyrogram** : `{versions.__pyro_version__}` """
     try:
         if LOGO_ID:
             await sendit(message, LOGO_ID, LOGO_REF, output)
@@ -40,7 +41,9 @@ async def _alive(_, message: Message):
 
 async def refresh_id():
     global LOGO_ID, LOGO_REF
-    gif = (await bot.get_messages('UserGeOt', 492405)).animation
+    msg_id = random.choice(
+        499509, 499428, 496502, 496360, 496498)  # Too many GiF 😂
+    gif = (await bot.get_messages('UserGeOt', msg_id)).animation
     LOGO_ID = gif.file_id
     LOGO_REF = gif.file_ref
 
