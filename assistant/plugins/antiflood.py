@@ -13,8 +13,8 @@ from assistant import bot, filters
 
 DATA = {}
 
-MSG_LIMIT = 5
-WARN_LIMIT = 3
+MSG_LIMIT = 8
+WARN_LIMIT = 5
 MIN_DELAY = 3
 
 
