@@ -13,7 +13,7 @@ from pyrogram import (
     InlineKeyboardMarkup, InlineKeyboardButton)
 
 from assistant import bot, filters
-from assistant.utils import is_admin, is_dev
+from assistant.utils import is_admin, is_dev, sed
 
 WARN_LIMIT = 5
 WARN_MODE = "kick"
@@ -216,12 +216,3 @@ async def _check_warns_of_user(_, msg: Message):
         await msg.reply(reply_msg)
     else:
         await msg.reply("`Warnings not Found.`")
-
-
-async def sed(msg: Message):
-    """ send default sticker """
-    sticker = (await bot.get_messages('UserGeOt', 498697)).sticker
-    file_id = sticker.file_id
-    fileref = sticker.file_ref
-    await bot.send_sticker(
-        msg.chat.id, file_id, file_ref=fileref)
