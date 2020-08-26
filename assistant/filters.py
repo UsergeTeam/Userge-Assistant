@@ -6,7 +6,7 @@
 #
 # All rights reserved.
 
-__all__ = ["auth_chats", "is_admin"]
+__all__ = ["auth_chats", "auth_users"]
 
 import asyncio
 
@@ -19,7 +19,7 @@ _FETCHING = False
 
 
 async def _is_admin_or_dev(_, msg: Message) -> bool:
-    global _FETCHING
+    global _FETCHING  # pylint: disable=global-statement
     if msg.chat.id not in Config.AUTH_CHATS:
         return False
     if not msg.from_user:
@@ -32,16 +32,17 @@ async def _is_admin_or_dev(_, msg: Message) -> bool:
     if msg.chat.id not in Config.ADMINS:
         _FETCHING = True
         admins = []
-        _LOG.info(f"fetching data from [{msg.chat.id}] ...")
+        _LOG.info("fetching data from [%s] ...", msg.chat.id)
+        # pylint: disable=protected-access
         async for c_m in msg._client.iter_chat_members(msg.chat.id):
             if c_m.status in ("creator", "administrator"):
                 admins.append(c_m.user.id)
         Config.ADMINS[msg.chat.id] = tuple(admins)
-        _LOG.info(f"data fetched from [{msg.chat.id}] !")
+        _LOG.info("data fetched from [%s] !", msg.chat.id)
         del admins
         _FETCHING = False
     return msg.from_user.id in Config.ADMINS[msg.chat.id]
 
 
-auth_chats = Filters.chat(list(Config.AUTH_CHATS)) 
+auth_chats = Filters.chat(list(Config.AUTH_CHATS))
 auth_users = Filters.create(_is_admin_or_dev)

@@ -6,13 +6,15 @@
 #
 # All rights reserved.
 
+__all__ = ["bot", "START_TIME"]
+
 import time
 
 from pyrogram import Client
 
 from . import Config, logging
 
-LOG = logging.getLogger(__name__)
+_LOG = logging.getLogger(__name__)
 START_TIME = time.time()
 
 bot = Client(":memory:",
@@ -21,4 +23,4 @@ bot = Client(":memory:",
              bot_token=Config.BOT_TOKEN,
              plugins={'root': "assistant.plugins"})
 
-LOG.info("assistant-bot initialized!")
+_LOG.info("assistant-bot initialized!")

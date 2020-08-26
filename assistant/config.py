@@ -6,9 +6,10 @@
 #
 # All rights reserved.
 
+__all__ = ["Config"]
+
 import os
 
-from pyrogram import Filters
 from dotenv import load_dotenv
 
 if os.path.isfile("config.env"):
@@ -16,6 +17,7 @@ if os.path.isfile("config.env"):
 
 
 class Config:
+    """ assistant configs """
     APP_ID = int(os.environ.get("APP_ID", 0))
     API_HASH = os.environ.get("API_HASH")
     BOT_TOKEN = os.environ.get("BOT_TOKEN")

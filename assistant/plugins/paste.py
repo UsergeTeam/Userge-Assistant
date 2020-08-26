@@ -129,7 +129,7 @@ async def get_paste_(_, message: Message):
             await msg.edit(f"`Request timed out -> {e_r}`")
         except TooManyRedirects as e_r:
             await msg.edit("`Request exceeded the configured `"
-                          f"`number of maximum redirections -> {e_r}`")
+                           f"`number of maximum redirections -> {e_r}`")
         except ClientResponseError as e_r:
             await msg.edit(f"`Request returned an unsuccessful status code -> {e_r}`")
         else:
@@ -137,4 +137,4 @@ async def get_paste_(_, message: Message):
                 await msg.edit("`Content Too Large...`")
             else:
                 await msg.edit("--Fetched Content Successfully!--"
-                              f"\n\n**Content** :\n`{text}`")
+                               f"\n\n**Content** :\n`{text}`")

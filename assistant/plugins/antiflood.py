@@ -20,7 +20,7 @@ MIN_DELAY = 3
 
 @bot.on_message(
     Filters.incoming & ~Filters.edited & filters.auth_chats & ~filters.auth_users, group=1)
-async def flood(_, message: Message):
+async def _flood(_, message: Message):
     chat_flood = DATA.get(message.chat.id)
     if chat_flood is None:
         data = {

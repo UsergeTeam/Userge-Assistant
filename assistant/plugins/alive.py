@@ -23,20 +23,14 @@ MSG_IDS = [499509, 499428, 496502, 496360, 496498]
 
 @bot.on_message(Filters.command("alive") & filters.auth_chats)
 async def _alive(_, message: Message):
-
-    output = f"""
-**🤖 Bot Uptime** : `{time_formatter(time.time() - START_TIME)}`
-**🤖 Bot Version** : `{versions.__assistant_version__}`
-**️️⭐ Python** : `{versions.__python_version__}`
-**💥 Pyrogram** : `{versions.__pyro_version__}` """
     try:
-        await sendit(message.chat.id, output)
+        await _sendit(message.chat.id)
     except (FileIdInvalid, FileReferenceEmpty, BadRequest):
-        await refresh_data()
-        await sendit(message.chat.id, output)
+        await _refresh_data()
+        await _sendit(message.chat.id)
 
 
-async def refresh_data():
+async def _refresh_data():
     LOGO_DATA.clear()
     for msg in await bot.get_messages('UserGeOt', MSG_IDS):
         if not msg.animation:
@@ -45,9 +39,14 @@ async def refresh_data():
         LOGO_DATA.append((gif.file_id, gif.file_ref))
 
 
-async def sendit(chat_id, caption):
+async def _sendit(chat_id):
     if not LOGO_DATA:
-        await refresh_data()
+        await _refresh_data()
+    caption = f"""
+**🤖 Bot Uptime** : `{time_formatter(time.time() - START_TIME)}`
+**🤖 Bot Version** : `{versions.__assistant_version__}`
+**️️⭐ Python** : `{versions.__python_version__}`
+**💥 Pyrogram** : `{versions.__pyro_version__}` """
     button = InlineKeyboardMarkup(
         [
             [

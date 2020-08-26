@@ -23,7 +23,7 @@ DATA = {}
 
 @bot.on_message(
     Filters.command("warn") & filters.auth_chats & filters.auth_users)
-async def warn_user(_, msg: Message):
+async def _warn_user(_, msg: Message):
     global WARN_MODE, WARN_LIMIT  # pylint: disable=global-statement
 
     replied = msg.reply_to_message
@@ -110,7 +110,7 @@ async def warn_user(_, msg: Message):
 
 
 @bot.on_callback_query(Filters.regex(pattern=r"rm_warn\((.+?)\)"))
-async def remove_warn(_, c_q: CallbackQuery):
+async def _remove_warn(_, c_q: CallbackQuery):
     user_id = int(c_q.matches[0].group(1))
     if is_admin(c_q.message.chat.id, c_q.from_user.id, check_devs=True):
         if DATA.get(user_id):
@@ -133,7 +133,7 @@ async def remove_warn(_, c_q: CallbackQuery):
 
 @bot.on_message(
     Filters.command("setwarn") & filters.auth_chats & filters.auth_users)
-async def set_warn_mode_and_limit(_, msg: Message):
+async def _set_warn_mode_and_limit(_, msg: Message):
     global WARN_MODE, WARN_LIMIT  # pylint: disable=global-statement
     cmd = len(msg.text)
     if msg.text and cmd == 8:
@@ -151,7 +151,7 @@ async def set_warn_mode_and_limit(_, msg: Message):
         await msg.reply("`Warning Mode Updated to Mute`")
     elif args[0].isnumeric():
         input_ = int(args[0])
-        if not input_ >= 3:
+        if input_ < 3:
             await msg.reply("`Can't Warn Limit less then 3`")
             return
         WARN_LIMIT = input_
@@ -160,10 +160,9 @@ async def set_warn_mode_and_limit(_, msg: Message):
         await msg.reply("`Invalid arguments, Exiting...`")
 
 
-
 @bot.on_message(
     Filters.command("resetwarn") & filters.auth_chats & filters.auth_users)
-async def reset_all_warns(_, msg: Message):
+async def _reset_all_warns(_, msg: Message):
     replied = msg.reply_to_message
     if not replied:
         return
@@ -185,7 +184,7 @@ async def reset_all_warns(_, msg: Message):
 
 
 @bot.on_message(Filters.command("warns") & filters.auth_chats)
-async def check_warns_of_user(_, msg: Message):
+async def _check_warns_of_user(_, msg: Message):
     global WARN_LIMIT  # pylint: disable=global-statement
     replied = msg.reply_to_message
     if replied:
@@ -220,6 +219,7 @@ async def check_warns_of_user(_, msg: Message):
 
 
 async def sed(msg: Message):
+    """ send default sticker """
     sticker = (await bot.get_messages('UserGeOt', 498697)).sticker
     file_id = sticker.file_id
     fileref = sticker.file_ref
