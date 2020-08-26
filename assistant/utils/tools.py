@@ -6,7 +6,7 @@
 #
 # All rights reserved.
 
-from assistant import Config
+from assistant import bot, Config
 
 
 def time_formatter(seconds: float) -> str:
@@ -33,3 +33,23 @@ def is_admin(chat_id: int, user_id: int, check_devs: bool = False) -> bool:
 def is_dev(user_id: int) -> bool:
     """ returns user is dev or not """
     return user_id in Config.DEV_USERS
+
+
+def check_rights(chat_id: int, user_id: int, rights):
+    """ check admin rights """
+    user = await bot.get_chat_member(chat_id, user_id)
+    if user.status == "member":
+        return False
+    if user.status == "administrator":
+        if f"user.{rights}":
+            return True
+        return False
+    return True
+
+
+async def sed(msg: Message):
+    """ send default sticker """
+    sticker = (await bot.get_messages('UserGeOt', 498697)).sticker
+    file_id = sticker.file_id
+    file_ref = sticker.file_ref
+    await msg.reply_sticker(file_id, file_ref=file_ref)
