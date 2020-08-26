@@ -6,6 +6,8 @@
 #
 # All rights reserved.
 
+from pyrogram import Message
+
 from assistant import bot, Config
 
 
@@ -47,7 +49,7 @@ def check_rights(chat_id: int, user_id: int, rights):
     return True
 
 
-async def sed(msg: Message):
+async def sed_sticker(msg: Message):
     """ send default sticker """
     sticker = (await bot.get_messages('UserGeOt', 498697)).sticker
     file_id = sticker.file_id
