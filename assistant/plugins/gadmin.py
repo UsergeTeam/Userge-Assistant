@@ -14,7 +14,7 @@ from pyrogram.errors import (
     FloodWait, UserAdminInvalid, UsernameInvalid, PeerIdInvalid, UserIdInvalid)
 
 from assistant import bot, filters
-from assistant.utils import is_dev, is_admin, sed, check_rights
+from assistant.utils import is_dev, is_admin, sed_sticker, check_rights
 
 
 @bot.on_message(  # tban in queue
@@ -53,13 +53,14 @@ async def ban_user(_, msg: Message):
         await msg.reply("`He is My Master, I will not Ban him.`")
         return
     if user_id == (await bot.get_me()).id:
-        await sed(msg)
+        await sed_sticker(msg)
         return
     if is_admin(chat_id, user_id):
         await msg.reply("`User is Admin, Can't Ban him.`")
         return
     if not check_rights(chat_id, (await bot.get_me()).id, "can_restrict_members"):
         await msg.reply("`Give me rights to Ban Users.`")
+        await sed_sticker(msg)
         return
     text = await msg.reply("`Trying to Ban User.. Hang on!! ⏳`")
     try:
@@ -99,6 +100,7 @@ async def unban_user(_, msg: Message):
         return
     if not check_rights(chat_id, (await bot.get_me()).id, "can_restrict_members"):
         await msg.reply("`Give me rights to UnBan Users.`")
+        await sed_sticker(msg)
         return
     text = await msg.reply("`Trying to UnBan User.. Hang on!! ⏳`")
     try:
@@ -144,13 +146,14 @@ async def kick_user(_, msg: Message):
         await msg.reply("`He is My Master, I will not Kick him.`")
         return
     if user_id == (await bot.get_me()).id:
-        await sed(msg)
+        await sed_sticker(msg)
         return
     if is_admin(chat_id, user_id):
         await msg.reply("`User is Admin, Can't Kick him.`")
         return
     if not check_rights(chat_id, (await bot.get_me()).id, "can_restrict_members"):
         await msg.reply("`Give me rights to Kick Users.`")
+        await sed_sticker(msg)
         return
     text = await msg.reply("`Trying to Kick User.. Hang on!! ⏳`")
     try:
@@ -190,6 +193,7 @@ async def promote_user(_, msg: Message):
         return
     if not check_rights(chat_id, (await bot.get_me()).id, "can_promote_members"):
         await msg.reply("`Give me rights to Promote User.`")
+        await sed_sticker(msg)
         return
     text = await msg.reply("`Trying to Promote User.. Hang on!! ⏳`")
     try:
@@ -225,7 +229,7 @@ async def demote_user(_, msg: Message):
         await msg.reply("`Invalid user_id or username, try again with valid info ⚠`")
         return
     if user_id == (await bot.get_me()).id:
-        await sed(msg)
+        await sed_sticker(msg)
         return
     if is_dev(user_id):
         return
@@ -234,6 +238,7 @@ async def demote_user(_, msg: Message):
         return
     if not check_rights(chat_id, (await bot.get_me()).id, "can_promote_members"):
         await msg.reply("`Give me rights to Demote User.`")
+        await sed_sticker(msg)
         return
     text = await msg.reply("`Trying to Demote User.. Hang on!! ⏳`")
     try:
@@ -284,13 +289,14 @@ async def mute_user(_, msg: Message):
         await msg.reply("`He is My Master, I will not Mute him.`")
         return
     if user_id == (await bot.get_me()).id:
-        await sed(msg)
+        await sed_sticker(msg)
         return
     if is_admin(chat_id, user_id):
         await msg.reply("`User is Admin, Can't Mute him.`")
         return
     if not check_rights(chat_id, (await bot.get_me()).id, "can_restrict_members"):
         await msg.reply("`Give me rights to Mute Users.`")
+        await sed_sticker(msg)
         return
     text = await msg.reply("`Trying to Mute User.. Hang on!! ⏳`")
     try:
@@ -332,6 +338,7 @@ async def unmute_user(_, msg: Message):
         return
     if not check_rights(chat_id, (await bot.get_me()).id, "can_restrict_members"):
         await msg.reply("`Give me rights to UnMute Users.`")
+        await sed_sticker(msg)
         return
     text = await msg.reply("`Trying to UnMute User.. Hang on!! ⏳`")
     try:
@@ -386,6 +393,7 @@ async def zombie_clean(msg: Message):
             await text.edit(f"{del_stats}")
         else:
             await msg.reply("`Give me rights to clean Zombies from this group.`")
+            await sed_sticker(msg)
     else:
         del_users = 0
         del_stats = r"`Zero zombie accounts found in this chat... WOOHOO group is clean.. \^o^/`"
@@ -409,6 +417,7 @@ async def pin_(msg: Message):
         return
     if not check_rights(chat_id, (await bot.get_me()).id, "can_pin_messages"):
         await msg.reply("`Give me Rights to Pin Msgs.`")
+        await sed_sticker(msg)
         return
     msg_id = msg.reply_to_message.message_id
     if not msg_id:
@@ -435,6 +444,7 @@ async def unpin_(msg: Message):
         return
     if not check_rights(chat_id, (await bot.get_me()).id, "can_pin_messages"):
         await msg.reply("`Give me Rights to UnPin Msgs.`")
+        await sed_sticker(msg)
         return
     try:
         await bot.unpin_chat_message(chat_id)
