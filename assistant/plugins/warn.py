@@ -13,7 +13,7 @@ from pyrogram import (
     InlineKeyboardMarkup, InlineKeyboardButton)
 
 from assistant import bot, filters
-from assistant.utils import is_admin, is_dev
+from assistant.utils import is_admin, is_dev, is_self, sed_sticker
 
 WARN_LIMIT = 5
 WARN_MODE = "kick"
@@ -36,8 +36,8 @@ async def _warn_user(_, msg: Message):
     if is_dev(user_id):
         await msg.reply("`He is My Master, Can't Warn him.`")
         return
-    if user_id == (await bot.get_me()).id:
-        await sed(msg)
+    if await is_self(user_id):
+        await sed_sticker(msg)
         return
     if is_admin(chat_id, user_id):
         await msg.reply("`User is Admin, Can't Warn him.`")
@@ -170,8 +170,7 @@ async def _reset_all_warns(_, msg: Message):
     if is_dev(user_id):
         await msg.reply("`He is My Master, I never Warned him.`")
         return
-    if user_id == (await bot.get_me()).id:
-        await sed(msg)
+    if await is_self(user_id):
         return
     if is_admin(msg.chat.id, user_id):
         await msg.reply("`He is admin, I never Warned him.`")
@@ -196,8 +195,7 @@ async def _check_warns_of_user(_, msg: Message):
     if is_dev(user_id):
         await msg.reply("`He is My Master, I never Warned him.`")
         return
-    if user_id == (await bot.get_me()).id:
-        await sed(msg)
+    if await is_self(user_id):
         return
     if is_admin(msg.chat.id, user_id):
         await msg.reply("`He is admin, I never Warned him.`")
@@ -216,12 +214,3 @@ async def _check_warns_of_user(_, msg: Message):
         await msg.reply(reply_msg)
     else:
         await msg.reply("`Warnings not Found.`")
-
-
-async def sed(msg: Message):
-    """ send default sticker """
-    sticker = (await bot.get_messages('UserGeOt', 498697)).sticker
-    file_id = sticker.file_id
-    fileref = sticker.file_ref
-    await bot.send_sticker(
-        msg.chat.id, file_id, file_ref=fileref)

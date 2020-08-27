@@ -6,7 +6,11 @@
 #
 # All rights reserved.
 
-from assistant import Config
+from pyrogram import Message
+
+from assistant import bot, Config
+
+_BOT_ID = 0
 
 
 def time_formatter(seconds: float) -> str:
@@ -33,3 +37,43 @@ def is_admin(chat_id: int, user_id: int, check_devs: bool = False) -> bool:
 def is_dev(user_id: int) -> bool:
     """ returns user is dev or not """
     return user_id in Config.DEV_USERS
+
+
+async def is_self(user_id: int) -> bool:
+    """ returns user is assistant or not """
+    global _BOT_ID  # pylint: disable=global-statement
+    if not _BOT_ID:
+        _BOT_ID = (await bot.get_me()).id
+    return user_id == _BOT_ID
+
+
+async def check_rights(chat_id: int, user_id: int, rights: str) -> bool:
+    """ check admin rights """
+    user = await bot.get_chat_member(chat_id, user_id)
+    if user.status == "member":
+        return False
+    if user.status == "administrator":
+        if getattr(user, rights, None):
+            return True
+        return False
+    return True
+
+
+async def check_bot_rights(chat_id: int, rights: str) -> bool:
+    """ check bot rights """
+    if not _BOT_ID:
+        return False
+    bot_ = await bot.get_chat_member(chat_id, _BOT_ID)
+    if bot_.status == "administrator":
+        if getattr(bot_, rights, None):
+            return True
+        return False
+    return False
+
+
+async def sed_sticker(msg: Message):
+    """ send default sticker """
+    sticker = (await bot.get_messages('UserGeOt', 498697)).sticker
+    file_id = sticker.file_id
+    file_ref = sticker.file_ref
+    await msg.reply_sticker(file_id, file_ref=file_ref)
