@@ -10,6 +10,8 @@ from pyrogram import Message
 
 from assistant import bot, Config
 
+_BOT_ID = 0
+
 
 def time_formatter(seconds: float) -> str:
     """ humanize time """
@@ -37,7 +39,15 @@ def is_dev(user_id: int) -> bool:
     return user_id in Config.DEV_USERS
 
 
-def check_rights(chat_id: int, user_id: int, rights: str):
+async def is_self(user_id: int) -> bool:
+    """ returns user is assistant or not """
+    global _BOT_ID  # pylint: disable=global-statement
+    if not _BOT_ID:
+        _BOT_ID = (await bot.get_me()).id
+    return user_id == _BOT_ID
+
+
+async def check_rights(chat_id: int, user_id: int, rights: str) -> bool:
     """ check admin rights """
     user = await bot.get_chat_member(chat_id, user_id)
     if user.status == "member":
@@ -47,6 +57,18 @@ def check_rights(chat_id: int, user_id: int, rights: str):
             return True
         return False
     return True
+
+
+async def check_bot_rights(chat_id: int, rights: str) -> bool:
+    """ check bot rights """
+    if not _BOT_ID:
+        return False
+    bot_ = await bot.get_chat_member(chat_id, _BOT_ID)
+    if bot_.status == "administrator":
+        if getattr(bot_, rights, None):
+            return True
+        return False
+    return False
 
 
 async def sed_sticker(msg: Message):
