@@ -43,7 +43,7 @@ def check_rights(chat_id: int, user_id: int, rights):
     if user.status == "member":
         return False
     if user.status == "administrator":
-        if f"user.{rights}":
+        if getattr(user, rights, None):
             return True
         return False
     return True
