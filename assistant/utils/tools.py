@@ -37,7 +37,7 @@ def is_dev(user_id: int) -> bool:
     return user_id in Config.DEV_USERS
 
 
-def check_rights(chat_id: int, user_id: int, rights):
+def check_rights(chat_id: int, user_id: int, rights: str):
     """ check admin rights """
     user = await bot.get_chat_member(chat_id, user_id)
     if user.status == "member":
