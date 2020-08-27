@@ -357,7 +357,7 @@ async def _unmute_user(_, msg: Message):
 
 @bot.on_message(
     Filters.command("zombies") & filters.auth_chats & filters.auth_users)
-async def _zombie_clean(msg: Message):
+async def _zombie_clean(_, msg: Message):
     chat_id = msg.chat.id
     if "clean" in msg.text.lower():
         del_users = 0
@@ -406,7 +406,7 @@ async def _zombie_clean(msg: Message):
 
 @bot.on_message(
     Filters.command("pin") & filters.auth_chats & filters.auth_users)
-async def _pin(msg: Message):
+async def _pin(_, msg: Message):
     chat_id = msg.chat.id
     if not await check_rights(chat_id, msg.from_user.id, "can_pin_messages"):
         return
@@ -434,7 +434,7 @@ async def _pin(msg: Message):
 
 @bot.on_message(
     Filters.command("unpin") & filters.auth_chats & filters.auth_users)
-async def _unpin(msg: Message):
+async def _unpin(_, msg: Message):
     chat_id = msg.chat.id
     if not await check_rights(chat_id, msg.from_user.id, "can_pin_messages"):
         return
