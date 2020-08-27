@@ -61,8 +61,9 @@ async def check_rights(chat_id: int, user_id: int, rights: str) -> bool:
 
 async def check_bot_rights(chat_id: int, rights: str) -> bool:
     """ check bot rights """
+    global _BOT_ID  # pylint: disable=global-statement
     if not _BOT_ID:
-        return False
+        _BOT_ID = (await bot.get_me()).id
     bot_ = await bot.get_chat_member(chat_id, _BOT_ID)
     if bot_.status == "administrator":
         if getattr(bot_, rights, None):
