@@ -8,8 +8,9 @@
 
 import time
 
-from pyrogram import Message, Filters
-from assistant import bot, filters
+from pyrogram import filters
+from pyrogram.types import Message
+from assistant import bot, cus_filters
 
 DATA = {}
 
@@ -18,8 +19,8 @@ WARN_LIMIT = 5
 MIN_DELAY = 3
 
 
-@bot.on_message(
-    Filters.incoming & ~Filters.edited & filters.auth_chats & ~filters.auth_users, group=1)
+@bot.on_message(filters.incoming & ~filters.edited & cus_filters.auth_chats
+                & ~cus_filters.auth_users, group=1)
 async def _flood(_, message: Message):
     chat_flood = DATA.get(message.chat.id)
     if chat_flood is None:

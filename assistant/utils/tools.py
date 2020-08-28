@@ -6,7 +6,7 @@
 #
 # All rights reserved.
 
-from pyrogram import Message
+from pyrogram.types import Message
 
 from assistant import bot, Config
 

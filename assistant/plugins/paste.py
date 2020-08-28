@@ -10,16 +10,16 @@ import os
 
 import aiohttp
 from aiohttp import ClientResponseError, ServerTimeoutError, TooManyRedirects
+from pyrogram import filters
+from pyrogram.types import Message
 
-from pyrogram import Message, Filters
-
-from assistant import bot, filters, Config
+from assistant import bot, cus_filters, Config
 
 DOGBIN_URL = "https://del.dog/"
 NEKOBIN_URL = "https://nekobin.com/"
 
 
-@bot.on_message(Filters.command("paste") & filters.auth_chats)
+@bot.on_message(filters.command("paste") & cus_filters.auth_chats)
 async def dogbin_paste(_, message: Message):
     """ pastes the text directly to dogbin  """
     cmd = len(message.text)
@@ -58,7 +58,7 @@ async def dogbin_paste(_, message: Message):
                 await msg.edit("`Failed to reach Dogbin`")
 
 
-@bot.on_message(Filters.command("neko") & filters.auth_chats)
+@bot.on_message(filters.command("neko") & cus_filters.auth_chats)
 async def nekobin_paste(_, message: Message):
     """ pastes the text directly to nekobin  """
     cmd = len(message.text)
@@ -93,7 +93,7 @@ async def nekobin_paste(_, message: Message):
                 await msg.edit("`Failed to reach Nekobin`")
 
 
-@bot.on_message(Filters.command("getpaste") & filters.auth_chats)
+@bot.on_message(filters.command("getpaste") & cus_filters.auth_chats)
 async def get_paste_(_, message: Message):
     """ fetches the content of a dogbin or nekobin URL """
     if message.text and len(message.text) == 9:

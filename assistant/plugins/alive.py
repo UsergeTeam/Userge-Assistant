@@ -9,11 +9,12 @@
 import time
 import random
 
-from pyrogram import Message, Filters, InlineKeyboardMarkup, InlineKeyboardButton
+from pyrogram import filters
+from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
 from pyrogram.errors.exceptions import FileIdInvalid, FileReferenceEmpty
 from pyrogram.errors.exceptions.bad_request_400 import BadRequest
 
-from assistant import bot, filters, versions
+from assistant import bot, cus_filters, versions
 from assistant.bot import START_TIME
 from assistant.utils import time_formatter
 
@@ -21,7 +22,7 @@ LOGO_DATA = []
 MSG_IDS = [499509, 499428, 496502, 496360, 496498]
 
 
-@bot.on_message(Filters.command("alive") & filters.auth_chats)
+@bot.on_message(filters.command("alive") & cus_filters.auth_chats)
 async def _alive(_, message: Message):
     try:
         await _sendit(message.chat.id)

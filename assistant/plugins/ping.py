@@ -8,12 +8,13 @@
 
 from datetime import datetime
 
-from pyrogram import Message, Filters
+from pyrogram import filters
+from pyrogram.types import Message
 
-from assistant import bot, filters
+from assistant import bot, cus_filters
 
 
-@bot.on_message(Filters.command("ping") & filters.auth_chats)
+@bot.on_message(filters.command("ping") & cus_filters.auth_chats)
 async def _ping(_, message: Message):
     start = datetime.now()
     replied = await message.reply('`Pong!`')

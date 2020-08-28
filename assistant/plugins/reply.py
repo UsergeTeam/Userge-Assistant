@@ -6,12 +6,13 @@
 #
 # All rights reserved.
 
-from pyrogram import Message, Filters
+from pyrogram import filters
+from pyrogram.types import Message
 
-from assistant import bot, filters
+from assistant import bot, cus_filters
 
 
-@bot.on_message(Filters.command("reply") & filters.auth_chats & filters.auth_users)
+@bot.on_message(filters.command("reply") & cus_filters.auth_chats & cus_filters.auth_users)
 async def _reply(_, message: Message):
     replid = message.reply_to_message
     if not replid:

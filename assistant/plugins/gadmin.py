@@ -9,17 +9,18 @@
 import time
 import asyncio
 
-from pyrogram import Message, Filters, ChatPermissions
+from pyrogram import filters
+from pyrogram.types import Message, ChatPermissions
 from pyrogram.errors import (
     FloodWait, UserAdminInvalid, UsernameInvalid, PeerIdInvalid, UserIdInvalid)
 
-from assistant import bot, filters
+from assistant import bot, cus_filters
 from assistant.utils import (
     is_dev, is_self, is_admin, sed_sticker, check_rights, check_bot_rights)
 
 
 @bot.on_message(  # tban in queue
-    Filters.command("ban") & filters.auth_chats & filters.auth_users)
+    filters.command("ban") & cus_filters.auth_chats & cus_filters.auth_users)
 async def _ban_user(_, msg: Message):
     chat_id = msg.chat.id
     if not await check_rights(chat_id, msg.from_user.id, "can_restrict_members"):
@@ -74,7 +75,7 @@ async def _ban_user(_, msg: Message):
 
 
 @bot.on_message(
-    Filters.command("unban") & filters.auth_chats & filters.auth_users)
+    filters.command("unban") & cus_filters.auth_chats & cus_filters.auth_users)
 async def _unban_user(_, msg: Message):
     chat_id = msg.chat.id
     if not await check_rights(chat_id, msg.from_user.id, "can_restrict_members"):
@@ -110,7 +111,7 @@ async def _unban_user(_, msg: Message):
 
 
 @bot.on_message(
-    Filters.command("kick") & filters.auth_chats & filters.auth_users)
+    filters.command("kick") & cus_filters.auth_chats & cus_filters.auth_users)
 async def _kick_user(_, msg: Message):
     chat_id = msg.chat.id
     if not await check_rights(chat_id, msg.from_user.id, "can_restrict_members"):
@@ -165,7 +166,7 @@ async def _kick_user(_, msg: Message):
 
 
 @bot.on_message(
-    Filters.command("promote") & filters.auth_chats & filters.auth_users)
+    filters.command("promote") & cus_filters.auth_chats & cus_filters.auth_users)
 async def _promote_user(_, msg: Message):
     chat_id = msg.chat.id
     if not await check_rights(chat_id, msg.from_user.id, "can_promote_members"):
@@ -206,7 +207,7 @@ async def _promote_user(_, msg: Message):
 
 
 @bot.on_message(
-    Filters.command("demote") & filters.auth_chats & filters.auth_users)
+    filters.command("demote") & cus_filters.auth_chats & cus_filters.auth_users)
 async def _demote_user(_, msg: Message):
     chat_id = msg.chat.id
     if not await check_rights(chat_id, msg.from_user.id, "can_promote_members"):
@@ -250,7 +251,7 @@ async def _demote_user(_, msg: Message):
 
 
 @bot.on_message(  # tmute in queue
-    Filters.command("mute") & filters.auth_chats & filters.auth_users)
+    filters.command("mute") & cus_filters.auth_chats & cus_filters.auth_users)
 async def _mute_user(_, msg: Message):
     chat_id = msg.chat.id
     if not await check_rights(chat_id, msg.from_user.id, "can_restrict_members"):
@@ -307,7 +308,7 @@ async def _mute_user(_, msg: Message):
 
 
 @bot.on_message(
-    Filters.command("unmute") & filters.auth_chats & filters.auth_users)
+    filters.command("unmute") & cus_filters.auth_chats & cus_filters.auth_users)
 async def _unmute_user(_, msg: Message):
     chat_id = msg.chat.id
     if not await check_rights(chat_id, msg.from_user.id, "can_restrict_members"):
@@ -356,7 +357,7 @@ async def _unmute_user(_, msg: Message):
 
 
 @bot.on_message(
-    Filters.command("zombies") & filters.auth_chats & filters.auth_users)
+    filters.command("zombies") & cus_filters.auth_chats & cus_filters.auth_users)
 async def _zombie_clean(_, msg: Message):
     chat_id = msg.chat.id
     if "clean" in msg.text.lower():
@@ -405,7 +406,7 @@ async def _zombie_clean(_, msg: Message):
 
 
 @bot.on_message(
-    Filters.command("pin") & filters.auth_chats & filters.auth_users)
+    filters.command("pin") & cus_filters.auth_chats & cus_filters.auth_users)
 async def _pin(_, msg: Message):
     chat_id = msg.chat.id
     if not await check_rights(chat_id, msg.from_user.id, "can_pin_messages"):
@@ -433,7 +434,7 @@ async def _pin(_, msg: Message):
 
 
 @bot.on_message(
-    Filters.command("unpin") & filters.auth_chats & filters.auth_users)
+    filters.command("unpin") & cus_filters.auth_chats & cus_filters.auth_users)
 async def _unpin(_, msg: Message):
     chat_id = msg.chat.id
     if not await check_rights(chat_id, msg.from_user.id, "can_pin_messages"):

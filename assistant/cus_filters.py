@@ -10,7 +10,8 @@ __all__ = ["auth_chats", "auth_users"]
 
 import asyncio
 
-from pyrogram import Filters, Message
+from pyrogram import filters, Client
+from pyrogram.types import Message
 
 from . import Config, logging
 
@@ -18,7 +19,7 @@ _LOG = logging.getLogger(__name__)
 _FETCHING = False
 
 
-async def _is_admin_or_dev(_, msg: Message) -> bool:
+async def _is_admin_or_dev(_, bot: Client, msg: Message) -> bool:
     global _FETCHING  # pylint: disable=global-statement
     if msg.chat.id not in Config.AUTH_CHATS:
         return False
@@ -34,7 +35,7 @@ async def _is_admin_or_dev(_, msg: Message) -> bool:
         admins = []
         _LOG.info("fetching data from [%s] ...", msg.chat.id)
         # pylint: disable=protected-access
-        async for c_m in msg._client.iter_chat_members(msg.chat.id):
+        async for c_m in bot.iter_chat_members(msg.chat.id):
             if c_m.status in ("creator", "administrator"):
                 admins.append(c_m.user.id)
         Config.ADMINS[msg.chat.id] = tuple(admins)
@@ -44,5 +45,5 @@ async def _is_admin_or_dev(_, msg: Message) -> bool:
     return msg.from_user.id in Config.ADMINS[msg.chat.id]
 
 
-auth_chats = Filters.chat(list(Config.AUTH_CHATS))
-auth_users = Filters.create(_is_admin_or_dev)
+auth_chats = filters.chat(list(Config.AUTH_CHATS))
+auth_users = filters.create(_is_admin_or_dev)

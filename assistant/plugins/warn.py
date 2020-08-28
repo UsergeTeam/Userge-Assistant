@@ -8,11 +8,12 @@
 
 import time
 
-from pyrogram import (
-    Message, Filters, CallbackQuery, ChatPermissions,
+from pyrogram import filters
+from pyrogram.types import (
+    Message, CallbackQuery, ChatPermissions,
     InlineKeyboardMarkup, InlineKeyboardButton)
 
-from assistant import bot, filters
+from assistant import bot, cus_filters
 from assistant.utils import is_admin, is_dev, is_self, sed_sticker
 
 WARN_LIMIT = 5
@@ -22,7 +23,7 @@ DATA = {}
 
 
 @bot.on_message(
-    Filters.command("warn") & filters.auth_chats & filters.auth_users)
+    filters.command("warn") & cus_filters.auth_chats & cus_filters.auth_users)
 async def _warn_user(_, msg: Message):
     global WARN_MODE, WARN_LIMIT  # pylint: disable=global-statement
 
@@ -109,7 +110,7 @@ async def _warn_user(_, msg: Message):
             await replied.reply_text(r_t, reply_markup=keyboard)
 
 
-@bot.on_callback_query(Filters.regex(pattern=r"rm_warn\((.+?)\)"))
+@bot.on_callback_query(filters.regex(pattern=r"rm_warn\((.+?)\)"))
 async def _remove_warn(_, c_q: CallbackQuery):
     user_id = int(c_q.matches[0].group(1))
     if is_admin(c_q.message.chat.id, c_q.from_user.id, check_devs=True):
@@ -132,7 +133,7 @@ async def _remove_warn(_, c_q: CallbackQuery):
 
 
 @bot.on_message(
-    Filters.command("setwarn") & filters.auth_chats & filters.auth_users)
+    filters.command("setwarn") & cus_filters.auth_chats & cus_filters.auth_users)
 async def _set_warn_mode_and_limit(_, msg: Message):
     global WARN_MODE, WARN_LIMIT  # pylint: disable=global-statement
     cmd = len(msg.text)
@@ -161,7 +162,7 @@ async def _set_warn_mode_and_limit(_, msg: Message):
 
 
 @bot.on_message(
-    Filters.command("resetwarn") & filters.auth_chats & filters.auth_users)
+    filters.command("resetwarn") & cus_filters.auth_chats & cus_filters.auth_users)
 async def _reset_all_warns(_, msg: Message):
     replied = msg.reply_to_message
     if not replied:
@@ -182,7 +183,7 @@ async def _reset_all_warns(_, msg: Message):
         await msg.reply("`User already not have any warn.`")
 
 
-@bot.on_message(Filters.command("warns") & filters.auth_chats)
+@bot.on_message(filters.command("warns") & cus_filters.auth_chats)
 async def _check_warns_of_user(_, msg: Message):
     global WARN_LIMIT  # pylint: disable=global-statement
     replied = msg.reply_to_message
