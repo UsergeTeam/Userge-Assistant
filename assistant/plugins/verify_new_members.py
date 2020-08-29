@@ -15,10 +15,8 @@ async def _verify_msg_(_, msg: Message):
     """ Verify Msg for New chat Members """
     chat_id = msg.chat.id
     for member in msg.new_chat_members:
-        _id = member.id
-        user = await bot.get_users(_id)
-        if user.is_bot or not check_bot_rights(chat_id, "can_restrict_members"):
-            file_id, file_ref, text, buttons = await wc_msg(user.id)
+        if member.is_bot or not await check_bot_rights(chat_id, "can_restrict_members"):
+            file_id, file_ref, text, buttons = await wc_msg(member)
             reply = await msg.reply_animation(
                 animatiom=file_id, file_ref=file_ref,
                 caption=text, reply_markup=buttons
@@ -26,14 +24,13 @@ async def _verify_msg_(_, msg: Message):
             await asyncio.sleep(120)
             await reply.delete()
         else:
-            await bot.restrict_chat_member(chat_id, user.id, ChatPermissions())
-            await verify_keyboard(msg, user.id)
+            await bot.restrict_chat_member(chat_id, member.id, ChatPermissions())
+            await verify_keyboard(msg, member)
     msg.continue_propagation()
 
 
-async def verify_keyboard(msg: Message, user_id: int):
+async def verify_keyboard(msg: Message, user):
     """ keyboard for verifying """
-    user = await bot.get_users(user_id)
     _msg = f""" Hi {user.mention}, Welcome to {msg.chat.title}.
 To Chat here, Please click on the button below. """
     button = InlineKeyboardMarkup(
@@ -48,9 +45,8 @@ To Chat here, Please click on the button below. """
     await msg.reply_text(_msg, reply_markup=button)
 
 
-async def wc_msg(user_id: int):
+async def wc_msg(user):
     """ arguments and reply_markup for sending after verify """
-    user = await bot.get_users(user_id)
     gif = await bot.get_messages("UserGeOt", 510608)
     file_id = gif.animation.file_id
     file_ref = gif.animation.file_ref
@@ -110,7 +106,7 @@ async def _verify_user_(_, c_q: CallbackQuery):
                 can_change_info=c_q.message.chat.permissions.can_change_info,
                 can_invite_users=c_q.message.chat.permissions.can_invite_users,
                 can_pin_messages=c_q.message.chat.permissions.can_pin_messages))
-        file_id, file_ref, text, buttons = await wc_msg(user_id)
+        file_id, file_ref, text, buttons = await wc_msg(await bot.get_users(user_id))
         msg = await bot.send_animation(
             c_q.message.chat.id,
             animation=file_id,
@@ -120,5 +116,4 @@ async def _verify_user_(_, c_q: CallbackQuery):
         await asyncio.sleep(120)
         await msg.delete()
     else:
-        await c_q.answer(
-            "This message is not for you. 😐", show_alert=True)
+        await c_q.answer("This message is not for you. 😐", show_alert=True)
