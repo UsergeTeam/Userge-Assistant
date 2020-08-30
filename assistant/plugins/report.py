@@ -10,12 +10,16 @@ from pyrogram import filters
 from pyrogram.types import Message
 
 from assistant import bot, cus_filters, Config
+from assistant.utils import is_self, is_admin, is_dev
 
 
 @bot.on_message(filters.command("report") & cus_filters.auth_chats)
 async def _report(_, msg: Message):
     replied = msg.reply_to_message
     if not replied:
+        return
+    f_u_id = replied.from_user.id
+    if await is_self(f_u_id) or is_dev(f_u_id) or is_admin(msg.chat.id, f_u_id):
         return
     if len(msg.text) < 9:
         return
