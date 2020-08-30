@@ -26,9 +26,10 @@ async def _report(_, msg: Message):
     reason += f"**Reported Msg link:** {replied.link}\n"
     reason += f"**Reason:** `{args}`\n\n"
     reason += f"**Report From:** {msg.from_user.mention}"
+    sent = await msg.reply("`Reporting ...`")
     for admin_id in Config.ADMINS.get(msg.chat.id):
         try:
             await bot.send_message(admin_id, reason, disable_web_page_preview=True)
         except Exception:  # pylint: disable=broad-except
             pass
-    await msg.reply("`Report request Accepted ...`")
+    await sent.edit("`Reported to all Admins !`")
