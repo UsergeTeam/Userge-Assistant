@@ -18,7 +18,7 @@ async def _verify_msg_(_, msg: Message):
         if member.is_bot or not await check_bot_rights(chat_id, "can_restrict_members"):
             file_id, file_ref, text, buttons = await wc_msg(member)
             reply = await msg.reply_animation(
-                animatiom=file_id, file_ref=file_ref,
+                animation=file_id, file_ref=file_ref,
                 caption=text, reply_markup=buttons
             )
             await asyncio.sleep(120)
@@ -50,10 +50,10 @@ async def wc_msg(user):
     gif = await bot.get_messages("UserGeOt", 510608)
     file_id = gif.animation.file_id
     file_ref = gif.animation.file_ref
-    text = f""" Welcome {user.mention},
-Make sure you have joined both the channels.
+    text = f""" **Welcome** {user.mention},
+__Make sure you have joined both the channels.__
 We are not supporting any other repo here, \
-And If you dosen't deployed Userge yet, Deploy it. 🤘 """
+And If you dosen't deployed Userge yet, **Deploy it**. 🤘 """
     buttons = InlineKeyboardMarkup(
         [
             [
