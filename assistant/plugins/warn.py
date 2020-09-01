@@ -63,7 +63,7 @@ async def _warn_user(_, msg: Message):
                 [
                     InlineKeyboardButton(
                         "Remove this Warn",
-                        callback_data=f"rm_warn({user_id})")
+                        callback_data=f"rm_warn({user_id} {msg.from_user.id})")
                 ]
             ]
         )
@@ -101,7 +101,7 @@ async def _warn_user(_, msg: Message):
                     [
                         InlineKeyboardButton(
                             "Remove this Warn",
-                            callback_data=f"rm_warn({user_id})")
+                            callback_data=f"rm_warn({user_id} {msg.from_user.id})")
                     ]
                 ]
             )
@@ -112,8 +112,10 @@ async def _warn_user(_, msg: Message):
 
 @bot.on_callback_query(filters.regex(pattern=r"rm_warn\((.+?)\)"))
 async def _remove_warn(_, c_q: CallbackQuery):
-    user_id = int(c_q.matches[0].group(1))
-    if is_admin(c_q.message.chat.id, c_q.from_user.id, check_devs=True):
+    _a, _b = c_q.matches[0].group(1).split(' ', maxsplit=1)
+    user_id = int(_a)
+    warner = int(_b)
+    if c_q.from_user.id == warner:
         if DATA.get(user_id):
             up_l = DATA[user_id]['limit'] - 1  # up_l = updated limit
             if up_l > 0:
@@ -121,15 +123,16 @@ async def _remove_warn(_, c_q: CallbackQuery):
                 del DATA[user_id]['reason'][-1]
             else:
                 DATA.pop(user_id)
-            text = "This Warn is Removed By "
-            text += f"[{c_q.from_user.first_name}](tg://user?id={c_q.from_user.id})"
+            text = f"[{c_q.from_user.first_name}](tg://user?id={c_q.from_user.id})"
+            text += " removed this Warn."
             await c_q.edit_message_text(text)
         else:
             await c_q.edit_message_text(
                 "This User already not have any Warn.")
     else:
         await c_q.answer(
-            "Only Admins Can Remove this Warn", show_alert=True)
+            f"Only {(await bot.get_users(warner)).first_name} Can Remove this Warn",
+            show_alert=True)
 
 
 @bot.on_message(
