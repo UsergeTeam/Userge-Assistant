@@ -59,35 +59,13 @@ async def wc_msg(user):
     file_id = gif.animation.file_id
     file_ref = gif.animation.file_ref
     text = f""" **Welcome** {user.mention},
-__Make sure you have joined both the channels.__
-We are not supporting any other repo here, \
-And If you haven't deployed Userge yet, **Deploy it**. 🤘 """
+__Check out the Button below. and feel free to ask here.__ 🤘 """
     buttons = InlineKeyboardMarkup(
         [
             [
                 InlineKeyboardButton(
-                    text="Main Channel 😁",
-                    url="https://t.me/TheUserGe"
-                ),
-                InlineKeyboardButton(
-                    text="Unofficial Help 😇",
-                    url="https://t.me/UnofficialPluginsHelp"
-                )
-            ],
-            [
-                InlineKeyboardButton(
-                    text="Main Repo 🤘",
-                    url="https://github.com/UsergeTeam/Userge"
-                ),
-                InlineKeyboardButton(
-                    text="Plugins Repo 👌",
-                    url="https://github.com/UsergeTeam/Userge-Plugins"
-                )
-            ],
-            [
-                InlineKeyboardButton(
-                    text="Video Tutorial 😎",
-                    url="https://t.me/UserGeOt/510255"
+                    text="More info.",
+                    url="https://t.me/usergeot/527524"
                 )
             ]
         ]
