@@ -16,10 +16,12 @@ from pyrogram.errors import (
 
 from assistant import bot, cus_filters
 from assistant.utils import (
-    is_dev, is_self, is_admin, sed_sticker, check_rights, check_bot_rights)
+    is_dev, is_self, is_admin,
+    sed_sticker, check_rights,
+    check_bot_rights, extract_time)
 
 
-@bot.on_message(  # tban in queue
+@bot.on_message(
     filters.command("ban") & cus_filters.auth_chats & cus_filters.auth_users)
 async def _ban_user(_, msg: Message):
     chat_id = msg.chat.id
@@ -72,6 +74,63 @@ async def _ban_user(_, msg: Message):
             f"REASON: `{reason}`")
     except Exception as e_f:  # pylint: disable=broad-except
         await sent.edit(f"`Something went wrong! 🤔`\n\n**ERROR:** `{e_f}`")
+
+
+@bot.on_message(
+    filters.command("tban") & cus_filters.auth_chats & cus_filters.auth_users)
+async def _tban_user(_, msg: Message):
+    chat_id = msg.chat.id
+    if not await check_rights(chat_id, msg.from_user.id, "can_restrict_members"):
+        return
+    cmd = len(msg.text)
+    replied = msg.reply_to_message
+    if not replied:
+        await msg.reply("`No valid User_id or message specified.`")
+        return
+    user_id = replied.from_user.id
+    mention = replied.from_user.mention
+    if not (msg.text and cmd > 5):
+        await msg.reply("`Give a reason and time_limit to Ban him.`")
+        return
+    _, reason = msg.text.split(maxsplit=1)
+    split = reason.split(None, 1)
+    time_val = split[0].lower()
+
+    if len(split) > 1:
+        reason = split[1]
+    else:
+        await msg.reply("`Syntax: /tban 30m reason [reply to User]`")
+        return
+
+    time_ = extract_time(msg, time_val)
+
+    if not time_:
+        return
+    if await is_self(user_id):
+        await sed_sticker(msg)
+        return
+    if is_dev(user_id):
+        await msg.reply("`He is My Master, I will not Ban him.`")
+        return
+    if is_admin(chat_id, user_id):
+        await msg.reply("`User is Admin, Can't Ban him.`")
+        return
+    if not await check_bot_rights(chat_id, "can_restrict_members"):
+        await msg.reply("`Give me rights to Ban Users.`")
+        await sed_sticker(msg)
+        return
+    sent = await msg.reply("`Trying to Temp_Ban User.. Hang on!! ⏳`")
+    try:
+        await bot.kick_chat_member(
+            chat_id, user_id, time_)
+        await asyncio.sleep(1)
+        await sent.edit(
+            f"#TEMP_BAN\n"
+            f"USER: {mention}\n"
+            f"TIME: `{time_val}`\n"
+            f"REASON: `{reason}`")
+    except Exception as e_f:  # pylint: disable=broad-except
+        await sent.edit(f"`Something went wrong 🤔`\n\n**ERROR**: `{e_f}`")
 
 
 @bot.on_message(
@@ -250,7 +309,7 @@ async def _demote_user(_, msg: Message):
         await sent.edit(f"`Something went wrong! 🤔`\n\n**ERROR:** `{e_f}`")
 
 
-@bot.on_message(  # tmute in queue
+@bot.on_message(
     filters.command("mute") & cus_filters.auth_chats & cus_filters.auth_users)
 async def _mute_user(_, msg: Message):
     chat_id = msg.chat.id
@@ -302,6 +361,63 @@ async def _mute_user(_, msg: Message):
             f"#MUTE\n"
             f"USER: {mention}\n"
             f"TIME: `Forever`\n"
+            f"REASON: `{reason}`")
+    except Exception as e_f:  # pylint: disable=broad-except
+        await sent.edit(f"`Something went wrong 🤔`\n\n**ERROR**: `{e_f}`")
+
+
+@bot.on_message(
+    filters.command("tmute") & cus_filters.auth_chats & cus_filters.auth_users)
+async def _tmute_user(_, msg: Message):
+    chat_id = msg.chat.id
+    if not await check_rights(chat_id, msg.from_user.id, "can_restrict_members"):
+        return
+    cmd = len(msg.text)
+    replied = msg.reply_to_message
+    if not replied:
+        await msg.reply("`No valid User_id or message specified.`")
+        return
+    user_id = replied.from_user.id
+    mention = replied.from_user.mention
+    if not (msg.text and cmd > 6):
+        await msg.reply("`Give a reason and time_limit to Mute him.`")
+        return
+    _, reason = msg.text.split(maxsplit=1)
+    split = reason.split(None, 1)
+    time_val = split[0].lower()
+
+    if len(split) > 1:
+        reason = split[1]
+    else:
+        await msg.reply("`Syntax: /tmute 30m reason [reply to User]`")
+        return
+
+    time_ = extract_time(msg, time_val)
+
+    if not time_:
+        return
+    if await is_self(user_id):
+        await sed_sticker(msg)
+        return
+    if is_dev(user_id):
+        await msg.reply("`He is My Master, I will not Mute him.`")
+        return
+    if is_admin(chat_id, user_id):
+        await msg.reply("`User is Admin, Can't Mute him.`")
+        return
+    if not await check_bot_rights(chat_id, "can_restrict_members"):
+        await msg.reply("`Give me rights to Mute Users.`")
+        await sed_sticker(msg)
+        return
+    sent = await msg.reply("`Trying to Temp_Mute User.. Hang on!! ⏳`")
+    try:
+        await bot.restrict_chat_member(
+            chat_id, user_id, ChatPermissions(), time_)
+        await asyncio.sleep(1)
+        await sent.edit(
+            f"#TEMP_MUTE\n"
+            f"USER: {mention}\n"
+            f"TIME: `{time_val}`\n"
             f"REASON: `{reason}`")
     except Exception as e_f:  # pylint: disable=broad-except
         await sent.edit(f"`Something went wrong 🤔`\n\n**ERROR**: `{e_f}`")
