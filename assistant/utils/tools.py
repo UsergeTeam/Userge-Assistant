@@ -28,7 +28,7 @@ def time_formatter(seconds: float) -> str:
 
 
 def extract_time(msg, time_val):
-    if any(time_val.endswith(unit) for unit in ('m', 'h', 'd', 'y')):
+    if any(time_val.endswith(unit) for unit in ('m', 'h', 'd')):
         unit = time_val[-1]
         time_num = time_val[:-1]  # type: str
         if not time_num.isdigit():
@@ -41,8 +41,6 @@ def extract_time(msg, time_val):
             bantime = int(time.time() + int(time_num) * 60 * 60)
         elif unit == 'd':
             bantime = int(time.time() + int(time_num) * 24 * 60 * 60)
-        elif unit == 'y':
-            bantime = int(time.time() + int(time_num) * 365 * 24 * 60 * 60)
         else:
             await msg.reply("`Any other unit of time you know..?`")
             return
