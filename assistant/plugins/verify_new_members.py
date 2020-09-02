@@ -1,3 +1,11 @@
+# Copyright (C) 2020 by UsergeTeam@Github, < https://github.com/UsergeTeam >.
+#
+# This file is part of < https://github.com/UsergeTeam/Userge-Assistant > project,
+# and is released under the "GNU v3.0 License Agreement".
+# Please see < https://github.com/Userge-Assistant/blob/master/LICENSE >
+#
+# All rights reserved.
+
 import asyncio
 
 from pyrogram import filters
@@ -38,7 +46,7 @@ To Chat here, Please click on the button below. """
             [
                 InlineKeyboardButton(
                     text="Verify now 🤖",
-                    callback_data=f"verify_cq({user.id})")
+                    callback_data=f"verify_cq({user.id} {msg.message_id})")
             ]
         ]
     )
@@ -51,35 +59,13 @@ async def wc_msg(user):
     file_id = gif.animation.file_id
     file_ref = gif.animation.file_ref
     text = f""" **Welcome** {user.mention},
-__Make sure you have joined both the channels.__
-We are not supporting any other repo here, \
-And If you dosen't deployed Userge yet, **Deploy it**. 🤘 """
+__Check out the Button below. and feel free to ask here.__ 🤘 """
     buttons = InlineKeyboardMarkup(
         [
             [
                 InlineKeyboardButton(
-                    text="Main Channel 😁",
-                    url="https://t.me/TheUserGe"
-                ),
-                InlineKeyboardButton(
-                    text="Unofficial Help 😇",
-                    url="https://t.me/UnofficialPluginsHelp"
-                )
-            ],
-            [
-                InlineKeyboardButton(
-                    text="Main Repo 🤘",
-                    url="https://github.com/UsergeTeam/Userge"
-                ),
-                InlineKeyboardButton(
-                    text="Plugins Repo 👌",
-                    url="https://github.com/UsergeTeam/Userge-Plugins"
-                )
-            ],
-            [
-                InlineKeyboardButton(
-                    text="Video Tutorial 😎",
-                    url="https://t.me/UserGeOt/510255"
+                    text="More info.",
+                    url="https://t.me/usergeot/527524"
                 )
             ]
         ]
@@ -89,7 +75,9 @@ And If you dosen't deployed Userge yet, **Deploy it**. 🤘 """
 
 @bot.on_callback_query(filters.regex(pattern=r"verify_cq\((.+?)\)"))
 async def _verify_user_(_, c_q: CallbackQuery):
-    user_id = int(c_q.matches[0].group(1))
+    _a, _b = c_q.matches[0].group(1).split(' ', maxsplit=1)
+    user_id = int(_a)
+    msg_id = int(_b)
     if c_q.from_user.id == user_id:
         await c_q.message.delete()
         await bot.restrict_chat_member(
@@ -111,7 +99,8 @@ async def _verify_user_(_, c_q: CallbackQuery):
             c_q.message.chat.id,
             animation=file_id,
             file_ref=file_ref,
-            caption=text, reply_markup=buttons
+            caption=text, reply_markup=buttons,
+            reply_to_message_id=msg_id
         )
         await asyncio.sleep(120)
         await msg.delete()

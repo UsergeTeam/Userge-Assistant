@@ -16,10 +16,12 @@ from pyrogram.errors import (
 
 from assistant import bot, cus_filters
 from assistant.utils import (
-    is_dev, is_self, is_admin, sed_sticker, check_rights, check_bot_rights)
+    is_dev, is_self, is_admin,
+    sed_sticker, check_rights,
+    check_bot_rights, extract_time)
 
 
-@bot.on_message(  # tban in queue
+@bot.on_message(
     filters.command("ban") & cus_filters.auth_chats & cus_filters.auth_users)
 async def _ban_user(_, msg: Message):
     chat_id = msg.chat.id
@@ -32,17 +34,31 @@ async def _ban_user(_, msg: Message):
         if not (msg.text and cmd > 4):
             await msg.reply("`Give a reason to Ban him.`")
             return
-        _, reason = msg.text.split(maxsplit=1)
-    elif msg.text and cmd > 4:
         _, args = msg.text.split(maxsplit=1)
+    elif msg.text and cmd > 4:
+        _, text = msg.text.split(maxsplit=1)
         try:
-            id_, reason = args.split(' ', maxsplit=1)
+            id_, args = text.split(' ', maxsplit=1)
         except Exception:  # pylint: disable=broad-except
             await msg.reply("**Syntax:** /ban user_id reason")
             return
     else:
         await msg.reply("`No valid User_id or message specified.`")
         return
+    try:
+        split = args.split(None, 1)
+        time_val = split[0].lower()
+
+        if len(split) > 1:
+            reason = split[1]
+        else:
+            await msg.reply("`Syntax: /ban [user_id | reply to User] 30m reason`")
+            return
+
+        time_ = extract_time(msg, time_val)
+    except Exception:  # pylint: disable=broad-except
+        time_val = "Forever"
+        time_ = int(time.time() + 0)
     try:
         user = await bot.get_users(id_)
         user_id = user.id
@@ -65,10 +81,11 @@ async def _ban_user(_, msg: Message):
         return
     sent = await msg.reply("`Trying to Ban User.. Hang on!! ⏳`")
     try:
-        await bot.kick_chat_member(chat_id, user_id)
+        await bot.kick_chat_member(chat_id, user_id, time_)
         await sent.edit(
             f"#BAN\n"
             f"USER: {mention}\n"
+            f"TIME: `{time_val}`\n"
             f"REASON: `{reason}`")
     except Exception as e_f:  # pylint: disable=broad-except
         await sent.edit(f"`Something went wrong! 🤔`\n\n**ERROR:** `{e_f}`")
@@ -250,7 +267,7 @@ async def _demote_user(_, msg: Message):
         await sent.edit(f"`Something went wrong! 🤔`\n\n**ERROR:** `{e_f}`")
 
 
-@bot.on_message(  # tmute in queue
+@bot.on_message(
     filters.command("mute") & cus_filters.auth_chats & cus_filters.auth_users)
 async def _mute_user(_, msg: Message):
     chat_id = msg.chat.id
@@ -263,17 +280,31 @@ async def _mute_user(_, msg: Message):
         if not (msg.text and cmd > 5):
             await msg.reply("`Give a reason to Mute him.`")
             return
-        _, reason = msg.text.split(maxsplit=1)
-    elif msg.text and cmd > 5:
         _, args = msg.text.split(maxsplit=1)
+    elif msg.text and cmd > 5:
+        _, text = msg.text.split(maxsplit=1)
         try:
-            id_, reason = args.split(' ', maxsplit=1)
+            id_, args = text.split(' ', maxsplit=1)
         except Exception:  # pylint: disable=broad-except
             await msg.reply("**Syntax:** /mute user_id reason")
             return
     else:
         await msg.reply("`No valid User_id or message specified.`")
         return
+    try:
+        split = args.split(None, 1)
+        time_val = split[0].lower()
+
+        if len(split) > 1:
+            reason = split[1]
+        else:
+            await msg.reply("`Syntax: /mute [user_id | reply to User] 30m reason`")
+            return
+
+        time_ = extract_time(msg, time_val)
+    except Exception:  # pylint: disable=broad-except
+        time_val = "Forever"
+        time_ = int(time.time() + 0)
     try:
         user = await bot.get_users(id_)
         user_id = user.id
@@ -296,12 +327,12 @@ async def _mute_user(_, msg: Message):
         return
     sent = await msg.reply("`Trying to Mute User.. Hang on!! ⏳`")
     try:
-        await bot.restrict_chat_member(chat_id, user_id, ChatPermissions())
+        await bot.restrict_chat_member(chat_id, user_id, ChatPermissions(), time_)
         await asyncio.sleep(1)
         await sent.edit(
             f"#MUTE\n"
             f"USER: {mention}\n"
-            f"TIME: `Forever`\n"
+            f"TIME: `{time_val}`\n"
             f"REASON: `{reason}`")
     except Exception as e_f:  # pylint: disable=broad-except
         await sent.edit(f"`Something went wrong 🤔`\n\n**ERROR**: `{e_f}`")
@@ -337,20 +368,7 @@ async def _unmute_user(_, msg: Message):
         return
     sent = await msg.reply("`Trying to UnMute User.. Hang on!! ⏳`")
     try:
-        await bot.restrict_chat_member(
-            chat_id, user_id,
-            ChatPermissions(
-                can_send_messages=msg.chat.permissions.can_send_messages,
-                can_send_media_messages=msg.chat.permissions.can_send_media_messages,
-                can_send_stickers=msg.chat.permissions.can_send_stickers,
-                can_send_animations=msg.chat.permissions.can_send_animations,
-                can_send_games=msg.chat.permissions.can_send_games,
-                can_use_inline_bots=msg.chat.permissions.can_use_inline_bots,
-                can_add_web_page_previews=msg.chat.permissions.can_add_web_page_previews,
-                can_send_polls=msg.chat.permissions.can_send_polls,
-                can_change_info=msg.chat.permissions.can_change_info,
-                can_invite_users=msg.chat.permissions.can_invite_users,
-                can_pin_messages=msg.chat.permissions.can_pin_messages))
+        await bot.unban_chat_member(chat_id, user_id)
         await sent.edit("`🛡 Successfully Unmuted..`")
     except Exception as e_f:  # pylint: disable=broad-except
         await sent.edit(f"`Something went wrong!` 🤔\n\n**ERROR:** `{e_f}`")

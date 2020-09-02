@@ -6,6 +6,8 @@
 #
 # All rights reserved.
 
+import time
+
 from pyrogram.types import Message
 
 from assistant import bot, Config
@@ -23,6 +25,29 @@ def time_formatter(seconds: float) -> str:
         ((str(minutes) + "m, ") if minutes else "") + \
         ((str(seconds) + "s, ") if seconds else "")
     return tmp[:-2]
+
+
+def extract_time(msg, time_val):
+    if any(time_val.endswith(unit) for unit in ('m', 'h', 'd')):
+        unit = time_val[-1]
+        time_num = time_val[:-1]  # type: str
+        if not time_num.isdigit():
+            await msg.reply("`Invalid time amount specified.`")
+            return
+
+        if unit == 'm':
+            bantime = int(time.time() + int(time_num) * 60)
+        elif unit == 'h':
+            bantime = int(time.time() + int(time_num) * 60 * 60)
+        elif unit == 'd':
+            bantime = int(time.time() + int(time_num) * 24 * 60 * 60)
+        else:
+            await msg.reply("`Any other unit of time you know..?`")
+            return
+        return bantime
+    else:
+        await msg.reply("`Need time in format of m, h, d, or y`")
+        return
 
 
 def is_admin(chat_id: int, user_id: int, check_devs: bool = False) -> bool:
