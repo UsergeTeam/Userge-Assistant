@@ -453,20 +453,7 @@ async def _unmute_user(_, msg: Message):
         return
     sent = await msg.reply("`Trying to UnMute User.. Hang on!! ⏳`")
     try:
-        await bot.restrict_chat_member(
-            chat_id, user_id,
-            ChatPermissions(
-                can_send_messages=msg.chat.permissions.can_send_messages,
-                can_send_media_messages=msg.chat.permissions.can_send_media_messages,
-                can_send_stickers=msg.chat.permissions.can_send_stickers,
-                can_send_animations=msg.chat.permissions.can_send_animations,
-                can_send_games=msg.chat.permissions.can_send_games,
-                can_use_inline_bots=msg.chat.permissions.can_use_inline_bots,
-                can_add_web_page_previews=msg.chat.permissions.can_add_web_page_previews,
-                can_send_polls=msg.chat.permissions.can_send_polls,
-                can_change_info=msg.chat.permissions.can_change_info,
-                can_invite_users=msg.chat.permissions.can_invite_users,
-                can_pin_messages=msg.chat.permissions.can_pin_messages))
+        await bot.unban_chat_member(chat_id, user_id)
         await sent.edit("`🛡 Successfully Unmuted..`")
     except Exception as e_f:  # pylint: disable=broad-except
         await sent.edit(f"`Something went wrong!` 🤔\n\n**ERROR:** `{e_f}`")
