@@ -27,7 +27,7 @@ def time_formatter(seconds: float) -> str:
     return tmp[:-2]
 
 
-def extract_time(msg, time_val):
+async def extract_time(msg, time_val):
     if any(time_val.endswith(unit) for unit in ('m', 'h', 'd')):
         unit = time_val[-1]
         time_num = time_val[:-1]  # type: str
@@ -46,7 +46,7 @@ def extract_time(msg, time_val):
             return
         return bantime
     else:
-        await msg.reply("`Need time in format of m, h, d, or y`")
+        await msg.reply("`Need time in format of m, h or d`")
         return
 
 

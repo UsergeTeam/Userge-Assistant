@@ -55,7 +55,7 @@ async def _ban_user(_, msg: Message):
             await msg.reply("`Syntax: /ban [user_id | reply to User] 30m reason`")
             return
 
-        time_ = extract_time(msg, time_val)
+        time_ = await extract_time(msg, time_val)
     except Exception:  # pylint: disable=broad-except
         time_val = "Forever"
         time_ = int(time.time() + 0)
@@ -302,7 +302,7 @@ async def _mute_user(_, msg: Message):
             await msg.reply("`Syntax: /mute [user_id | reply to User] 30m reason`")
             return
 
-        time_ = extract_time(msg, time_val)
+        time_ = await extract_time(msg, time_val)
     except Exception:  # pylint: disable=broad-except
         time_val = "Forever"
         time_ = int(time.time() + 0)
