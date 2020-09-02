@@ -59,6 +59,7 @@ async def _ban_user(_, msg: Message):
     except Exception:  # pylint: disable=broad-except
         time_val = "Forever"
         time_ = int(time.time() + 0)
+        reason = args
     try:
         user = await bot.get_users(id_)
         user_id = user.id
@@ -305,6 +306,7 @@ async def _mute_user(_, msg: Message):
     except Exception:  # pylint: disable=broad-except
         time_val = "Forever"
         time_ = int(time.time() + 0)
+        reason = args
     try:
         user = await bot.get_users(id_)
         user_id = user.id
