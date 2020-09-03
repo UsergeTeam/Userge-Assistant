@@ -56,6 +56,8 @@ async def _ban_user(_, msg: Message):
             return
 
         time_ = await extract_time(msg, time_val)
+        if not time_:
+            return
     except Exception:  # pylint: disable=broad-except
         time_val = "Forever"
         time_ = int(time.time() + 0)
@@ -84,7 +86,7 @@ async def _ban_user(_, msg: Message):
     try:
         await bot.kick_chat_member(chat_id, user_id, time_)
         await sent.edit(
-            f"#BAN\n"
+            "#BAN\n"
             f"USER: {mention}\n"
             f"TIME: `{time_val}`\n"
             f"REASON: `{reason}`")
@@ -176,7 +178,7 @@ async def _kick_user(_, msg: Message):
     try:
         await bot.kick_chat_member(chat_id, user_id, int(time.time() + 60))
         await sent.edit(
-            f"#KICK\n"
+            "#KICK\n"
             f"USER: {mention}\n"
             f"REASON: `{reason}`")
     except Exception as e_f:  # pylint: disable=broad-except
@@ -303,6 +305,8 @@ async def _mute_user(_, msg: Message):
             return
 
         time_ = await extract_time(msg, time_val)
+        if not time_:
+            return
     except Exception:  # pylint: disable=broad-except
         time_val = "Forever"
         time_ = int(time.time() + 0)
@@ -332,7 +336,7 @@ async def _mute_user(_, msg: Message):
         await bot.restrict_chat_member(chat_id, user_id, ChatPermissions(), time_)
         await asyncio.sleep(1)
         await sent.edit(
-            f"#MUTE\n"
+            "#MUTE\n"
             f"USER: {mention}\n"
             f"TIME: `{time_val}`\n"
             f"REASON: `{reason}`")
