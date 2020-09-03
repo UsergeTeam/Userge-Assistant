@@ -56,6 +56,8 @@ async def _ban_user(_, msg: Message):
             return
 
         time_ = await extract_time(msg, time_val)
+        if not time_:
+            return
     except Exception:  # pylint: disable=broad-except
         time_val = "Forever"
         time_ = int(time.time() + 0)
@@ -303,6 +305,8 @@ async def _mute_user(_, msg: Message):
             return
 
         time_ = await extract_time(msg, time_val)
+        if not time_:
+            return
     except Exception:  # pylint: disable=broad-except
         time_val = "Forever"
         time_ = int(time.time() + 0)
