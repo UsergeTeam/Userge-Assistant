@@ -20,7 +20,7 @@ MIN_DELAY = 3
 
 
 @bot.on_message(filters.incoming & ~filters.edited & cus_filters.auth_chats
-                & ~cus_filters.auth_users, group=1)
+                & ~cus_filters.auth_users & cus_filters.whitelist_chats, group=1)
 async def _flood(_, message: Message):
     chat_flood = DATA.get(message.chat.id)
     if chat_flood is None:
