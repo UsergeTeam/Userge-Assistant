@@ -45,10 +45,10 @@ async def _is_admin_or_dev(_, bot: Client, msg: Message) -> bool:
     return msg.from_user.id in Config.ADMINS[msg.chat.id]
 
 
-async def _is_chat_whitelist(_, msg: Message) -> bool:
+async def _is_chat_whitelist(_, __, msg: Message) -> bool:
     if msg.chat.id in Config.WHITELIST_CHATS:
-        return False
-    return True
+        return True
+    return False
 
 
 auth_chats = filters.chat(list(Config.AUTH_CHATS))
