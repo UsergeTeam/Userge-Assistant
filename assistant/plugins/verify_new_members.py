@@ -24,6 +24,12 @@ async def _verify_msg_(_, msg: Message):
     """ Verify Msg for New chat Members """
     chat_id = msg.chat.id
     for member in msg.new_chat_members:
+        try:
+            user_status = (await msg.chat.get_member(member.id)).status
+            if user_status in ("restricted", "kicked"):
+                continue
+        except Exception:
+            pass
         if member.is_bot or not await check_bot_rights(chat_id, "can_restrict_members"):
             file_id, file_ref, text, buttons = await wc_msg(member)
             reply = await msg.reply_animation(
