@@ -25,7 +25,7 @@ async def _verify_msg_(_, msg: Message):
     chat_id = msg.chat.id
     for member in msg.new_chat_members:
         try:
-            user_status = (await message.chat.get_member(member.id)).status
+            user_status = (await msg.chat.get_member(member.id)).status
             if user_status in ("restricted", "kicked"):
                 continue
         except Exception:
