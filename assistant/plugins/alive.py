@@ -44,6 +44,7 @@ async def _sendit(chat_id):
     if not LOGO_DATA:
         await _refresh_data()
     caption = f"""
+**("I am alive Master @aashiq_Tg\n\n"),
 **🤖 Bot Uptime** : `{time_formatter(time.time() - START_TIME)}`
 **🤖 Bot Version** : `{versions.__assistant_version__}`
 **️️⭐ Python** : `{versions.__python_version__}`
