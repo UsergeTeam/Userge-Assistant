@@ -129,6 +129,8 @@ async def _verify_user_(_, c_q: CallbackQuery):
 
 @bot.on_callback_query(filters.regex(pattern=r"joined_unmute\((.+?)\)"))
 async def _on_joined_unmute_(_, c_q: CallbackQuery):
+    if not c_q.message.chat:
+        return
     _a, _b = c_q.matches[0].group(1).split(' ', maxsplit=1)
     user_id = int(_a)
     msg_id = int(_b)
