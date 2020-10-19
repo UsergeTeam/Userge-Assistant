@@ -19,7 +19,7 @@ SES_DIR = './.json-session'
 SES_FILZ = {
     'test': 'test-session.json'
 }
-    
+
 
 class JsonSeVe:
     ''' ╮(╯▽╰)╭ '''
