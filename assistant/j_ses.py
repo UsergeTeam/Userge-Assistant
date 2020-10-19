@@ -17,7 +17,7 @@ LOG_ID = Config.DB_CHANNEL
 
 SES_DIR = './.json-session'
 SES_FILZ = {
-    'test': 'test.json'
+    'test': 'test-session.json'
 }
     
 
@@ -25,6 +25,10 @@ class JsonSeVe:
     ''' ╮(╯▽╰)╭ '''
 
     def __init__(self, session: str, save_id: int = 0):
+        ''' Initialization of Json Save
+            param: session :-> name of session like warn, etc that exists in SES_FILZ
+            param: save_id :-> message id of a media that is to be edited.
+        '''
         self.jthumb = os.path.abspath('./.thumbs/jsumb.jpeg')
         self.thumb_uri = 'https://telegra.ph/file/da08e43d19d5023a248be.jpg'
         self.tg_save = save_id
@@ -114,7 +118,7 @@ class JsonSeVe:
         return data
 
     async def write_json(self, client: Client, data: dict):
-        ''' writes a json data to file '''
+        ''' writes a json data to file [this may flush entire file]'''
         with open(self.ses_path, 'w') as j_s:
             json.dump(data, j_s)
-        return  await self.save_session(client)
+        return await self.save_session(client)
