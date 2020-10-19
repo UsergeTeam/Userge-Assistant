@@ -22,6 +22,9 @@ class Config:
     API_HASH = os.environ.get("API_HASH")
     BOT_TOKEN = os.environ.get("BOT_TOKEN")
     AUTH_CHATS = set([-1001481357570])  # @UserGeOt
+    AES_DB_PASS = str(os.environ.get("AES_DB_PASS"))
+    DB_VI_KEY = str(os.environ.get("DB_VI_KEY"))
+    DB_CHANNEL = int(os.environ.get("DB_CHANNEL"))
     if os.environ.get("AUTH_CHATS"):
         AUTH_CHATS.update(map(int, os.environ.get("AUTH_CHATS").split()))
     WHITELIST_CHATS = set([-1001465749479])  # @UserGeSpam
