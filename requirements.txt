@@ -1,4 +1,7 @@
 aiofiles
 aiohttp
+Pillow
 pyrogram
+pySmartDL
 python-dotenv
+tgcrypto
