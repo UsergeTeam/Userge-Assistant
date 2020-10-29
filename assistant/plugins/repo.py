@@ -42,6 +42,7 @@ async def _rules(_, message: Message):
                 InlineKeyboardButton(
                     text="Tutorial",
                     callback_data="tutorial")
+            ]
         ]
     )
     await bot.send_message(message.chat.id,
