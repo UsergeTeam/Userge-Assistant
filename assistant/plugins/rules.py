@@ -7,7 +7,8 @@
 # All rights reserved.
 
 from pyrogram import filters
-from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
+from pyrogram.types import (
+    Message, InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery)
 
 from assistant import bot, cus_filters
 
