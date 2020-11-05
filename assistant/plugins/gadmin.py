@@ -105,7 +105,7 @@ async def _tban_user(_, msg: Message):
         time_val = args
         reason = ''
 
-    time_ = extract_time(msg, time_val)
+    time_ = await extract_time(msg, time_val)
     if not time_:
         return
     try:
@@ -402,7 +402,7 @@ async def _tmute_user(_, msg: Message):
         time_val = args
         reason = ''
 
-    time_ = extract_time(msg, time_val)
+    time_ = await extract_time(msg, time_val)
     if not time_:
         return
     try:
