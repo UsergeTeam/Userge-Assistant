@@ -29,39 +29,20 @@ async def _ban_user(_, msg: Message):
         return
     cmd = len(msg.text)
     replied = msg.reply_to_message
+    reason = ''
     if replied:
         id_ = replied.from_user.id
-        if not (msg.text and cmd > 4):
-            await msg.reply("`Give a reason to Ban him.`")
-            return
+        if cmd > 4:
+            _, reason = msg.text.split(maxsplit=1)
+    elif cmd > 4:
         _, args = msg.text.split(maxsplit=1)
-    elif msg.text and cmd > 4:
-        _, text = msg.text.split(maxsplit=1)
-        try:
-            id_, args = text.split(' ', maxsplit=1)
-        except Exception:  # pylint: disable=broad-except
-            await msg.reply("**Syntax:** /ban user_id reason")
-            return
+        if ' ' in args:
+            id_, reason = args.split(' ', maxsplit=1)
+        else:
+            id_ = args
     else:
         await msg.reply("`No valid User_id or message specified.`")
         return
-    try:
-        split = args.split(None, 1)
-        time_val = split[0].lower()
-
-        if len(split) > 1:
-            reason = split[1]
-        else:
-            await msg.reply("`Syntax: /ban [user_id | reply to User] 30m reason`")
-            return
-
-        time_ = await extract_time(msg, time_val)
-        if not time_:
-            return
-    except Exception:  # pylint: disable=broad-except
-        time_val = "Forever"
-        time_ = int(time.time() + 0)
-        reason = args
     try:
         user = await bot.get_users(id_)
         user_id = user.id
@@ -84,14 +65,81 @@ async def _ban_user(_, msg: Message):
         return
     sent = await msg.reply("`Trying to Ban User.. Hang on!! ⏳`")
     try:
-        await bot.kick_chat_member(chat_id, user_id, time_)
+        await bot.kick_chat_member(chat_id, user_id)
         await sent.edit(
-            "#BAN\n"
+            f"#BAN\n"
             f"USER: {mention}\n"
-            f"TIME: `{time_val}`\n"
-            f"REASON: `{reason}`")
+            f"REASON: `{reason or None}`")
     except Exception as e_f:  # pylint: disable=broad-except
         await sent.edit(f"`Something went wrong! 🤔`\n\n**ERROR:** `{e_f}`")
+
+
+@bot.on_message(
+    filters.command("tban") & cus_filters.auth_chats & cus_filters.auth_users)
+async def _tban_user(_, msg: Message):
+    chat_id = msg.chat.id
+    if not await check_rights(chat_id, msg.from_user.id, "can_restrict_members"):
+        return
+    cmd = len(msg.text)
+    replied = msg.reply_to_message
+    if replied:
+        id_ = replied.from_user.id
+        if cmd <= 5:
+            await msg.reply("`Time limit not found.`")
+            return
+        _, args = msg.text.split(maxsplit=1)
+    elif cmd > 5:
+        _, text = msg.text.split(maxsplit=1)
+        if ' ' in text:
+            id_, args = text.split(' ', maxsplit=1)
+        else:
+            await msg.reply("`Time limit not found.`")
+    else:
+        await msg.reply("`No valid User_id or message specified.`")
+        return
+    if ' ' in args:
+        split = args.split(None, 1)
+        time_val = split[0].lower()
+        reason = split[1]
+    else:
+        time_val = args
+        reason = ''
+
+    time_ = extract_time(msg, time_val)
+    if not time_:
+        return
+    try:
+        user = await bot.get_users(id_)
+        user_id = user.id
+        mention = user.mention
+    except (UsernameInvalid, PeerIdInvalid, UserIdInvalid):
+        await msg.reply("`Invalid user_id or username, try again with valid info ⚠`")
+        return
+    if await is_self(user_id):
+        await sed_sticker(msg)
+        return
+    if is_dev(user_id):
+        await msg.reply("`He is My Master, I will not Ban him.`")
+        return
+    if is_admin(chat_id, user_id):
+        await msg.reply("`User is Admin, Can't Ban him.`")
+        return
+    if not await check_bot_rights(chat_id, "can_restrict_members"):
+        await msg.reply("`Give me rights to Ban Users.`")
+        await sed_sticker(msg)
+        return
+    sent = await msg.reply("`Trying to Ban User.. Hang on!! ⏳`")
+    try:
+        await bot.kick_chat_member(
+            chat_id, user_id, time_)
+        await asyncio.sleep(1)
+        await sent.edit(
+            f"#TEMP_BAN\n"
+            f"USER: {mention}\n"
+            f"TIME: `{time_val}`\n"
+            f"REASON: `{reason or None}`")
+    except Exception as e_f:  # pylint: disable=broad-except
+        await sent.edit(f"`Something went wrong 🤔`\n\n**ERROR**: `{e_f}`")
 
 
 @bot.on_message(
@@ -103,7 +151,7 @@ async def _unban_user(_, msg: Message):
     replied = msg.reply_to_message
     if replied:
         id_ = replied.from_user.id
-    elif msg.text and len(msg.text) > 6:
+    elif len(msg.text) > 6:
         _, id_ = msg.text.split(maxsplit=1)
     else:
         await msg.reply("`No valid User_id or message specified.`")
@@ -138,19 +186,17 @@ async def _kick_user(_, msg: Message):
         return
     cmd = len(msg.text)
     replied = msg.reply_to_message
+    reason = ''
     if replied:
         id_ = replied.from_user.id
-        if not (msg.text and cmd > 5):
-            await msg.reply("`Give a reason to Ban him.`")
-            return
-        _, reason = msg.text.split(maxsplit=1)
-    elif msg.text and cmd > 5:
+        if cmd > 5:
+            _, reason = msg.text.split(maxsplit=1)
+    elif cmd > 5:
         _, args = msg.text.split(maxsplit=1)
-        try:
+        if ' ' in args:
             id_, reason = args.split(' ', maxsplit=1)
-        except Exception:  # pylint: disable=broad-except
-            await msg.reply("**Syntax:** /kick user_id reason")
-            return
+        else:
+            id_ = args
     else:
         await msg.reply("`No valid User_id or message specified.`")
         return
@@ -180,7 +226,7 @@ async def _kick_user(_, msg: Message):
         await sent.edit(
             "#KICK\n"
             f"USER: {mention}\n"
-            f"REASON: `{reason}`")
+            f"REASON: `{reason or None}`")
     except Exception as e_f:  # pylint: disable=broad-except
         await sent.edit(f"`Something went wrong! 🤔`\n\n**ERROR:** `{e_f}`")
 
@@ -194,7 +240,7 @@ async def _promote_user(_, msg: Message):
     replied = msg.reply_to_message
     if replied:
         id_ = replied.from_user.id
-    elif msg.text and len(msg.text) > 8:
+    elif len(msg.text) > 8:
         _, id_ = msg.text.split(maxsplit=1)
     else:
         await msg.reply("`No valid User_id or message specified.`")
@@ -235,7 +281,7 @@ async def _demote_user(_, msg: Message):
     replied = msg.reply_to_message
     if replied:
         id_ = replied.from_user.id
-    elif msg.text and len(msg.text) > 7:
+    elif len(msg.text) > 7:
         _, id_ = msg.text.split(maxsplit=1)
     else:
         await msg.reply("`No valid User_id or message specified.`")
@@ -278,39 +324,20 @@ async def _mute_user(_, msg: Message):
         return
     cmd = len(msg.text)
     replied = msg.reply_to_message
+    reason = ''
     if replied:
         id_ = replied.from_user.id
-        if not (msg.text and cmd > 5):
-            await msg.reply("`Give a reason to Mute him.`")
-            return
+        if cmd > 5:
+            _, reason = msg.text.split(maxsplit=1)
+    elif cmd > 5:
         _, args = msg.text.split(maxsplit=1)
-    elif msg.text and cmd > 5:
-        _, text = msg.text.split(maxsplit=1)
-        try:
-            id_, args = text.split(' ', maxsplit=1)
-        except Exception:  # pylint: disable=broad-except
-            await msg.reply("**Syntax:** /mute user_id reason")
-            return
+        if ' ' in args:
+            id_, reason = args.split(' ', maxsplit=1)
+        else:
+            id_ = args
     else:
         await msg.reply("`No valid User_id or message specified.`")
         return
-    try:
-        split = args.split(None, 1)
-        time_val = split[0].lower()
-
-        if len(split) > 1:
-            reason = split[1]
-        else:
-            await msg.reply("`Syntax: /mute [user_id | reply to User] 30m reason`")
-            return
-
-        time_ = await extract_time(msg, time_val)
-        if not time_:
-            return
-    except Exception:  # pylint: disable=broad-except
-        time_val = "Forever"
-        time_ = int(time.time() + 0)
-        reason = args
     try:
         user = await bot.get_users(id_)
         user_id = user.id
@@ -333,13 +360,81 @@ async def _mute_user(_, msg: Message):
         return
     sent = await msg.reply("`Trying to Mute User.. Hang on!! ⏳`")
     try:
-        await bot.restrict_chat_member(chat_id, user_id, ChatPermissions(), time_)
+        await bot.restrict_chat_member(chat_id, user_id, ChatPermissions())
         await asyncio.sleep(1)
         await sent.edit(
-            "#MUTE\n"
+            f"#MUTE\n"
+            f"USER: {mention}\n"
+            f"TIME: `Forever`\n"
+            f"REASON: `{reason or None}`")
+    except Exception as e_f:  # pylint: disable=broad-except
+        await sent.edit(f"`Something went wrong 🤔`\n\n**ERROR**: `{e_f}`")
+
+
+@bot.on_message(
+    filters.command("tmute") & cus_filters.auth_chats & cus_filters.auth_users)
+async def _tmute_user(_, msg: Message):
+    chat_id = msg.chat.id
+    if not await check_rights(chat_id, msg.from_user.id, "can_restrict_members"):
+        return
+    cmd = len(msg.text)
+    replied = msg.reply_to_message
+    if replied:
+        id_ = replied.from_user.id
+        if cmd <= 6:
+            await msg.reply("`Time limit not found.`")
+            return
+        _, args = msg.text.split(maxsplit=1)
+    elif cmd > 6:
+        _, text = msg.text.split(maxsplit=1)
+        if ' ' in text:
+            id_, args = text.split(' ', maxsplit=1)
+        else:
+            await msg.reply("`Time limit not found.`")
+    else:
+        await msg.reply("`No valid User_id or message specified.`")
+        return
+    if ' ' in args:
+        split = args.split(None, 1)
+        time_val = split[0].lower()
+        reason = split[1]
+    else:
+        time_val = args
+        reason = ''
+
+    time_ = extract_time(msg, time_val)
+    if not time_:
+        return
+    try:
+        user = await bot.get_users(id_)
+        user_id = user.id
+        mention = user.mention
+    except (UsernameInvalid, PeerIdInvalid, UserIdInvalid):
+        await msg.reply("`Invalid user_id or username, try again with valid info ⚠`")
+        return
+    if await is_self(user_id):
+        await sed_sticker(msg)
+        return
+    if is_dev(user_id):
+        await msg.reply("`He is My Master, I will not Mute him.`")
+        return
+    if is_admin(chat_id, user_id):
+        await msg.reply("`User is Admin, Can't Mute him.`")
+        return
+    if not await check_bot_rights(chat_id, "can_restrict_members"):
+        await msg.reply("`Give me rights to Mute Users.`")
+        await sed_sticker(msg)
+        return
+    sent = await msg.reply("`Trying to Mute User.. Hang on!! ⏳`")
+    try:
+        await bot.restrict_chat_member(
+            chat_id, user_id, ChatPermissions(), time_)
+        await asyncio.sleep(1)
+        await sent.edit(
+            f"#TEMP_MUTE\n"
             f"USER: {mention}\n"
             f"TIME: `{time_val}`\n"
-            f"REASON: `{reason}`")
+            f"REASON: `{reason or None}`")
     except Exception as e_f:  # pylint: disable=broad-except
         await sent.edit(f"`Something went wrong 🤔`\n\n**ERROR**: `{e_f}`")
 
@@ -353,7 +448,7 @@ async def _unmute_user(_, msg: Message):
     replied = msg.reply_to_message
     if replied:
         id_ = replied.from_user.id
-    elif msg.text and len(msg.text) > 7:
+    elif len(msg.text) > 7:
         _, id_ = msg.text.split(maxsplit=1)
     else:
         await msg.reply("`No valid User_id or message specified.`")

@@ -75,7 +75,7 @@ __Click on Join Now and Unmute yourself.__ """
             [
                 InlineKeyboardButton(
                     text="Join Now",
-                    url="https://t.me/TheUserGe"),
+                    callback_data="join_now"),
                 InlineKeyboardButton(
                     text="Unmute Me",
                     callback_data=f"joined_unmute({user.id} {msg.message_id})")
@@ -97,12 +97,22 @@ __Check out the Button below. and feel free to ask here.__ 🤘 """
             [
                 InlineKeyboardButton(
                     text="More info.",
-                    url="https://t.me/usergeot/527524"
+                    callback_data="more_info"
                 )
             ]
         ]
     )
     return file_id, file_ref, text, buttons
+
+
+@bot.on_callback_query(filters.regex(pattern=r"^join_now$"))
+async def _force_join_channel(_, c_q: CallbackQuery):
+    await c_q.answer(url="https://t.me/TheUserGe")
+
+
+@bot.on_callback_query(filters.regex(pattern=r"^more_info$"))
+async def _more_info(_, c_q: CallbackQuery):
+    await c_q.answer(url="https://t.me/usergeot/527524")
 
 
 @bot.on_callback_query(filters.regex(pattern=r"verify_cq\((.+?)\)"))
