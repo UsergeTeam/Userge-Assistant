@@ -8,7 +8,7 @@
 
 from pyrogram import filters
 from pyrogram.types import (
-    Message, InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery)
+    Message, InlineKeyboardMarkup, InlineKeyboardButton)
 
 from assistant import bot, cus_filters
 
@@ -21,15 +21,16 @@ async def _rules(_, message: Message):
     else:
         msg_id = message.message_id
     markup = InlineKeyboardMarkup(
-        [[InlineKeyboardButton(text="Read Rules",
-                               callback_data="rules")]]
+        [
+            [
+                InlineKeyboardButton(
+                    text="Read Rules",
+                    url="https://t.me/usergeot/537063"
+                )
+            ]
+        ]
     )
     await bot.send_message(chat_id=message.chat.id,
                            text="**⚠️ Here Our RULES ⚠️**",
                            reply_to_message_id=msg_id,
                            reply_markup=markup)
-
-
-@bot.on_callback_query(filters.regex(pattern=r"^rules$"))
-async def _rules_cq(_, c_q: CallbackQuery):
-    await c_q.answer(url="https://t.me/usergeot/537063")

@@ -8,7 +8,7 @@
 
 from pyrogram import filters
 from pyrogram.types import (
-    Message, InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery)
+    Message, InlineKeyboardMarkup, InlineKeyboardButton)
 
 from assistant import bot, cus_filters
 
@@ -25,23 +25,23 @@ async def _rules(_, message: Message):
             [
                 InlineKeyboardButton(
                     text="Official Channel",
-                    callback_data="official_channel"),
+                    url="https://t.me/TheUserGe"),
                 InlineKeyboardButton(
                     text="Unofficial Help",
-                    callback_data="unofficial_help")
+                    url="https://t.me/UnofficialPluginsHelp")
             ],
             [
                 InlineKeyboardButton(
                     text="Main Repo",
-                    callback_data="main_repo"),
+                    url="https://github.com/UsergeTeam/UserGe"),
                 InlineKeyboardButton(
                     text="Plugins Repo",
-                    callback_data="plugins")
+                    url="https://github.com/UsergeTeam/Userge-Plugins")
             ],
             [
                 InlineKeyboardButton(
                     text="Tutorial",
-                    callback_data="tutorial")
+                    url="https://t.me/usergeot/612003")
             ]
         ]
     )
@@ -50,28 +50,3 @@ async def _rules(_, message: Message):
                                  "__Check out our channels and Repo's 🤘__"),
                            reply_to_message_id=msg_id,
                            reply_markup=markup)
-
-
-@bot.on_callback_query(filters.regex(pattern=r"^official_channel$"))
-async def _channel_cq(_, c_q: CallbackQuery):
-    await c_q.answer(url="https://t.me/TheUserGe")
-
-
-@bot.on_callback_query(filters.regex(pattern=r"^unofficial_help$"))
-async def _unofficial_cq(_, c_q: CallbackQuery):
-    await c_q.answer(url="https://t.me/UnofficialPluginsHelp")
-
-
-@bot.on_callback_query(filters.regex(pattern=r"^main_repo$"))
-async def _main_repo_cq(_, c_q: CallbackQuery):
-    await c_q.answer(url="https://github.com/UsergeTeam/UserGe")
-
-
-@bot.on_callback_query(filters.regex(pattern=r"^plugins$"))
-async def _plugins_cq(_, c_q: CallbackQuery):
-    await c_q.answer(url="https://github.com/UsergeTeam/Userge-Plugins")
-
-
-@bot.on_callback_query(filters.regex(pattern=r"^tutorial$"))
-async def _tutorial_cq(_, c_q: CallbackQuery):
-    await c_q.answer(url="https://t.me/usergeot/612003")
