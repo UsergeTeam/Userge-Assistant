@@ -6,14 +6,23 @@
 #
 # All rights reserved.
 
-__all__ = ["logging"]
+__all__ = ['logging']
 
 import logging
+from logging.handlers import RotatingFileHandler
 
-# enable logging
 logging.basicConfig(
     level=logging.INFO,
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    format='[%(asctime)s - %(levelname)s] - %(name)s - %(message)s',
+    datefmt='%S:%M:%H %d-%b-%y',
+    handlers=[
+        RotatingFileHandler(
+            "logs/assistant.log",
+            maxBytes=(20480),
+            backupCount=10
+        ),
+        logging.StreamHandler()
+    ]
 )
 
 logging.getLogger("pyrogram").setLevel(logging.WARNING)
