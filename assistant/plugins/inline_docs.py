@@ -6,7 +6,6 @@
 #
 # All rights reserved.
 
-from pyrogram import emoji
 from pyrogram.types import (
     InlineQuery, InlineQueryResultArticle, InlineQueryResultPhoto,
     InputTextMessageContent, InlineKeyboardButton, InlineKeyboardMarkup)
