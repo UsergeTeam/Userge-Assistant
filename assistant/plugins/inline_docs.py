@@ -53,7 +53,7 @@ async def inline_docs(_, i_q: InlineQuery):
                     title=i[0],
                     description=i[1],
                     input_message_content=InputTextMessageContent(
-                        docs.intro + i[2]
+                        docs.intro + i[2], disable_web_page_preview=True
                     ),
                     thumb_url=docs.DECORATORS_THUMB
                 )
@@ -83,7 +83,7 @@ async def inline_docs(_, i_q: InlineQuery):
                     title=i[0],
                     description=i[1],
                     input_message_content=InputTextMessageContent(
-                        docs.intro + i[2]
+                        docs.intro + i[2], disable_web_page_preview=True
                     ),
                     thumb_url=docs.DEPLOYMENT_THUMB
                 )
@@ -113,7 +113,7 @@ async def inline_docs(_, i_q: InlineQuery):
                     title=i[0],
                     description=i[1],
                     input_message_content=InputTextMessageContent(
-                        docs.intro + i[2]
+                        docs.intro + i[2], disable_web_page_preview=True
                     ),
                     thumb_url=docs.VARS_THUMB
                 )
@@ -143,7 +143,7 @@ async def inline_docs(_, i_q: InlineQuery):
                     title=i[0],
                     description=i[1],
                     input_message_content=InputTextMessageContent(
-                        docs.intro + i[2]
+                        docs.intro + i[2], disable_web_page_preview=True
                     ),
                     thumb_url=i[3]
                 )
@@ -173,7 +173,7 @@ async def inline_docs(_, i_q: InlineQuery):
                     title=i[0],
                     description=i[1],
                     input_message_content=InputTextMessageContent(
-                        docs.intro + i[2]
+                        docs.intro + i[2], disable_web_page_preview=True
                     ),
                     thumb_url=docs.EXAMPLE_THUMB
                 )
@@ -204,7 +204,8 @@ async def inline_docs(_, i_q: InlineQuery):
                     description=docs.FAQS[i][0],
                     input_message_content=InputTextMessageContent(
                         f"{docs.intro}FAQ {i+1}:-\n"
-                        f"[{docs.FAQS[i][0]}]({docs.FAQS[i][1]})"
+                        f"[{docs.FAQS[i][0]}]({docs.FAQS[i][1]})",
+                         disable_web_page_preview=True
                     ),
                     thumb_url=docs.FAQS_THUMB
                 )
