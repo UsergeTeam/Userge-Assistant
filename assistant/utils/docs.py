@@ -10,16 +10,27 @@ from pyrogram.types import (
     InlineQueryResultArticle, InputTextMessageContent,
     InlineKeyboardMarkup, InlineKeyboardButton)
 
+intro = "**📚 UserGe Docs**\n\n"
 
 USERGE_THUMB = "https://imgur.com/download/Inyeb1S"
+USER_THUMB = ""
 BOT_THUMB = "https://i.imgur.com/zRglRz3.png"
+DUAL_THUMB = ""
 CONTENT_THUMB = "https://i.imgur.com/v1XSJ1D.png"
 REPO_THUMB = "https://i.imgur.com/hoRVXM3.png"
 GC_THUMB = "https://i.imgur.com/lDpSgmg_d.png"
 
+DECORATORS_THUMB = "https://i.imgur.com/xp3jld1.png"
+DEPLOYMENT_THUMB = "https://i.imgur.com/S5lY8fy.png"
+VARS_THUMB = "https://i.imgur.com/dw1lLBX.png"
+EXAMPLE_THUMB = "https://i.imgur.com/NY4uasQ.png"
+FAQS_THUMB = "https://i.imgur.com/b33rM21.png"
+
 userge_wiki = "https://github.com/UsergeTeam/Userge/wiki"
 decorators = "https://github.com/UsergeTeam/Userge/wiki/Decorators"
 deployment = "https://github.com/UsergeTeam/Userge/wiki/Deployment"
+vars = f"{deployment}#list-of-available-vars"
+modes = f"{deployment}#userge-modes"
 examples = "https://github.com/UsergeTeam/Userge/wiki/Examples"
 faqs = "https://github.com/UsergeTeam/Userge/wiki/FAQs"
 
@@ -319,11 +330,6 @@ VARS = [
         "Insta Pass",
         "What is Insta Pass.",
        f"[INSTA_Pass]({deployment}#23-insta_pass)"
-    ),
-    (
-        "Heroku String Session",
-        "How to Heroku String Session.",
-       f"[HU_STRING_SESSION]({deployment}#22-insta_pass)"
     )
 ]
 
@@ -331,17 +337,20 @@ MODES = [
     (
         "User Mode",
         "Explained Docs for User Mode.",
-       f"[What is User Mode?]({deployment}#1-user-mode)"
+       f"[What is User Mode?]({deployment}#1-user-mode)",
+       f"{USER_THUMB}"
     ),
     (
         "Bot Mode",
         "Explained Docs for Bot Mode.",
        f"[What is Bot Mode?]({deployment}#2-bot-mode)"
+       f"{BOT_THUMB}"
     ),
     (
         "Dual Mode",
         "Explained Docs for Dual Mode.",
        f"[What is Dual Mode?]({deployment}#3-dual-mode)"
+       f"{DUAL_THUMB}"
     )
 ]
 
