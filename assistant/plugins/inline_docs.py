@@ -167,7 +167,7 @@ async def inline_docs(_, i_q: InlineQuery):
             )
         )
 
-        for i in docs.EXAMPLE:
+        for i in docs.EXAMPLES:
             results.append(
                 InlineQueryResultArticle(
                     title=i[0],
