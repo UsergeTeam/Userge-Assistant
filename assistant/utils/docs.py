@@ -129,7 +129,7 @@ USERGE = [
             )
         ]]),
         description="Join UserGe support Group and Updates Channel.",
-        thumb_url=GS_THUMB
+        thumb_url=GC_THUMB
     )
 ]
 
