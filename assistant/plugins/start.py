@@ -6,8 +6,9 @@
 #
 # All rights reserved.
 
+from pyrogram import filters
 from pyrogram.types import (
-    Message, filters, InlineKeyboardMarkup, InlineKeyboardButton)
+    Message, InlineKeyboardMarkup, InlineKeyboardButton)
 
 from assistant import bot
 from assistant.utils.docs import HELP
