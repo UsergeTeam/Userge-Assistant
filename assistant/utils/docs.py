@@ -44,13 +44,13 @@ HELP = (
      "**__Search__**\n"
      "`@Userge_Assistant_Bot <query>`\n\n"
 
-     "**__List__**\n"
-     "`@Userge_Assistant_Bot Decorators`\n"
-     "`@Userge_Assistant_Bot Deployment`\n"
-     "`@Userge_Assistant_Bot Vars`\n"
-     "`@Userge_Assistant_Bot Modes`\n"
-     "`@Userge_Assistant_Bot Example`\n"
-     "`@Userge_Assistant_Bot Faqs`"
+     "**__List of Queries__**\n"
+     "`Decorators`\n"
+     "`Deployment`\n"
+     "`Vars`\n"
+     "`Modes`\n"
+     "`Example`\n"
+     "`Faqs`"
 )
 
 USERGE = [
