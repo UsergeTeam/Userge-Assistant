@@ -27,8 +27,8 @@ HELP = (
      "🤖 **UserGe Assistant**\n\n"
 
 
-     "You can use this bot in inline mode to search for UserGe Docs And FAQs"
-    f"and All Methods available in [UserGe Wiki]({userge_wiki}).\n\n"
+     "You can use this bot in inline mode to search for UserGe Docs and FAQs"
+    f" and All Methods available in [UserGe Wiki]({userge_wiki}).\n\n"
 
      "**__Search__**\n"
      "`@Userge_Assistant_Bot <query>`\n\n"
