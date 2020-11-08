@@ -28,7 +28,7 @@ async def inline_docs(_, i_q: InlineQuery):
 
         return
     results = []
-    if query == "decorators":
+    if query in ["decorator", "decorators"]:
         results.append(
             InlineQueryResultArticle(
                 title="Decorators",
@@ -88,7 +88,7 @@ async def inline_docs(_, i_q: InlineQuery):
                     thumb_url=docs.DEPLOYMENT_THUMB
                 )
             )
-    elif query == "vars":
+    elif query == ["var", "vars"]:
         results.append(
             InlineQueryResultArticle(
                 title="VARS",
@@ -107,7 +107,7 @@ async def inline_docs(_, i_q: InlineQuery):
             )
         )
 
-        for i in docs.vars:
+        for i in docs.VARS:
             results.append(
                 InlineQueryResultArticle(
                     title=i[0],
@@ -118,7 +118,7 @@ async def inline_docs(_, i_q: InlineQuery):
                     thumb_url=docs.VARS_THUMB
                 )
             )
-    elif query == "modes":
+    elif query in ["mode", "modes"]:
         results.append(
             InlineQueryResultArticle(
                 title="UserGe Modes",
@@ -148,7 +148,7 @@ async def inline_docs(_, i_q: InlineQuery):
                     thumb_url=i[3]
                 )
             )
-    elif query == "example":
+    elif query in ["example", "examples"]:
         results.append(
             InlineQueryResultArticle(
                 title="UserGe Example",
