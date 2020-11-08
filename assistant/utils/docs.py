@@ -67,7 +67,7 @@ USERGE = [
         reply_markup=InlineKeyboardMarkup(
             [
                 [
-                    InlineKeyboardButton("👥 Community", url="https://t.me/TheUserGe")
+                    InlineKeyboardButton("👥 Community", url="https://t.me/UserGeOt")
                 ],
                 [
                     InlineKeyboardButton("🗂 GitHub", url="https://github.com/UserGeTeam/UserGe"),
