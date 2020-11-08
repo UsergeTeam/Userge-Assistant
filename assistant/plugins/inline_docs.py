@@ -160,7 +160,7 @@ async def inline_docs(_, i_q: InlineQuery):
                 reply_markup=InlineKeyboardMarkup([[
                     InlineKeyboardButton(
                         "📚 Online docs",
-                        url=docs.example
+                        url=docs.examples
                     )
                 ]]),
                 thumb_url=docs.USERGE_THUMB,
