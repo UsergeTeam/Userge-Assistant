@@ -88,7 +88,7 @@ async def inline_docs(_, i_q: InlineQuery):
                     thumb_url=docs.DEPLOYMENT_THUMB
                 )
             )
-    elif query == ["var", "vars"]:
+    elif query in ["var", "vars"]:
         results.append(
             InlineQueryResultArticle(
                 title="VARS",
