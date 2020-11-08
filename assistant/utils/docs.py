@@ -46,11 +46,11 @@ USERGE = [
     InlineQueryResultArticle(
         title="About UserGe",
         input_message_content=InputTextMessageContent(
-             "📚 **UserGe**\n\n"
-            f"[UserGe](https://github.com/usergeteam/userge) "
-             "is a Powerful , Pluggable Telegram UserBot written in "
-            f"[Python](https://www.python.org/) using "
-            f"[Pyrogram](https://github.com/pyrogram).",
+             " **👑 UserGe**\n\n"
+            f"**[UserGe](https://github.com/usergeteam/userge) **"
+             "**is a Powerful , Pluggable Telegram UserBot written in **"
+            f"**[Python](https://www.python.org/) using **"
+            f"**[Pyrogram](https://github.com/pyrogram).**",
             disable_web_page_preview=True
         ),
         reply_markup=InlineKeyboardMarkup(
@@ -59,7 +59,7 @@ USERGE = [
                     InlineKeyboardButton("👥 Community", url="https://t.me/TheUserGe")
                 ],
                 [
-                    InlineKeyboardButton("🌐 GitHub", url="https://github.com/UserGeTeam/UserGe"),
+                    InlineKeyboardButton("🗂 GitHub", url="https://github.com/UserGeTeam/UserGe"),
                     InlineKeyboardButton("📂 Docs", url=f"{userge_wiki}")
                 ]
             ]
@@ -116,10 +116,10 @@ USERGE = [
         thumb_url=REPO_THUMB
     ),
     InlineQueryResultArticle(
-        title="UserGe-Repository",
+        title="Groups and Channels",
         input_message_content=InputTextMessageContent(
              "📚 **UserGe Docs**\n\n"
-             "`UserGe-Repositories.`",
+             "`Join Our Updates Channel and Support Group.`",
             disable_web_page_preview=True,
         ),
         reply_markup=InlineKeyboardMarkup([[
