@@ -11,10 +11,10 @@ from pyrogram.types import (
     InlineKeyboardMarkup, InlineKeyboardButton)
 
 
-USERGE_THUMB = "https://imgur.com/download/Inyeb1S"
+USERGE_THUMB = "https://imgur.com/download/Inyeb1S.png"
 BOT_THUMB = "https://i.imgur.com/zRglRz3.png"
 CONTENT_THUMB = "https://i.imgur.com/v1XSJ1D.png"
-REPO_THUMB = "https://i.imgur.com/39VV3Ho_d.png"
+REPO_THUMB = "https://i.imgur.com/hoRVXM3.png"
 GC_THUMB = "https://i.imgur.com/lDpSgmg_d.png"
 
 userge_wiki = "https://github.com/UsergeTeam/Userge/wiki"
@@ -22,6 +22,25 @@ decorators = "https://github.com/UsergeTeam/Userge/wiki/Decorators"
 deployment = "https://github.com/UsergeTeam/Userge/wiki/Deployment"
 examples = "https://github.com/UsergeTeam/Userge/wiki/Examples"
 faqs = "https://github.com/UsergeTeam/Userge/wiki/FAQs"
+
+HELP = (
+     "🤖 **UserGe Assistant**\n\n"
+
+
+     "You can use this bot in inline mode to search for UserGe Docs And FAQs"
+    f"and All Methods available in [UserGe Wiki]({userge_wiki}).\n\n"
+
+     "**__Search__**\n"
+     "`@Userge_Assistant_Bot <query>`\n\n"
+
+     "**__List__**\n"
+     "`@Userge_Assistant_Bot Decorators`\n"
+     "`@Userge_Assistant_Bot Deployment`\n"
+     "`@Userge_Assistant_Bot Vars`\n"
+     "`@Userge_Assistant_Bot Modes`\n"
+     "`@Userge_Assistant_Bot Example`\n"
+     "`@Userge_Assistant_Bot Faqs`"
+)
 
 USERGE = [
     InlineQueryResultArticle(
@@ -113,25 +132,6 @@ USERGE = [
         thumb_url=GS_THUMB
     )
 ]
-
-HELP = (
-     "🤖 **UserGe Assistant**\n\n"
-
-
-     "You can use this bot in inline mode to search for UserGe Docs And FAQs"
-    f"and All Methods available in [UserGe Wiki]({userge_wiki}).\n\n"
-
-     "**__Search__**\n"
-     "`@Userge_Assistant_Bot <query>`\n\n"
-
-     "**__List__**\n"
-     "`@Userge_Assistant_Bot Decorators`\n"
-     "`@Userge_Assistant_Bot Deployment`\n"
-     "`@Userge_Assistant_Bot Vars`\n"
-     "`@Userge_Assistant_Bot Modes`\n"
-     "`@Userge_Assistant_Bot Example`\n"
-     "`@Userge_Assistant_Bot Faqs`"
-)
 
 DECORATORS = [
     (
