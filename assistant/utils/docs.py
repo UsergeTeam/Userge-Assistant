@@ -198,7 +198,7 @@ VARS = [
     ),
     (
         "Database Url",
-        "How to get Database Url.",
+        "How to get Database Url",
        f"[DATABASE_URL]({deployment}#2-database_url)"
     ),
     (
@@ -213,7 +213,7 @@ VARS = [
     ),
     (
         "Heroku Api Key",
-        "How to get Heroku Api Key.",
+        "How to get Heroku Api Key",
        f"[HEROKU_API_KEY]({deployment}#24-heroku_api_key)"
     ),
     (
@@ -223,12 +223,12 @@ VARS = [
     ),
     (
         "Workers",
-        "Explained Workers Var.",
+        "Explained Workers Var",
        f"[Workers]({deployment}#2-workers)"
     ),
     (
         "Client Id and Client Secret",
-        "How to get G_DRIVE_CLIENT_ID and G_DRIVE_CLIENT_SECRET",
+        "How to get CLIENT_ID and CLIENT_SECRET",
        f"[CLIENT_ID and CLIENT_SECRET)]({deployment}#3-g_drive_client_id--g_drive_client_secret)"
     ),
     (
