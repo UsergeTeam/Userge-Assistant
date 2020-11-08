@@ -410,6 +410,6 @@ FAQS = [
     ("How to use spam watch api?", f"{faqs}#29-how-to-use-spam-watch-api"),
     ("How to update userbot?", f"{faqs}#30-how-to-update-userbot"),
     ("How to know dyno usage?", f"{faqs}#31-how-to-know-dyno-usage"),
-    ("File type issue while downloading from direct link?"
+    ("File type issue while downloading from direct link?",
     f"{faqs}#32-file-type-issue-while-downloading-from-direct-link"),
 ]
