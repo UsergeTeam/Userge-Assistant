@@ -343,13 +343,13 @@ MODES = [
     (
         "Bot Mode",
         "Explained Docs for Bot Mode.",
-       f"[What is Bot Mode?]({deployment}#2-bot-mode)"
+       f"[What is Bot Mode?]({deployment}#2-bot-mode)",
        f"{BOT_THUMB}"
     ),
     (
         "Dual Mode",
         "Explained Docs for Dual Mode.",
-       f"[What is Dual Mode?]({deployment}#3-dual-mode)"
+       f"[What is Dual Mode?]({deployment}#3-dual-mode)",
        f"{DUAL_THUMB}"
     )
 ]
