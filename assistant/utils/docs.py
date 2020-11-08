@@ -11,7 +11,7 @@ from pyrogram.types import (
     InlineKeyboardMarkup, InlineKeyboardButton)
 
 
-USERGE_THUMB = "https://imgur.com/download/Inyeb1S.png"
+USERGE_THUMB = "https://imgur.com/download/Inyeb1S"
 BOT_THUMB = "https://i.imgur.com/zRglRz3.png"
 CONTENT_THUMB = "https://i.imgur.com/v1XSJ1D.png"
 REPO_THUMB = "https://i.imgur.com/hoRVXM3.png"
