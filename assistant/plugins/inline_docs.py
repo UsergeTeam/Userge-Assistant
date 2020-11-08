@@ -205,7 +205,7 @@ async def inline_docs(_, i_q: InlineQuery):
                     description=docs.FAQS[i][0],
                     input_message_content=InputTextMessageContent(
                         f"{docs.intro}FAQ {i+1}:-\n"
-                        f"[{docs.FAQS[i][0]}]({docs.FAQS[i][1]})
+                        f"[{docs.FAQS[i][0]}]({docs.FAQS[i][1]})"
                     ),
                     thumb_url=docs.FAQS_THUMB
                 )
