@@ -13,9 +13,9 @@ from pyrogram.types import (
 intro = "**📚 UserGe Docs**\n\n"
 
 USERGE_THUMB = "https://imgur.com/download/Inyeb1S"
-USER_THUMB = ""
+USER_THUMB = "https://i.imgur.com/h6ZyB71.png"
 BOT_THUMB = "https://i.imgur.com/zRglRz3.png"
-DUAL_THUMB = ""
+DUAL_THUMB = "https://i.imgur.com/ZTcIANz.png"
 CONTENT_THUMB = "https://i.imgur.com/v1XSJ1D.png"
 REPO_THUMB = "https://i.imgur.com/hoRVXM3.png"
 GC_THUMB = "https://i.imgur.com/lDpSgmg_d.png"
