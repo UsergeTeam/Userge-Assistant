@@ -7,8 +7,8 @@
 # All rights reserved.
 
 from pyrogram.types import (
-    InlineQuery, InlineQueryResultArticle, InlineQueryResultPhoto,
-    InputTextMessageContent, InlineKeyboardButton, InlineKeyboardMarkup)
+    InlineQuery, InlineQueryResultArticle, InputTextMessageContent,
+    InlineKeyboardButton, InlineKeyboardMarkup)
 
 from assistant import bot
 from assistant.utils import docs
@@ -203,9 +203,9 @@ async def inline_docs(_, i_q: InlineQuery):
                     title=f"FAQ {i+1}",
                     description=docs.FAQS[i][0],
                     input_message_content=InputTextMessageContent(
-                        f"{docs.intro}**FAQ {i+1}:-**\n"
-                        f"[{docs.FAQS[i][0]}]({docs.FAQS[i][1]})",
-                         disable_web_page_preview=True
+                       f"{docs.intro}**FAQ {i+1}:-**\n"
+                       f"[{docs.FAQS[i][0]}]({docs.FAQS[i][1]})",
+                        disable_web_page_preview=True
                     ),
                     thumb_url=docs.FAQS_THUMB
                 )
@@ -220,8 +220,8 @@ async def inline_docs(_, i_q: InlineQuery):
         )
     else:
         await i_q.answer(
-                results=[],
-                cache_time=5,
-                switch_pm_text=f'❌ No results for "{query}"',
-                switch_pm_parameter="okay"
-            )
+            results=[],
+            cache_time=5,
+            switch_pm_text=f'❌ No results for "{query}"',
+            switch_pm_parameter="okay"
+        )
