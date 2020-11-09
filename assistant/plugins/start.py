@@ -13,6 +13,7 @@ from pyrogram.types import (
 from assistant import bot
 from assistant.utils.docs import HELP
 
+
 @bot.on_message(filters.private)
 async def _start_(_, msg: Message):
     await msg.reply(
@@ -25,7 +26,7 @@ async def _start_(_, msg: Message):
                 url="https://github.com/UserGeTeam/UserGe-Assistant"
             ),
             InlineKeyboardButton(
-                f"😎 Use Inline!",
+                "😎 Use Inline!",
                 switch_inline_query=""
             )
         ]])
