@@ -39,7 +39,7 @@ HELP = (
 
 
     "You can use this bot in inline mode to search for UserGe Docs and FAQs"
-   f" and All Methods available in [UserGe Wiki]({userge_wiki}).\n\n"
+    f" and All Methods available in [UserGe Wiki]({userge_wiki}).\n\n"
 
     "**__Search__**\n"
     "`@Userge_Assistant_Bot <query>`\n\n"
@@ -58,10 +58,10 @@ USERGE = [
         title="About UserGe",
         input_message_content=InputTextMessageContent(
             "**👑 UserGe**\n\n"
-           f"**[UserGe](https://github.com/usergeteam/userge) **"
+            f"**[UserGe](https://github.com/usergeteam/userge) **"
             "**is a Powerful , Pluggable Telegram UserBot written in **"
-           f"**[Python](https://www.python.org/) using **"
-           f"**[Pyrogram](https://github.com/pyrogram).**",
+            f"**[Python](https://www.python.org/) using **"
+            f"**[Pyrogram](https://github.com/pyrogram).**",
             disable_web_page_preview=True
         ),
         reply_markup=InlineKeyboardMarkup(
