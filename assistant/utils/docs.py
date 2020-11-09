@@ -35,33 +35,33 @@ examples = "https://github.com/UsergeTeam/Userge/wiki/Examples"
 faqs = "https://github.com/UsergeTeam/Userge/wiki/FAQs"
 
 HELP = (
-     "🤖 **UserGe Assistant**\n\n"
+    "🤖 **UserGe Assistant**\n\n"
 
 
-     "You can use this bot in inline mode to search for UserGe Docs and FAQs"
-    f" and All Methods available in [UserGe Wiki]({userge_wiki}).\n\n"
+    "You can use this bot in inline mode to search for UserGe Docs and FAQs"
+   f" and All Methods available in [UserGe Wiki]({userge_wiki}).\n\n"
 
-     "**__Search__**\n"
-     "`@Userge_Assistant_Bot <query>`\n\n"
+    "**__Search__**\n"
+    "`@Userge_Assistant_Bot <query>`\n\n"
 
-     "**__List of Queries__**\n"
-     "`Decorators`\n"
-     "`Deployment`\n"
-     "`Vars`\n"
-     "`Modes`\n"
-     "`Example`\n"
-     "`Faqs`"
+    "**__List of Queries__**\n"
+    "`Decorators`\n"
+    "`Deployment`\n"
+    "`Vars`\n"
+    "`Modes`\n"
+    "`Example`\n"
+    "`Faqs`"
 )
 
 USERGE = [
     InlineQueryResultArticle(
         title="About UserGe",
         input_message_content=InputTextMessageContent(
-             " **👑 UserGe**\n\n"
-            f"**[UserGe](https://github.com/usergeteam/userge) **"
-             "**is a Powerful , Pluggable Telegram UserBot written in **"
-            f"**[Python](https://www.python.org/) using **"
-            f"**[Pyrogram](https://github.com/pyrogram).**",
+            "**👑 UserGe**\n\n"
+           f"**[UserGe](https://github.com/usergeteam/userge) **"
+            "**is a Powerful , Pluggable Telegram UserBot written in **"
+           f"**[Python](https://www.python.org/) using **"
+           f"**[Pyrogram](https://github.com/pyrogram).**",
             disable_web_page_preview=True
         ),
         reply_markup=InlineKeyboardMarkup(
@@ -85,11 +85,11 @@ USERGE = [
         ),
         reply_markup=InlineKeyboardMarkup([[
             InlineKeyboardButton(
-                 "🗂 Source Code",
+                "🗂 Source Code",
                 url="https://github.com/UserGeTeam/UserGe-Assistant"
             ),
             InlineKeyboardButton(
-                 "😎 Use Inline!",
+                "😎 Use Inline!",
                 switch_inline_query=""
             )
         ]]),
@@ -99,13 +99,13 @@ USERGE = [
     InlineQueryResultArticle(
         title="Table Of Contents",
         input_message_content=InputTextMessageContent(
-             "📚 **UserGe Docs**\n\n"
-             "`Table of Contents avalaible in UserGe Wiki.`",
+            "📚 **UserGe Docs**\n\n"
+            "`Table of Contents avalaible in UserGe Wiki.`",
             disable_web_page_preview=True,
         ),
         reply_markup=InlineKeyboardMarkup([[
             InlineKeyboardButton(
-                 "Online Docs 📚", url=f"{userge_wiki}#table-of-contents"
+                "Online Docs 📚", url=f"{userge_wiki}#table-of-contents"
             )
         ]]),
         description="See Contents available in UserGe wiki.",
@@ -114,13 +114,13 @@ USERGE = [
     InlineQueryResultArticle(
         title="UserGe-Repository",
         input_message_content=InputTextMessageContent(
-             "📚 **UserGe Docs**\n\n"
-             "`UserGe-Repositories.`",
+            "📚 **UserGe Docs**\n\n"
+            "`UserGe-Repositories.`",
             disable_web_page_preview=True,
         ),
         reply_markup=InlineKeyboardMarkup([[
             InlineKeyboardButton(
-                 "Github 🗂", url=f"{userge_wiki}#userge-repository"
+                "Github 🗂", url=f"{userge_wiki}#userge-repository"
             )
         ]]),
         description="All UserGe-Repositories.",
@@ -129,14 +129,14 @@ USERGE = [
     InlineQueryResultArticle(
         title="Groups and Channels",
         input_message_content=InputTextMessageContent(
-             "📚 **UserGe Docs**\n\n"
-             "`Join Our Updates Channel and Support Group.`",
+            "📚 **UserGe Docs**\n\n"
+            "`Join Our Updates Channel and Support Group.`",
             disable_web_page_preview=True,
         ),
         reply_markup=InlineKeyboardMarkup([[
             InlineKeyboardButton(
-                 "Groups and Channels 👥",
-                 url=f"{userge_wiki}#join-for-updates--support"
+                "Groups and Channels 👥",
+                url=f"{userge_wiki}#join-for-updates--support"
             )
         ]]),
         description="Join UserGe support Group and Updates Channel.",
@@ -148,17 +148,17 @@ DECORATORS = [
     (
         "UserGe Callback Decorators.",
         "Userge have it's own custom decorators.",
-       f"[UserGe Callback Decorators.]({decorators}#userge-callback-decorators)"
+        f"[UserGe Callback Decorators.]({decorators}#userge-callback-decorators)"
     ),
     (
         "Parameters",
         "Required and Non-required Parameters of Decorators.",
-       f"[Parameters]({decorators}#parameters)"
+        f"[Parameters]({decorators}#parameters)"
     ),
     (
         "Examples",
         "Example of Decorators.",
-       f"[Example of Decorators]({decorators}#examples)"
+        f"[Example of Decorators]({decorators}#examples)"
     )
 ]
 
@@ -166,27 +166,27 @@ DEPLOYMENT = [
     (
         "Config Vars.",
         "About Config Vars and Explanation.",
-       f"[Config Vars]({deployment}#config-vars)"
+        f"[Config Vars]({deployment}#config-vars)"
     ),
     (
         "Branches",
         "Check available Branches in UserGe repo.",
-       f"[Branches]({deployment}#branches-in-userge-repo)"
+        f"[Branches]({deployment}#branches-in-userge-repo)"
     ),
     (
         "Deploy to Heroku",
         "Directly Deploy to Heroku.",
-       f"[Deploy to Heroku]({deployment}#deploying-to-heroku--)"
+        f"[Deploy to Heroku]({deployment}#deploying-to-heroku--)"
     ),
     (
         "Deploying with Docker",
         "Deploy UserGe using Docker.",
-       f"[Deploy with Docker]({deployment}#deploying-with-docker-)"
+        f"[Deploy with Docker]({deployment}#deploying-with-docker-)"
     ),
     (
         "Deploy With gitPython",
         "Deploy UserGe using gitpython pip.",
-       f"[Deploy with gitpython pip]({deployment}#deploying-with-gitpython--pip)"
+        f"[Deploy with gitpython pip]({deployment}#deploying-with-gitpython--pip)"
     )
 ]
 
@@ -194,142 +194,142 @@ VARS = [
     (
         "Api Id and Api hash",
         "How to get Api Id and Api hash",
-       f"[API_ID and API_HASH]({deployment}#1-api_id-and-api_hash)"
+        f"[API_ID and API_HASH]({deployment}#1-api_id-and-api_hash)"
     ),
     (
         "Database Url",
         "How to get Database Url",
-       f"[DATABASE_URL]({deployment}#2-database_url)"
+        f"[DATABASE_URL]({deployment}#2-database_url)"
     ),
     (
         "Log Channel Id",
         "How to get Log Channel Id",
-       f"[LOG_CHANNEL_ID]({deployment}#3-log_channel_id)"
+        f"[LOG_CHANNEL_ID]({deployment}#3-log_channel_id)"
     ),
     (
         "Heroku App Name",
         "How to get Heroku App Name",
-       f"[HEROKU_APP_NAME]({deployment}#25-heroku_app_name)"
+        f"[HEROKU_APP_NAME]({deployment}#25-heroku_app_name)"
     ),
     (
         "Heroku Api Key",
         "How to get Heroku Api Key",
-       f"[HEROKU_API_KEY]({deployment}#24-heroku_api_key)"
+        f"[HEROKU_API_KEY]({deployment}#24-heroku_api_key)"
     ),
     (
         "Load Unofficial Plugins",
         "How to Load Unofficial Plugins.",
-       f"[LOAD_UNOFFICIAL_PLUGINS]({deployment}#1-load_unofficial_plugins)"
+        f"[LOAD_UNOFFICIAL_PLUGINS]({deployment}#1-load_unofficial_plugins)"
     ),
     (
         "Workers",
         "Explained Workers Var",
-       f"[Workers]({deployment}#2-workers)"
+        f"[Workers]({deployment}#2-workers)"
     ),
     (
         "Client Id and Client Secret",
         "How to get CLIENT_ID and CLIENT_SECRET",
-       f"[CLIENT_ID and CLIENT_SECRET)]({deployment}#3-g_drive_client_id--g_drive_client_secret)"
+        f"[CLIENT_ID and CLIENT_SECRET)]({deployment}#3-g_drive_client_id--g_drive_client_secret)"
     ),
     (
         "G_DRIVE_ID_TD",
         "Explained G_DRIVE_IS_TD",
-       f"[G_DRIVE_IS_TD]({deployment}#4-g_drive_is_td)"
+        f"[G_DRIVE_IS_TD]({deployment}#4-g_drive_is_td)"
     ),
     (
         "G_DRIVE_INDEX_LINK",
         "How to get Index Link",
-       f"[G_DRIVE_INDEX_LINK]({deployment}#5-g_drive_index_link)"
+        f"[G_DRIVE_INDEX_LINK]({deployment}#5-g_drive_index_link)"
     ),
     (
         "Gdrive Parent folder Id",
         "How to get Gdrive Parent folder Id",
-       f"[G_DRIVE_PARENT_ID]({deployment}#14-g_drive_parent_id)"
+        f"[G_DRIVE_PARENT_ID]({deployment}#14-g_drive_parent_id)"
     ),
     (
         "Down Path",
         "Explained about Download Path",
-       f"[DOWN_PATH]({deployment}#6-down_path)"
+        f"[DOWN_PATH]({deployment}#6-down_path)"
     ),
     (
         "Preferred Language",
         "Explained Preferred Language",
-       f"[PREFERRED_LANGUAGE]({deployment}#7-preferred_language)"
+        f"[PREFERRED_LANGUAGE]({deployment}#7-preferred_language)"
     ),
     (
         "Currency Api",
         "How to get Currency Api",
-       f"[CURRENCY_API]({deployment}#8-currency_api)"
+        f"[CURRENCY_API]({deployment}#8-currency_api)"
     ),
     (
         "Ocr Space Api Key",
         "How to get Ocr Space Pai Key.",
-       f"[OCR_SPACE_API_KEY]({deployment}#9-next-var-is-ocr_space_api_key)"
+        f"[OCR_SPACE_API_KEY]({deployment}#9-next-var-is-ocr_space_api_key)"
     ),
     (
         "Weather Defcity",
         "Weather Default City.",
-       f"[WEATHER_DEFCITY]({deployment}#10-weather_defcity)"
+        f"[WEATHER_DEFCITY]({deployment}#10-weather_defcity)"
     ),
     (
         "Spamwatch Api",
         "How to get SpamWatch Api.",
-       f"[SPAM_WATCH_API]({deployment}#11-spam_watch_api)"
+        f"[SPAM_WATCH_API]({deployment}#11-spam_watch_api)"
     ),
     (
         "Open Weather Map",
         "How to get Open Weather Map.",
-       f"[OEPN_WEATHER_MAP]({deployment}#12-open_weather_map)"
+        f"[OEPN_WEATHER_MAP]({deployment}#12-open_weather_map)"
     ),
     (
         "Remove Background Api",
         "How to get Remove Background Api.",
-       f"[REMOVE_BG_API_KEY]({deployment}#13-remove_bg_api_key)"
+        f"[REMOVE_BG_API_KEY]({deployment}#13-remove_bg_api_key)"
     ),
     (
         "Command Trigger",
         "What is Command Trigger.",
-       f"[CMD_TRIGGER]({deployment}#15-cmd_trigger)"
+        f"[CMD_TRIGGER]({deployment}#15-cmd_trigger)"
     ),
     (
         "Sudo Trigger",
         "What is Sudo Trigger.",
-       f"[SUDO_TRIGGER]({deployment}#16-sudo_trigger)"
+        f"[SUDO_TRIGGER]({deployment}#16-sudo_trigger)"
     ),
     (
         "Upstream Repo",
         "What is Upstream Repo",
-       f"[UPSTREAM_REPO]({deployment}#17-upstream_repo)"
+        f"[UPSTREAM_REPO]({deployment}#17-upstream_repo)"
     ),
     (
         "Finished Progress Bar",
         "What is Finished Progress Bar.",
-       f"[FINISHED_PROGRESS_STR]({deployment}#18-finished_progress_str)"
+        f"[FINISHED_PROGRESS_STR]({deployment}#18-finished_progress_str)"
     ),
     (
         "UnFinished Progress Bar",
         "What is UnFinished Progress Bar.",
-       f"[UNFINISHED_PROGRESS_STR]({deployment}#19-unfinished_progress_str)"
+        f"[UNFINISHED_PROGRESS_STR]({deployment}#19-unfinished_progress_str)"
     ),
     (
         "Custom Pack Name",
         "What is Custom Pack Name.",
-       f"[CUSTOM_PACK_NAME]({deployment}#20-custom_pack_name)"
+        f"[CUSTOM_PACK_NAME]({deployment}#20-custom_pack_name)"
     ),
     (
         "Alive Media",
         "How to get Alive Media var.",
-       f"[ALIVE_MEDIA]({deployment}#21-alive_media)"
+        f"[ALIVE_MEDIA]({deployment}#21-alive_media)"
     ),
     (
         "Insta Id",
         "What is Insta Id.",
-       f"[INSTA_ID]({deployment}#22-insta_id)"
+        f"[INSTA_ID]({deployment}#22-insta_id)"
     ),
     (
         "Insta Pass",
         "What is Insta Pass.",
-       f"[INSTA_Pass]({deployment}#23-insta_pass)"
+        f"[INSTA_PASS]({deployment}#23-insta_pass)"
     )
 ]
 
@@ -337,20 +337,20 @@ MODES = [
     (
         "User Mode",
         "Explained Docs for User Mode.",
-       f"[What is User Mode?]({deployment}#1-user-mode)",
-       f"{USER_THUMB}"
+        f"[What is User Mode?]({deployment}#1-user-mode)",
+        f"{USER_THUMB}"
     ),
     (
         "Bot Mode",
         "Explained Docs for Bot Mode.",
-       f"[What is Bot Mode?]({deployment}#2-bot-mode)",
-       f"{BOT_THUMB}"
+        f"[What is Bot Mode?]({deployment}#2-bot-mode)",
+        f"{BOT_THUMB}"
     ),
     (
         "Dual Mode",
         "Explained Docs for Dual Mode.",
-       f"[What is Dual Mode?]({deployment}#3-dual-mode)",
-       f"{DUAL_THUMB}"
+        f"[What is Dual Mode?]({deployment}#3-dual-mode)",
+        f"{DUAL_THUMB}"
     )
 ]
 
@@ -358,12 +358,12 @@ EXAMPLES = [
     (
         "Cmd Example",
         "Explained Docs for Cmd Example.",
-       f"[Example Cmd]({deployment}#example-command)"
+        f"[Example Cmd]({deployment}#example-command)"
     ),
     (
         "Filter Example",
         "Explained Docs for Filter Example.",
-       f"[Example Filters]({deployment}#example-filter)"
+        f"[Example Filters]({deployment}#example-filter)"
     )
 ]
 
