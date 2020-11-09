@@ -21,7 +21,7 @@ async def _start_(_, msg: Message):
         parse_mode="markdown",
         reply_markup=InlineKeyboardMarkup([[
             InlineKeyboardButton(
-                f"🗂 Source Code",
+                "🗂 Source Code",
                 url="https://github.com/UserGeTeam/UserGe-Assistant"
             ),
             InlineKeyboardButton(
