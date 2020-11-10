@@ -97,7 +97,7 @@ __Check out the Button below. and feel free to ask here.__ 🤘 """
             [
                 InlineKeyboardButton(
                     text="More info.",
-                    url="https://t.me/usergeot/527524"
+                    url="https://t.me/usergeot/617305"
                 )
             ]
         ]

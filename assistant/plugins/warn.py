@@ -49,7 +49,7 @@ async def _warn_user(_, msg: Message):
         await msg.reply("`Give a reason to warn him.`")
         return
     _, args = msg.text.split(maxsplit=1)
-    args += " -By {msg.from_user.mention}"
+    args += f" -By {msg.from_user.mention}"
 
     w_l = WARN_LIMIT
     w_m = WARN_MODE
