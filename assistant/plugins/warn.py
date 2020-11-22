@@ -25,6 +25,8 @@ DATA = {}
 async def warn(msg: Message, chat_id: int, user_id: int, reason: str = "None"):
     replied = msg.reply_to_message or msg
     mention = f"[{replied.from_user.first_name}](tg://user?id={user_id})"
+
+
     w_l = WARN_LIMIT
     w_m = WARN_MODE
     if not DATA.get(user_id):
