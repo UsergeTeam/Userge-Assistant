@@ -1,4 +1,3 @@
-
 # Copyright (C) 2020 by UsergeTeam@Github, < https://github.com/UsergeTeam >.
 #
 # This file is part of < https://github.com/UsergeTeam/Userge-Assistant > project,
@@ -22,10 +21,10 @@ WARN_MODE = "ban"
 
 DATA = {}
 
+
 async def warn(msg: Message, chat_id: int, user_id: int, reason: str = "None"):
     replied = msg.reply_to_message or msg
     mention = f"[{replied.from_user.first_name}](tg://user?id={user_id})"
-
 
     w_l = WARN_LIMIT
     w_m = WARN_MODE
