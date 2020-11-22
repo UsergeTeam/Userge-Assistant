@@ -42,7 +42,7 @@ HELP = (
     f" and All Methods available in [UserGe Wiki]({userge_wiki}).\n\n"
 
     "**__Search__**\n"
-    "`@Userge_Assistant_Bot <query>`\n\n"
+    "`@UsergeBot <query>`\n\n"
 
     "**__List of Queries__**\n"
     "`Decorators`\n"
