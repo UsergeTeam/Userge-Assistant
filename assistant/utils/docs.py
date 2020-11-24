@@ -26,20 +26,20 @@ VARS_THUMB = "https://i.imgur.com/dw1lLBX.png"
 EXAMPLE_THUMB = "https://i.imgur.com/NY4uasQ.png"
 FAQS_THUMB = "https://i.imgur.com/b33rM21.png"
 
-userge_wiki = "https://github.com/UsergeTeam/Userge/wiki"
-decorators = "https://github.com/UsergeTeam/Userge/wiki/Decorators"
-deployment = "https://github.com/UsergeTeam/Userge/wiki/Deployment"
+userge_wiki = "https://theuserge.github.io/"
+decorators = "https://theuserge.github.io/decorators.html"
+deployment = "https://theuserge.github.io/deployment.html"
 vars = f"{deployment}#list-of-available-vars"
 modes = f"{deployment}#userge-modes"
-examples = "https://github.com/UsergeTeam/Userge/wiki/Examples"
-faqs = "https://github.com/UsergeTeam/Userge/wiki/FAQs"
+examples = "https://theuserge.github.io/examples.html"
+faqs = "https://theuserge.github.io/faq.html"
 
 HELP = (
     "🤖 **UserGe Assistant**\n\n"
 
 
     "You can use this bot in inline mode to search for UserGe Docs and FAQs"
-    f" and All Methods available in [UserGe Wiki]({userge_wiki}).\n\n"
+    f" and All Methods available in [UserGe Docs]({userge_wiki}).\n\n"
 
     "**__Search__**\n"
     "`@UsergeBot <query>`\n\n"
@@ -97,15 +97,15 @@ USERGE = [
         thumb_url=BOT_THUMB,
     ),
     InlineQueryResultArticle(
-        title="Table Of Contents",
+        title="Quick Links",
         input_message_content=InputTextMessageContent(
             "📚 **UserGe Docs**\n\n"
-            "`Table of Contents avalaible in UserGe Wiki.`",
+            "`Quick Links.`",
             disable_web_page_preview=True,
         ),
         reply_markup=InlineKeyboardMarkup([[
             InlineKeyboardButton(
-                "Online Docs 📚", url=f"{userge_wiki}#table-of-contents"
+                "Online Docs 📚", url=f"{userge_wiki}#quick-links"
             )
         ]]),
         description="See Contents available in UserGe wiki.",
@@ -120,7 +120,7 @@ USERGE = [
         ),
         reply_markup=InlineKeyboardMarkup([[
             InlineKeyboardButton(
-                "Github 🗂", url=f"{userge_wiki}#userge-repository"
+                "Github 🗂", url=f"{userge_wiki}"
             )
         ]]),
         description="All UserGe-Repositories.",
@@ -136,7 +136,7 @@ USERGE = [
         reply_markup=InlineKeyboardMarkup([[
             InlineKeyboardButton(
                 "Groups and Channels 👥",
-                url=f"{userge_wiki}#join-for-updates--support"
+                url=f"{userge_wiki}"
             )
         ]]),
         description="Join UserGe support Group and Updates Channel.",
@@ -166,12 +166,12 @@ DEPLOYMENT = [
     (
         "Config Vars.",
         "About Config Vars and Explanation.",
-        f"[Config Vars]({deployment}#config-vars)"
+        f"[Config Vars]({deployment}#config-vars--setting-up-vars)"
     ),
     (
         "Branches",
         "Check available Branches in UserGe repo.",
-        f"[Branches]({deployment}#branches-in-userge-repo)"
+        f"[Branches]({deployment}#branches-in-userge-repository)"
     ),
     (
         "Deploy to Heroku",
@@ -215,6 +215,11 @@ VARS = [
         "Heroku Api Key",
         "How to get Heroku Api Key",
         f"[HEROKU_API_KEY]({deployment}#24-heroku_api_key)"
+    ),
+    (
+        "Heroku Session String",
+        "How to get Heroku Session String",
+        f"[HU_STRING_SESSION]({deployment}#1-user-mode)"
     ),
     (
         "Load Unofficial Plugins",
@@ -368,48 +373,47 @@ EXAMPLES = [
 ]
 
 FAQS = [
-    ("What is dual mode?", f"{faqs}#1-what-is-dualmode-"),
-    ("How to get all cmd list?", f"{faqs}#2-how-to-get-all-cmd-list-"),
-    ("How to use a cmd?", f"{faqs}#3-how-to-use-a-cmd-"),
-    ("What is parent id/folder id in gdrive?",
-    f"{faqs}#4-what-is-parent-idfolder-id-in-gdrive-"),
-    ("What is bot mode?", f"{faqs}#5-what-is-bot-mode-"),
-    ("What is sudo?", f"{faqs}#6-what-is-sudo-"),
-    ("How to enable sudo?", f"{faqs}#7-how-to-enable-sudo-"),
-    ("What is dyno saver?", f"{faqs}#8-what-is-dyno-saver--what-is-die-"),
-    ("How to Activate botmode?", f"{faqs}#9-how-to-active-botmode-"),
+    ("How to Setup userge?", f"{faqs}#1-how-to-setup-userge"),
     ("How to Add unofficial plugins?",
-    f"{faqs}#10-how-to-add-unofficial-plugins-"),
-    ("How to Get string Session?", f"{faqs}#11-how-to-get-string-"),
-    ("How to Setup userge?", f"{faqs}#12-how-to-setup-userge-"),
-    ("How to get Help Menu as Buttons?",
-    f"{faqs}#13-how-to-get-help-menu-as-buttons-"),
+    f"{faqs}#2-how-to-add-unofficial-plugins"),
+    ("How to genrate String Session?", f"{faqs}#3-how-to-generate-string-session-"),
+    ("How to get all cmd list?", f"{faqs}#4-how-to-get-all-commands-list"),
+    ("How to use a cmd?", f"{faqs}#5-how-to-use-a-command"),
+    ("What is sudo and how to enable it?", f"{faqs}#6-what-is-sudo-how-to-enable-it"),
+    ("What is parent id/folder id in gdrive?",
+    f"{faqs}#7-what-is-parent-id-folder-id-in-gdrive-how-to-get-it"),
+    ("What is bot mode and how to enable bot mode?",
+    f"{faqs}#8-what-is-bot-mode-how-to-enable-bot-mode"),
+    ("How to get Help Menu as Inline Mode?",
+    f"{faqs}#9-how-to-get-help-menu-as-inline-mode"),
+    ("What is dyno saver and what is .die cmd?",
+    f"{faqs}#10-what-is-dyno-saver-what-is-die-only-for-heroku-users"),
     ("How to add buttons in Notes/Filters?",
-    f"{faqs}#14-how-to-add-buttons-in-notesfilters-"),
+    f"{faqs}#11-how-to-add-buttons-in-notesfilters-"),
     ("How to setup Lydia ?",
-    f"{faqs}#15-how-to-setup-lydia-"),
-    ("What is floodwait?", f"{faqs}#16-what-is-floodwait"),
-    ("How to setup deezloader?", f"{faqs}#17-how-to-setup-deezloader"),
-    ("What is spamwatch?", f"{faqs}#18-what-is-spamwatch"),
+    f"{faqs}#12-how-to-setup-lydia-"),
+    ("What is floodwait?", f"{faqs}#13-what-is-floodwait"),
+    ("How to setup deezloader?", f"{faqs}#14-how-to-setup-deezloader"),
+    ("What is spamwatch?", f"{faqs}#15-what-is-spamwatch"),
     ("How to set your own custom media for .alive?",
-    f"{faqs}#19how-to-set-your-own-custom-media-for-alive"),
+    f"{faqs}#16how-to-set-your-own-custom-media-for-alive"),
     ("How to use YouTube cmd in UserGe?",
-    f"{faqs}#20-how-to-use-youtube-cmd-of-userge-properly"),
-    ("What are index link?", f"{faqs}#21what-are-index-link"),
+    f"{faqs}#17-how-to-use-youtube-cmd-of-userge-properly"),
+    ("What are index link?", f"{faqs}#18what-are-index-link"),
     ("How to send secret message in userge bot ?",
-    f"{faqs}#22how-to-send-secret-message-in-userge-bot-"),
+    f"{faqs}#19how-to-send-secret-message-in-userge-bot-"),
     ("What is the purpose of Worker VAR?",
-    f"{faqs}#23-whats-the-purpose-of-worker-var"),
-    ("How to clear download path?", f"{faqs}#24-how-to-clear-download-path"),
-    ("How to stop autopic?", f"{faqs}#25-how-to-stop-autopic"),
+    f"{faqs}#20-whats-the-purpose-of-worker-var"),
+    ("How to clear download path?", f"{faqs}#21-how-to-clear-download-path"),
+    ("How to stop autopic?", f"{faqs}#22-how-to-stop-autopic"),
     ("How to use upload and download Using userge?",
-    f"{faqs}#26-how-to-use-upload-and-download-feature-of-userge-properly-"),
-    ("How to add media in pm permit?", f"{faqs}#27-how-to-add-media-in-custom-pm-permit"),
+    f"{faqs}#23-how-to-use-upload-and-download-feature-of-userge-properly-"),
+    ("How to add media in pm permit?", f"{faqs}#24-how-to-add-media-in-custom-pm-permit"),
     ("How to delete profile pic in Telegram?",
-    f"{faqs}#28-how-to-delete-all-profile-pic-of-your-telegram-account"),
-    ("How to use spam watch api?", f"{faqs}#29-how-to-use-spam-watch-api"),
-    ("How to update userbot?", f"{faqs}#30-how-to-update-userbot"),
-    ("How to know dyno usage?", f"{faqs}#31-how-to-know-dyno-usage"),
+    f"{faqs}#25-how-to-delete-all-profile-pic-of-your-telegram-account"),
+    ("How to use spam watch api?", f"{faqs}#26-how-to-use-spam-watch-api"),
+    ("How to update userbot?", f"{faqs}#27-how-to-update-userbot"),
+    ("How to know dyno usage?", f"{faqs}#28-how-to-know-dyno-usage"),
     ("File type issue while downloading from direct link?",
-    f"{faqs}#32-file-type-issue-while-downloading-from-direct-link"),
+    f"{faqs}#29-file-type-issue-while-downloading-from-direct-link")
 ]
