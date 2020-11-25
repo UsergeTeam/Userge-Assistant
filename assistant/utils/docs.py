@@ -25,6 +25,13 @@ DEPLOYMENT_THUMB = "https://i.imgur.com/S5lY8fy.png"
 VARS_THUMB = "https://i.imgur.com/dw1lLBX.png"
 EXAMPLE_THUMB = "https://i.imgur.com/NY4uasQ.png"
 FAQS_THUMB = "https://i.imgur.com/b33rM21.png"
+ERRORS_THUMB = "https://i.imgur.com/hv2r4nm.png"
+
+ERROR_1 = "https://telegra.ph/file/1b707364fd2bb0e6a3805.jpg"
+ERROR_2 = "https://telegra.ph/file/28e9365af63d3b509f501.jpg"
+ERROR_3 = "https://telegra.ph/file/aeda709f622f34ae3802d.jpg"
+ERROR_4 = "https://telegra.ph/file/d5f90faff504b334e541f.jpg"
+ERROR_5 = "https://telegra.ph/file/1a286bbd6284f71abfed4.jpg"
 
 userge_wiki = "https://theuserge.github.io/"
 decorators = "https://theuserge.github.io/decorators.html"
@@ -33,6 +40,7 @@ vars = f"{deployment}#list-of-available-vars"
 modes = f"{deployment}#userge-modes"
 examples = "https://theuserge.github.io/examples.html"
 faqs = "https://theuserge.github.io/faq.html"
+errors = "https://theuserge.github.io/errors.html"
 
 HELP = (
     "🤖 **UserGe Assistant**\n\n"
@@ -179,6 +187,11 @@ DEPLOYMENT = [
         f"[Deploy to Heroku]({deployment}#deploying-to-heroku--)"
     ),
     (
+        "Deploy with termux",
+        "Deploy UserGe with Termux.",
+        f"[Deploy with Termux](https://theuserge.github.io/termux.html)"
+    ),
+    (
         "Deploying with Docker",
         "Deploy UserGe using Docker.",
         f"[Deploy with Docker]({deployment}#deploying-with-docker-)"
@@ -187,6 +200,29 @@ DEPLOYMENT = [
         "Deploy With gitPython",
         "Deploy UserGe using gitpython pip.",
         f"[Deploy with gitpython pip]({deployment}#deploying-with-gitpython--pip)"
+    )
+]
+
+ERRORS = [
+    (
+        "description : "Bad request : chat not found"",
+        "#1-description--bad-request--chat-not-found"
+    ),
+    (
+        "ERROR :: Required Command : jq : could not be found !",
+        "#2-error--required-command--jq--could-not-be-found-"
+    ),
+    (
+        "'fatal: bad revision 'HEAD...upstream/master'",
+        "#3-fatal-bad-revision-headupstreammaster"
+    ),
+    (
+        "Error R14 (memory quota exceeded)",
+        "#4-error-r14-memory-quota-exceeded"
+    ),
+    (
+        "GitCommandError",
+        "#5-gitcommanderror"
     )
 ]
 
