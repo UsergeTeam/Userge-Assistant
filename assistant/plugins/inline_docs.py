@@ -234,7 +234,7 @@ async def inline_docs(_, i_q: InlineQuery):
                     photo_url=f"{docs.ERRORS[i][2]}",
                     title=f"{docs.ERRORS[i][0]}",
                     caption=(
-                        f"[{docs.ERRORS[i][0]}]({docs.errors}{docs.ERRORS[i][1]}
+                        f"[{docs.ERRORS[i][0]}]({docs.errors}{docs.ERRORS[i][1]})
                     )
                 )
             )
