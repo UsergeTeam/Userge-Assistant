@@ -8,7 +8,7 @@
 
 from pyrogram.types import (
     InlineQuery, InlineQueryResultArticle, InputTextMessageContent,
-    InlineKeyboardButton, InlineKeyboardMarkup)
+    InlineQueryResultPhoto, InlineKeyboardButton, InlineKeyboardMarkup)
 
 from assistant import bot
 from assistant.utils import docs
@@ -208,6 +208,34 @@ async def inline_docs(_, i_q: InlineQuery):
                         disable_web_page_preview=True
                     ),
                     thumb_url=docs.FAQS_THUMB
+                )
+            )
+    elif query in ["error", "errors"]:
+        results.append(
+            InlineQueryResultArticle(
+                title="Errors and their Fixes",
+                input_message_content=InputTextMessageContent(
+                    f"{docs.intro}"
+                    f"`Online Documentation Page for UserGe-Errors.`"
+                ),
+                reply_markup=InlineKeyboardMarkup([[
+                    InlineKeyboardButton(
+                        "📚 Online docs",
+                        url=docs.errors
+                    )
+                ]]),
+                thumb_url=docs.ERRORS_THUMB,
+            )
+        )
+
+        for i in range(len(docs.ERRORS)):
+            results.append(
+                InlineQueryResultPhoto(
+                    photo_url=f"{docs.ERRORS[i][2]}",
+                    title=f"{docs.ERRORS[i][0]}",
+                    caption=(
+                        f"[{docs.ERRORS[i][0]}]({docs.errors}{docs.ERRORS[i][1]}
+                    )
                 )
             )
     if results:
