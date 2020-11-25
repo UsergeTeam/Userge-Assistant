@@ -215,7 +215,7 @@ ERRORS = [
     ),
     (
         "Error R14 (memory quota exceeded)",
-        "#4-error-r14-memory-quota-exceeded"
+        "#4-error-r14-memory-quota-exceeded",
         "https://telegra.ph/file/d5f90faff504b334e541f.jpg"
     ),
     (
