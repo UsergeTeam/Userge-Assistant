@@ -199,7 +199,7 @@ DEPLOYMENT = [
 
 ERRORS = [
     (
-        "description : "Bad request : chat not found"",
+        "description : Bad request : chat not found",
         "#1-description--bad-request--chat-not-found",
         "https://telegra.ph/file/1b707364fd2bb0e6a3805.jpg"
     ),
