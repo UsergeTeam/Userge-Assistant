@@ -27,12 +27,6 @@ EXAMPLE_THUMB = "https://i.imgur.com/NY4uasQ.png"
 FAQS_THUMB = "https://i.imgur.com/b33rM21.png"
 ERRORS_THUMB = "https://i.imgur.com/hv2r4nm.png"
 
-ERROR_1 = "https://telegra.ph/file/1b707364fd2bb0e6a3805.jpg"
-ERROR_2 = "https://telegra.ph/file/28e9365af63d3b509f501.jpg"
-ERROR_3 = "https://telegra.ph/file/aeda709f622f34ae3802d.jpg"
-ERROR_4 = "https://telegra.ph/file/d5f90faff504b334e541f.jpg"
-ERROR_5 = "https://telegra.ph/file/1a286bbd6284f71abfed4.jpg"
-
 userge_wiki = "https://theuserge.github.io/"
 decorators = "https://theuserge.github.io/decorators.html"
 deployment = "https://theuserge.github.io/deployment.html"
@@ -206,23 +200,28 @@ DEPLOYMENT = [
 ERRORS = [
     (
         "description : "Bad request : chat not found"",
-        "#1-description--bad-request--chat-not-found"
+        "#1-description--bad-request--chat-not-found",
+        "https://telegra.ph/file/1b707364fd2bb0e6a3805.jpg"
     ),
     (
         "ERROR :: Required Command : jq : could not be found !",
-        "#2-error--required-command--jq--could-not-be-found-"
+        "#2-error--required-command--jq--could-not-be-found-",
+        "https://telegra.ph/file/28e9365af63d3b509f501.jpg"
     ),
     (
         "'fatal: bad revision 'HEAD...upstream/master'",
-        "#3-fatal-bad-revision-headupstreammaster"
+        "#3-fatal-bad-revision-headupstreammaster",
+        "https://telegra.ph/file/aeda709f622f34ae3802d.jpg"
     ),
     (
         "Error R14 (memory quota exceeded)",
         "#4-error-r14-memory-quota-exceeded"
+        "https://telegra.ph/file/d5f90faff504b334e541f.jpg"
     ),
     (
         "GitCommandError",
-        "#5-gitcommanderror"
+        "#5-gitcommanderror",
+        "https://telegra.ph/file/1a286bbd6284f71abfed4.jpg"
     )
 ]
 
