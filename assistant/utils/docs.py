@@ -52,7 +52,8 @@ HELP = (
     "`Vars`\n"
     "`Modes`\n"
     "`Example`\n"
-    "`Faqs`"
+    "`Faqs`\n"
+    "`Errors`"
 )
 
 USERGE = [
@@ -173,12 +174,12 @@ DEPLOYMENT = [
     (
         "Branches",
         "Check available Branches in UserGe repo.",
-        f"[Branches]({deployment}#branches-in-userge-repository)"
+        f"[Branches]({deployment}#steps-to-deploy)"
     ),
     (
         "Deploy to Heroku",
         "Directly Deploy to Heroku.",
-        f"[Deploy to Heroku]({deployment}#deploying-to-heroku--)"
+        f"[Deploy to Heroku]({deployment}#deploying-with-heroku)"
     ),
     (
         "Deploy with termux",
@@ -191,9 +192,9 @@ DEPLOYMENT = [
         f"[Deploy with Docker]({deployment}#deploying-with-docker-)"
     ),
     (
-        "Deploy With gitPython",
-        "Deploy UserGe using gitpython pip.",
-        f"[Deploy with gitpython pip]({deployment}#deploying-with-gitpython--pip)"
+        "Deploying with Legacy Method",
+        "Deploying UserGe with Legacy Method.",
+        f"[Deploying with Legacy Method]({deployment}#deploying-with-legacy-method)"
     )
 ]
 
@@ -244,12 +245,12 @@ VARS = [
     (
         "Heroku App Name",
         "How to get Heroku App Name",
-        f"[HEROKU_APP_NAME]({deployment}#25-heroku_app_name)"
+        f"[HEROKU_APP_NAME]({deployment}#24-heroku_app_name)"
     ),
     (
         "Heroku Api Key",
         "How to get Heroku Api Key",
-        f"[HEROKU_API_KEY]({deployment}#24-heroku_api_key)"
+        f"[HEROKU_API_KEY]({deployment}#23-heroku_api_key)"
     ),
     (
         "Heroku Session String",
@@ -362,14 +363,9 @@ VARS = [
         f"[ALIVE_MEDIA]({deployment}#21-alive_media)"
     ),
     (
-        "Insta Id",
-        "What is Insta Id.",
-        f"[INSTA_ID]({deployment}#22-insta_id)"
-    ),
-    (
-        "Insta Pass",
-        "What is Insta Pass.",
-        f"[INSTA_PASS]({deployment}#23-insta_pass)"
+        "Insta Id and Insta Pass",
+        "What is Insta Id and Insta Pass",
+        f"[INSTA_ID & INSTA_PASS]({deployment}#22-insta_id--insta_pass)"
     )
 ]
 
