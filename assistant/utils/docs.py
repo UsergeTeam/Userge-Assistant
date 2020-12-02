@@ -270,7 +270,7 @@ VARS = [
     (
         "Client Id and Client Secret",
         "How to get CLIENT_ID and CLIENT_SECRET",
-        f"[CLIENT_ID and CLIENT_SECRET)]({deployment}#3-g_drive_client_id--g_drive_client_secret)"
+        f"[CLIENT_ID and CLIENT_SECRET]({deployment}#3-g_drive_client_id--g_drive_client_secret)"
     ),
     (
         "G_DRIVE_ID_TD",
