@@ -16,7 +16,7 @@ from pyrogram.types import (
 from assistant import bot, cus_filters
 from assistant.utils import is_admin, is_dev, is_self, sed_sticker
 
-WARN_LIMIT = 5
+WARN_LIMIT = 3
 WARN_MODE = "ban"
 
 DATA = {}
