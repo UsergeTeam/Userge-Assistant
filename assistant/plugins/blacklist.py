@@ -16,9 +16,10 @@ from pyrogram.types import Message, ChatPermissions
 
 from assistant import bot, cus_filters as Filters
 from assistant.plugins.warn import warn as warn_user
+from assistant.utils import check_bot_rights
 
 BLACK_LIST: Dict[int, List[str]] = {}
-BLACKLIST_MODE = "kick"
+BLACKLIST_MODE = "warn"
 
 
 @bot.on_message(
@@ -134,7 +135,8 @@ async def _filter_blacklist(_, msg: Message):
             if re.search(pattern, text, re.IGNORECASE):
                 reason = f"Due to match on {trigger} Blacklisted word."
                 try:
-                    await msg.delete()
+                    if await check_bot_rights(msg.chat.id, "can_delete_messages"):
+                        await msg.delete()
                     if BLACKLIST_MODE == "none":
                         await msg.reply(f"#DELETED\n\n{reason}")
                     elif BLACKLIST_MODE == "warn":
