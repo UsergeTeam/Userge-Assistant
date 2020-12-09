@@ -65,7 +65,7 @@ async def warn(msg: Message, chat_id: int, user_id: int, reason: str = "None"):
             await msg.reply(
                 f"**#WARNED_{exec_str}**\n"
                 f"**{exec_str} User:** {mention}\n"
-                f"**Warn Counts:** 1{w_l}/{w_l} Warnings`\n"
+                f"**Warn Counts:** `{w_l}/{w_l} Warnings`\n"
                 f"**Reason:** `{reason}`")
             DATA.pop(user_id)
 
