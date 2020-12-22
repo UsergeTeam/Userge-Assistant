@@ -32,10 +32,10 @@ async def _add_blacklist(_, msg: Message):
     triggers = list({trigger.strip()
                     for trigger in args.lower().split("\n") if trigger.strip()})
     for word in triggers:
-        if BLACK_LIST.get(msg.chat.id):
-            BLACK_LIST[msg.chat.id].append(word)
+        if BLACK_LIST.get(int(msg.chat.id)):
+            BLACK_LIST[int(msg.chat.id)].append(word)
         else:
-            BLACK_LIST[msg.chat.id] = [word]
+            BLACK_LIST[int(msg.chat.id)] = [word]
     await save_data(DB.BLACKLIST_DATA_ID, json.dumps(BLACK_LIST))
     if len(triggers) == 1:
         out = f"added `{triggers[0]}` to blacklist."
@@ -58,8 +58,8 @@ async def _del_blacklist(_, msg: Message):
     failure = 0
     BLACK_LIST = await load_data(DB.BLACKLIST_DATA_ID)
     for word in triggers:
-        if word in BLACK_LIST.get(msg.chat.id):
-            BLACK_LIST[msg.chat.id].remove(word)
+        if word in BLACK_LIST.get(int(msg.chat.id)):
+            BLACK_LIST[int(msg.chat.id)].remove(word)
             success += 1
         else:
             failure += 1
@@ -83,10 +83,10 @@ async def _del_blacklist(_, msg: Message):
     filters.command("blacklist") & Filters.auth_chats)
 async def _blacklist(_, msg: Message):
     BLACK_LIST = await load_data(DB.BLACKLIST_DATA_ID)
-    if not BLACK_LIST.get(msg.chat.id):
+    if not BLACK_LIST.get(int(msg.chat.id)):
         bl_words = f"`Blacklist empty for {msg.chat.title}`"
     bl_words = f"Blacklist Words in `{msg.chat.title}`:-\n"
-    for trigger in BLACK_LIST.get(msg.chat.id):
+    for trigger in BLACK_LIST.get(int(msg.chat.id)):
         bl_words += f"- `{trigger}`\n"
     await msg.reply(bl_words)
 
@@ -99,24 +99,24 @@ async def _set_blacklist_mode(_, msg: Message):
         return
     _, args = msg.text.split(maxsplit=1)
     BLACKLIST_MODE = await load_data(DB.BLACKLIST_MODE_ID)
-    _MODE = {msg.chat.id: "warn"}
+    _MODE = {int(msg.chat.id): "warn"}
     if 'warn' in args.lower():
-        _MODE = {msg.chat.id: "warn"}
+        _MODE = {int(msg.chat.id): "warn"}
         await msg.reply("`Blacklist Mode Updated to Warn`")
     elif 'ban' in args.lower():
-        _MODE = {msg.chat.id: "ban"}
+        _MODE = {int(msg.chat.id): "ban"}
         await msg.reply("`Blacklist Mode Updated to Ban`")
     elif 'kick' in args.lower():
-        _MODE = {msg.chat.id: "kick"}
+        _MODE = {int(msg.chat.id): "kick"}
         await msg.reply("`Blacklist Mode Updated to Kick`")
     elif 'mute' in args.lower():
-        _MODE = {msg.chat.id: "mute"}
+        _MODE = {int(msg.chat.id): "mute"}
         await msg.reply("`Blacklist Mode Updated to Mute`")
     elif 'off' in args.lower():
-        _MODE = {msg.chat.id: "off"}
+        _MODE = {int(msg.chat.id): "off"}
         await msg.reply("`Blacklist Turned Off...`")
     elif 'del' in args.lower():
-        _MODE = {msg.chat.id: "del"}
+        _MODE = {int(msg.chat.id): "del"}
         await msg.reply("`Now Blacklisted word will only delete.`")
     else:
         await msg.reply("`Invalid arguments, Exiting...`")
@@ -131,7 +131,7 @@ async def _filter_blacklist(_, msg: Message):
     BLACK_LIST = await load_data(DB.BLACKLIST_DATA_ID)
     BLACKLIST_MODE = await load_data(DB.BLACKLIST_MODE_ID)
 
-    if not BLACK_LIST.get(msg.chat.id):
+    if not BLACK_LIST.get(int(msg.chat.id)):
         return
     text = None
     if msg.text:
@@ -139,7 +139,7 @@ async def _filter_blacklist(_, msg: Message):
     elif msg.caption:
         text = msg.caption.lower()
     if text:
-        for trigger in BLACK_LIST.get(msg.chat.id):
+        for trigger in BLACK_LIST.get(int(msg.chat.id)):
             pattern = r"( |^|[^\w])" + re.escape(trigger) + r"( |$|[^\w])"
             if re.search(pattern, text, re.IGNORECASE):
                 reason = f"Due to match on {trigger} Blacklisted word."
