@@ -24,7 +24,7 @@ async def warn(msg: Message, chat_id: int, user_id: int, reason: str = "None"):
 
     w_l = (await load_data(DB.WARN_LIMIT_ID)).get(msg.chat.id)
     w_m = (await load_data(DB.WARN_MODE_ID)).get(msg.chat.id)
-    DATA = await load_data(DB.WARN_DATA_ID)
+    DATA = (await load_data(DB.WARN_DATA_ID)).get(msg.chat.id)
 
     if not DATA.get(user_id):
         w_d = {
@@ -112,7 +112,7 @@ async def _warn_user(_, msg: Message):
 @bot.on_callback_query(filters.regex(pattern=r"rm_warn\((.+?)\)"))
 async def remove_warn(_, c_q: CallbackQuery):
     user_id = int(c_q.matches[0].group(1))
-    DATA = await load_data(DB.WARN_DATA_ID)
+    DATA = (await load_data(DB.WARN_DATA_ID)).get(c_q.message.chat.id)
     if is_admin(c_q.message.chat.id, c_q.from_user.id, check_devs=True):
         if DATA.get(user_id):
             up_l = DATA[user_id]['limit'] - 1  # up_l = updated limit
@@ -141,28 +141,30 @@ async def _set_warn_mode_and_limit(_, msg: Message):
         await msg.reply("`Input not found!`")
         return
     _, args = msg.text.split(maxsplit=1)
-    WARN_MODE = {msg.chat.id: 'ban'}
-    WARN_LIMIT = {msg.chat.id: 3}
+    WARN_MODE = await load_data(DB.WARN_MODE_ID)
+    WARN_LIMIT = await load_data(DB.WARN_LIMIT_ID)
+    _MODE = {msg.chat.id: 'ban'}
+    _LIMIT = {msg.chat.id: 3}
     if 'ban' in args.lower():
-        WARN_MODE = {msg.chat.id: 'ban'}
+        _MODE = {msg.chat.id: 'ban'}
         await msg.reply("`Warning Mode Updated to Ban`")
     elif 'kick' in args.lower():
-        WARN_MODE = {msg.chat.id: 'kick'}
+        _MODE = {msg.chat.id: 'kick'}
         await msg.reply("`Warning Mode Updated to Kick`")
     elif 'mute' in args.lower():
-        WARN_MODE = {msg.chat.id: 'mute'}
+        _MODE = {msg.chat.id: 'mute'}
         await msg.reply("`Warning Mode Updated to Mute`")
     elif args[0].isnumeric():
         input_ = int(args[0])
         if input_ < 3:
             await msg.reply("`Can't Warn Limit less then 3`")
             return
-        WARN_LIMIT = {msg.chat.id: input_}
+        _LIMIT = {msg.chat.id: input_}
         await msg.reply(f"`Warn limit Updated to {input_} Warns.`")
     else:
         await msg.reply("`invalid arguments, exiting...`")
-    await save_data(DB.WARN_MODE_ID, json.dumps(WARN_MODE))
-    await save_data(DB.WARN_LIMIT_ID, json.dumps(WARN_LIMIT))
+    await save_data(DB.WARN_MODE_ID, json.dumps(WARN_MODE.update(_MODE)))
+    await save_data(DB.WARN_LIMIT_ID, json.dumps(WARN_LIMIT.update(_LIMIT)))
 
 
 @bot.on_message(
@@ -180,7 +182,7 @@ async def _reset_all_warns(_, msg: Message):
     if is_admin(msg.chat.id, user_id):
         await msg.reply("`He is admin, I never Warned him.`")
         return
-    DATA = await load_data(DB.WARN_DATA_ID)
+    DATA = (await load_data(DB.WARN_DATA_ID)).get(msg.chat.id)
     if DATA.get(user_id):
         DATA.pop(user_id)
         await save_data(DB.WARN_DATA_ID, json.dumps(DATA))
