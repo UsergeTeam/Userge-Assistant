@@ -163,8 +163,10 @@ async def _set_warn_mode_and_limit(_, msg: Message):
         await msg.reply(f"`Warn limit Updated to {input_} Warns.`")
     else:
         await msg.reply("`invalid arguments, exiting...`")
-    await save_data(DB.WARN_MODE_ID, json.dumps(WARN_MODE.update(_MODE)))
-    await save_data(DB.WARN_LIMIT_ID, json.dumps(WARN_LIMIT.update(_LIMIT)))
+    WARN_MODE.update(_MODE)
+    WARN_LIMIT.update(_LIMIT)
+    await save_data(DB.WARN_MODE_ID, json.dumps(WARN_MODE))
+    await save_data(DB.WARN_LIMIT_ID, json.dumps(WARN_LIMIT))
 
 
 @bot.on_message(
