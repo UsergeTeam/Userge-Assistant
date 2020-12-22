@@ -141,8 +141,8 @@ async def _set_warn_mode_and_limit(_, msg: Message):
         await msg.reply("`Input not found!`")
         return
     _, args = msg.text.split(maxsplit=1)
-    WARN_MODE = "ban"
-    WARN_LIMIT = 3
+    WARN_MODE = {msg.chat.id: 'ban'}
+    WARN_LIMIT = {msg.chat.id: 3}
     if 'ban' in args.lower():
         WARN_MODE = {msg.chat.id: 'ban'}
         await msg.reply("`Warning Mode Updated to Ban`")
