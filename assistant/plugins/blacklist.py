@@ -8,28 +8,27 @@
 
 import re
 import time
+import json
 import asyncio
 
 from typing import Dict, List
 from pyrogram import filters
 from pyrogram.types import Message, ChatPermissions
 
-from assistant import bot, cus_filters as Filters
+from assistant import bot, cus_filters as Filters, DB, save_data, load_data
 from assistant.plugins.warn import warn as warn_user
 from assistant.utils import check_bot_rights
-
-BLACK_LIST: Dict[int, List[str]] = {}
-BLACKLIST_MODE = "warn"
 
 
 @bot.on_message(
     filters.command("addblacklist") & Filters.auth_chats & Filters.auth_users)
 async def _add_blacklist(_, msg: Message):
-    global BLACK_LIST  # pylint: disable=global-statement
     if msg.text and len(msg.text) == 13:
         await msg.reply("`Input not found...`")
         return
     _, args = msg.text.split(maxsplit=1)
+
+    BLACK_LIST = await load_data(DB.BLACKLIST_DATA_ID)
     triggers = list({trigger.strip()
                     for trigger in args.lower().split("\n") if trigger.strip()})
     for word in triggers:
@@ -37,6 +36,7 @@ async def _add_blacklist(_, msg: Message):
             BLACK_LIST[msg.chat.id].append(word)
         else:
             BLACK_LIST[msg.chat.id] = [word]
+    await save_data(DB.BLACKLIST_DATA_ID, json.dumps(BLACK_LIST))
     if len(triggers) == 1:
         out = f"added `{triggers[0]}` to blacklist."
     else:
@@ -56,12 +56,14 @@ async def _del_blacklist(_, msg: Message):
                     for trigger in args.split("\n") if trigger.strip()})
     success = 0
     failure = 0
+    BLACK_LIST = await load_data(DB.BLACKLIST_DATA_ID)
     for word in triggers:
         if word in BLACK_LIST.get(msg.chat.id):
             BLACK_LIST[msg.chat.id].remove(word)
             success += 1
         else:
             failure += 1
+    await save_data(DB.BLACKLIST_DATA_ID, json.dumps(BLACK_LIST))
     if len(triggers) == 1:
         if success:
             out = f"`{triggers[0]}` deleted from blacklist."
@@ -80,6 +82,7 @@ async def _del_blacklist(_, msg: Message):
 @bot.on_message(
     filters.command("blacklist") & Filters.auth_chats)
 async def _blacklist(_, msg: Message):
+    BLACK_LIST = await load_data(DB.BLACKLIST_DATA_ID)
     if not BLACK_LIST.get(msg.chat.id):
         bl_words = f"`Blacklist empty for {msg.chat.title}`"
     bl_words = f"Blacklist Words in `{msg.chat.title}`:-\n"
@@ -91,37 +94,41 @@ async def _blacklist(_, msg: Message):
 @bot.on_message(
     filters.command("setblacklist") & Filters.auth_chats & Filters.auth_users)
 async def _set_blacklist_mode(_, msg: Message):
-    global BLACKLIST_MODE  # pylint: disable=global-statement
     if msg.text and len(msg.text) == 13:
         await msg.reply("`Input not found...`")
         return
     _, args = msg.text.split(maxsplit=1)
+    BLACKLIST_MODE = {msg.chat.id: "warn"}
     if 'warn' in args.lower():
-        BLACKLIST_MODE = "warn"
+        BLACKLIST_MODE = {msg.chat.id: "warn"}
         await msg.reply("`Blacklist Mode Updated to Warn`")
     elif 'ban' in args.lower():
-        BLACKLIST_MODE = "ban"
+        BLACKLIST_MODE = {msg.chat.id: "ban"}
         await msg.reply("`Blacklist Mode Updated to Ban`")
     elif 'kick' in args.lower():
-        BLACKLIST_MODE = "kick"
+        BLACKLIST_MODE = {msg.chat.id: "kick"}
         await msg.reply("`Blacklist Mode Updated to Kick`")
     elif 'mute' in args.lower():
-        BLACKLIST_MODE = "mute"
+        BLACKLIST_MODE = {msg.chat.id: "mute"}
         await msg.reply("`Blacklist Mode Updated to Mute`")
     elif 'off' in args.lower():
-        BLACKLIST_MODE = "off"
+        BLACKLIST_MODE = {msg.chat.id: "off"}
         await msg.reply("`Blacklist Turned Off...`")
-    elif 'none' in args.lower():
-        BLACKLIST_MODE = "none"
+    elif 'del' in args.lower():
+        BLACKLIST_MODE = {msg.chat.id: "del"}
         await msg.reply("`Now Blacklisted word will only delete.`")
     else:
         await msg.reply("`Invalid arguments, Exiting...`")
+    await save_data(DB.BLACKLIST_MODE_ID, json.dumps(BLACKLIST_MODE))
 
 
 @bot.on_message(
     filters.incoming & ~filters.edited & Filters.auth_chats & ~Filters.auth_users, group=1
 )
 async def _filter_blacklist(_, msg: Message):
+    BLACK_LIST = await load_data(DB.BLACKLIST_DATA_ID)
+    BLACKLIST_MODE = await load_data(DB.BLACKLIST_MODE_ID)
+
     if not BLACK_LIST.get(msg.chat.id):
         return
     text = None
@@ -137,8 +144,9 @@ async def _filter_blacklist(_, msg: Message):
                 try:
                     if await check_bot_rights(msg.chat.id, "can_delete_messages"):
                         await msg.delete()
-                    if BLACKLIST_MODE == "none":
-                        await msg.reply(f"#DELETED\n\n{reason}")
+                    if BLACKLIST_MODE == "del":
+                        if await check_bot_rights(msg.chat.id, "can_delete_messages"):
+                            await msg.reply(f"#DELETED\n\n{reason}")
                     elif BLACKLIST_MODE == "warn":
                         await warn_user(msg, msg.chat.id, msg.from_user.id, reason)
                     elif BLACKLIST_MODE == "ban":

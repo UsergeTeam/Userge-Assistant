@@ -7,27 +7,25 @@
 # All rights reserved.
 
 import time
+import json
 
 from pyrogram import filters
 from pyrogram.types import (
     Message, CallbackQuery, ChatPermissions,
     InlineKeyboardMarkup, InlineKeyboardButton)
 
-from assistant import bot, cus_filters
+from assistant import bot, cus_filters, DB, save_data, load_data
 from assistant.utils import is_admin, is_dev, is_self, sed_sticker
-
-WARN_LIMIT = 3
-WARN_MODE = "ban"
-
-DATA = {}
 
 
 async def warn(msg: Message, chat_id: int, user_id: int, reason: str = "None"):
     replied = msg.reply_to_message or msg
     mention = f"[{replied.from_user.first_name}](tg://user?id={user_id})"
 
-    w_l = WARN_LIMIT
-    w_m = WARN_MODE
+    w_l = (await load_data(DB.WARN_LIMIT_ID)).get(msg.chat.id)
+    w_m = (await load_data(DB.WARN_MODE_ID)).get(msg.chat.id)
+    DATA = await load_data(DB.WARN_DATA_ID)
+
     if not DATA.get(user_id):
         w_d = {
             'limit': 1,
@@ -84,6 +82,7 @@ async def warn(msg: Message, chat_id: int, user_id: int, reason: str = "None"):
             r_t = f"**#Warned**\n{mention} `has {nw_l}/{w_l} warnings.`\n"
             r_t += f"**Reason:** `{reason}`"   # r_t = reply text
             await replied.reply_text(r_t, reply_markup=keyboard)
+    await save_data(DB.WARN_DATA_ID, json.dumps(DATA))
 
 
 @bot.on_message(
@@ -113,6 +112,7 @@ async def _warn_user(_, msg: Message):
 @bot.on_callback_query(filters.regex(pattern=r"rm_warn\((.+?)\)"))
 async def remove_warn(_, c_q: CallbackQuery):
     user_id = int(c_q.matches[0].group(1))
+    DATA = await load_data(DB.WARN_DATA_ID)
     if is_admin(c_q.message.chat.id, c_q.from_user.id, check_devs=True):
         if DATA.get(user_id):
             up_l = DATA[user_id]['limit'] - 1  # up_l = updated limit
@@ -121,6 +121,7 @@ async def remove_warn(_, c_q: CallbackQuery):
                 del DATA[user_id]['reason'][-1]
             else:
                 DATA.pop(user_id)
+            await save_data(DB.WARN_DATA_ID, json.dumps(DATA))
             text = f"[{c_q.from_user.first_name}](tg://user?id={c_q.from_user.id})"
             text += " `removed this Warn.`"
             await c_q.edit_message_text(text)
@@ -129,36 +130,39 @@ async def remove_warn(_, c_q: CallbackQuery):
                 "This User already not have any Warn.")
     else:
         await c_q.answer(
-            "Only Admins Can Remove this Warn", show_alert=True)
+            "Only Admins can remove this Warn", show_alert=True)
 
 
 @bot.on_message(
     filters.command("setwarn") & cus_filters.auth_chats & cus_filters.auth_users)
 async def _set_warn_mode_and_limit(_, msg: Message):
-    global WARN_MODE, WARN_LIMIT  # pylint: disable=global-statement
     cmd = len(msg.text)
     if msg.text and cmd == 8:
         await msg.reply("`Input not found!`")
         return
     _, args = msg.text.split(maxsplit=1)
+    WARN_MODE = "ban"
+    WARN_LIMIT = 3
     if 'ban' in args.lower():
-        WARN_MODE = "ban"
+        WARN_MODE = {msg.chat.id: 'ban'}
         await msg.reply("`Warning Mode Updated to Ban`")
     elif 'kick' in args.lower():
-        WARN_MODE = "kick"
+        WARN_MODE = {msg.chat.id: 'kick'}
         await msg.reply("`Warning Mode Updated to Kick`")
     elif 'mute' in args.lower():
-        WARN_MODE = "mute"
+        WARN_MODE = {msg.chat.id: 'mute'}
         await msg.reply("`Warning Mode Updated to Mute`")
     elif args[0].isnumeric():
         input_ = int(args[0])
         if input_ < 3:
             await msg.reply("`Can't Warn Limit less then 3`")
             return
-        WARN_LIMIT = input_
+        WARN_LIMIT = {msg.chat.id: input_}
         await msg.reply(f"`Warn limit Updated to {input_} Warns.`")
     else:
-        await msg.reply("`Invalid arguments, Exiting...`")
+        await msg.reply("`invalid arguments, exiting...`")
+    await save_data(DB.WARN_MODE_ID, json.dumps(WARN_MODE))
+    await save_data(DB.WARN_LIMIT_ID, json.dumps(WARN_LIMIT))
 
 
 @bot.on_message(
@@ -176,8 +180,10 @@ async def _reset_all_warns(_, msg: Message):
     if is_admin(msg.chat.id, user_id):
         await msg.reply("`He is admin, I never Warned him.`")
         return
+    DATA = await load_data(DB.WARN_DATA_ID)
     if DATA.get(user_id):
         DATA.pop(user_id)
+        await save_data(DB.WARN_DATA_ID, json.dumps(DATA))
         await msg.reply("`All Warns are removed for this User.`")
     else:
         await msg.reply("`User already not have any warn.`")
@@ -203,6 +209,7 @@ async def _check_warns_of_user(_, msg: Message):
     if replied and not is_admin(msg.chat.id, msg.from_user.id, check_devs=True):
         await msg.reply("`You can Only see your Warnings.`")
         return
+    DATA = await load_data(DB.WARN_DATA_ID)
     if DATA.get(user_id):
         w_c = DATA[user_id]['limit']  # warn counts
         reason = '\n'.join(DATA[user_id]['reason'])
