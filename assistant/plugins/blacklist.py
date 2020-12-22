@@ -98,28 +98,29 @@ async def _set_blacklist_mode(_, msg: Message):
         await msg.reply("`Input not found...`")
         return
     _, args = msg.text.split(maxsplit=1)
-    BLACKLIST_MODE = {msg.chat.id: "warn"}
+    BLACKLIST_MODE = await load_data(DB.BLACKLIST_MODE_ID)
+    _MODE = {msg.chat.id: "warn"}
     if 'warn' in args.lower():
-        BLACKLIST_MODE = {msg.chat.id: "warn"}
+        _MODE = {msg.chat.id: "warn"}
         await msg.reply("`Blacklist Mode Updated to Warn`")
     elif 'ban' in args.lower():
-        BLACKLIST_MODE = {msg.chat.id: "ban"}
+        _MODE = {msg.chat.id: "ban"}
         await msg.reply("`Blacklist Mode Updated to Ban`")
     elif 'kick' in args.lower():
-        BLACKLIST_MODE = {msg.chat.id: "kick"}
+        _MODE = {msg.chat.id: "kick"}
         await msg.reply("`Blacklist Mode Updated to Kick`")
     elif 'mute' in args.lower():
-        BLACKLIST_MODE = {msg.chat.id: "mute"}
+        _MODE = {msg.chat.id: "mute"}
         await msg.reply("`Blacklist Mode Updated to Mute`")
     elif 'off' in args.lower():
-        BLACKLIST_MODE = {msg.chat.id: "off"}
+        _MODE = {msg.chat.id: "off"}
         await msg.reply("`Blacklist Turned Off...`")
     elif 'del' in args.lower():
-        BLACKLIST_MODE = {msg.chat.id: "del"}
+        _MODE = {msg.chat.id: "del"}
         await msg.reply("`Now Blacklisted word will only delete.`")
     else:
         await msg.reply("`Invalid arguments, Exiting...`")
-    await save_data(DB.BLACKLIST_MODE_ID, json.dumps(BLACKLIST_MODE))
+    await save_data(DB.BLACKLIST_MODE_ID, json.dumps(BLACKLIST_MODE.update(_MODE)))
 
 
 @bot.on_message(
