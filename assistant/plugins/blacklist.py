@@ -120,8 +120,8 @@ async def _set_blacklist_mode(_, msg: Message):
         await msg.reply("`Now Blacklisted word will only delete.`")
     else:
         await msg.reply("`Invalid arguments, Exiting...`")
-    data = BLACKLIST_MODE.update(_MODE)
-    await save_data(DB.BLACKLIST_MODE_ID, json.dumps(data))
+    BLACKLIST_MODE.update(_MODE)
+    await save_data(DB.BLACKLIST_MODE_ID, json.dumps(BLACKLIST_MODE))
 
 
 @bot.on_message(
