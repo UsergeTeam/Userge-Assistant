@@ -33,8 +33,8 @@ async def warn(msg: Message, chat_id: int, user_id: int, reason: str = "None"):
     ):
         w_lt[str(chat_id)] = 3
         w_me[str(chat_id)] = "ban"
-    w_l = w_lt.get(str(chat_id)
-    w_m = w_me.get(str(chat_id)
+    w_l = w_lt.get(str(chat_id))
+    w_m = w_me.get(str(chat_id))
     if not DATA[str(chat_id)].get(str(user_id)):
         w_d = {
             'limit': 1,
