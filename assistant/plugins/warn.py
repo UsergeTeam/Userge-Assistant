@@ -64,12 +64,12 @@ async def warn(msg: Message, chat_id: int, user_id: int, reason: str = "None"):
                 await bot.restrict_chat_member(
                     chat_id, user_id, ChatPermissions())
                 exec_str = 'MUTED'
-            reason = ('\n'.join(DATA[str(user_id)]['reason']) + '\n' + str(args))
+            reasons = ('\n'.join(DATA[str(user_id)]['reason']) + '\n' + str(reason))
             await msg.reply(
                 f"**#WARNED_{exec_str}**\n"
                 f"**{exec_str} User:** {mention}\n"
                 f"**Warn Counts:** `{nw_l}/{w_l} Warnings`\n"
-                f"**Reason:** `{reason}`")
+                f"**Reason:** `{reasons}`")
             DATA.pop(str(user_id))
 
         else:
