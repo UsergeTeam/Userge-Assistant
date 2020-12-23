@@ -136,7 +136,7 @@ async def _set_blacklist_mode(_, msg: Message):
 async def _filter_blacklist(_, msg: Message):
     chat_id = str(msg.chat.id)
     BLACK_LIST = await load_data(DB.BLACKLIST_DATA_ID)
-    BLACKLIST_MODE = await load_data(DB.BLACKLIST_MODE_ID))
+    BLACKLIST_MODE = await load_data(DB.BLACKLIST_MODE_ID)
     if BLACKLIST_MODE.get(chat_id) is None:
         _MODE = {chat_id: "warn"}
     BLACKLIST_MODE.update(_MODE)
