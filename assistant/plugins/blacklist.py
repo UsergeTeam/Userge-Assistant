@@ -152,7 +152,7 @@ async def _filter_blacklist(_, msg: Message):
         for trigger in BLACK_LIST.get(chat_id):
             pattern = r"( |^|[^\w])" + re.escape(trigger) + r"( |$|[^\w])"
             if re.search(pattern, text, re.IGNORECASE):
-                reason = f"Due to match on **{trigger}** Blacklisted word."
+                reason = f"Due to match on {trigger} Blacklisted word."
                 try:
                     if await check_bot_rights(msg.chat.id, "can_delete_messages"):
                         await msg.delete()
