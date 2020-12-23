@@ -28,7 +28,9 @@ async def warn(msg: Message, chat_id: int, user_id: int, reason: str = "None"):
 
     if not DATA.get(str(chat_id)):
         DATA[str(chat_id)] = {}
-    if not (w_lt.get(str(chat_id) or w_me.get(str(chat_id)):
+    if not (
+        w_lt.get(str(chat_id)) or w_me.get(str(chat_id))
+    ):
         w_lt[str(chat_id)] = 3
         w_me[str(chat_id)] = "ban"
     w_l = w_lt.get(str(chat_id)
