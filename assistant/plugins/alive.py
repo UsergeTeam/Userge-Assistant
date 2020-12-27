@@ -11,8 +11,7 @@ import random
 
 from pyrogram import filters
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
-from pyrogram.errors.exceptions import FileIdInvalid, FileReferenceEmpty
-from pyrogram.errors.exceptions.bad_request_400 import BadRequest
+from pyrogram.errors import FileIdInvalid, FileReferenceEmpty, BadRequest
 
 from assistant import bot, cus_filters, versions
 from assistant.bot import START_TIME
@@ -37,7 +36,7 @@ async def _refresh_data():
         if not msg.animation:
             continue
         gif = msg.animation
-        LOGO_DATA.append((gif.file_id, gif.file_ref))
+        LOGO_DATA.append(gif.file_id)
 
 
 async def _sendit(chat_id):
@@ -61,9 +60,8 @@ async def _sendit(chat_id):
             ]
         ]
     )
-    file_id, file_ref = random.choice(LOGO_DATA)
+    file_id = random.choice(LOGO_DATA)
     await bot.send_animation(chat_id=chat_id,
                              animation=file_id,
-                             file_ref=file_ref,
                              caption=caption,
                              reply_markup=button)

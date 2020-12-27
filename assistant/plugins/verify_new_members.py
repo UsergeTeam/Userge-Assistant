@@ -31,10 +31,11 @@ async def _verify_msg_(_, msg: Message):
         except Exception:
             pass
         if member.is_bot or not await check_bot_rights(chat_id, "can_restrict_members"):
-            file_id, file_ref, text, buttons = await wc_msg(member)
+            file_id, text, buttons = await wc_msg(member)
             reply = await msg.reply_animation(
-                animation=file_id, file_ref=file_ref,
-                caption=text, reply_markup=buttons
+                animation=file_id,
+                caption=text,
+                reply_markup=buttons
             )
             await asyncio.sleep(120)
             await reply.delete()
@@ -89,7 +90,6 @@ async def wc_msg(user):
     """ arguments and reply_markup for sending after verify """
     gif = await bot.get_messages("UserGeOt", 510608)
     file_id = gif.animation.file_id
-    file_ref = gif.animation.file_ref
     text = f""" **Welcome** {user.mention},
 __Check out the Button below. and feel free to ask here.__ 🤘 """
     buttons = InlineKeyboardMarkup(
@@ -102,7 +102,7 @@ __Check out the Button below. and feel free to ask here.__ 🤘 """
             ]
         ]
     )
-    return file_id, file_ref, text, buttons
+    return file_id, text, buttons
 
 
 @bot.on_callback_query(filters.regex(pattern=r"verify_cq\((.+?)\)"))
@@ -113,11 +113,10 @@ async def _verify_user_(_, c_q: CallbackQuery):
     if c_q.from_user.id == user_id:
         await c_q.message.delete()
         await bot.unban_chat_member(c_q.message.chat.id, user_id)
-        file_id, file_ref, text, buttons = await wc_msg(await bot.get_users(user_id))
+        file_id, text, buttons = await wc_msg(await bot.get_users(user_id))
         msg = await bot.send_animation(
             c_q.message.chat.id,
             animation=file_id,
-            file_ref=file_ref,
             caption=text, reply_markup=buttons,
             reply_to_message_id=msg_id
         )
@@ -151,11 +150,10 @@ async def _on_joined_unmute_(_, c_q: CallbackQuery):
             else:
                 await c_q.message.delete()
                 await bot.unban_chat_member(c_q.message.chat.id, user_id)
-                f_d, f_r, txt, btns = await wc_msg(user)
+                f_d, txt, btns = await wc_msg(user)
                 msg = await bot.send_animation(
                     c_q.message.chat.id,
                     animation=f_d,
-                    file_ref=f_r,
                     caption=txt, reply_markup=btns,
                     reply_to_message_id=msg_id
                 )

@@ -563,6 +563,9 @@ async def _unpin(_, msg: Message):
         await sed_sticker(msg)
         return
     try:
-        await bot.unpin_chat_message(chat_id)
+        if msg.reply_to_message:
+            await bot.unpin_chat_message(chat_id, message.reply_to_message.message_id)
+        else:
+            await bot.unpin_all_chat_messages(chat_id)
     except Exception as e_f:  # pylint: disable=broad-except
         await msg.reply(f"`Something went wrong! 🤔`\n\n**ERROR:** `{e_f}`")
