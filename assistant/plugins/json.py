@@ -6,14 +6,16 @@
 #
 # All rights reserved.
 
-from pyrogram import filters
-from pyrogram.types import Message
+__commands__ = ["json"]
 
-from assistant import bot, cus_filters, Config
+from assistant import bot, Config, Message
 
 
-@bot.on_message(filters.command("json") & cus_filters.auth_chats & cus_filters.auth_users)
-async def _json(_, message: Message):
+@bot.on_cmd("json", about={
+    'description': "Check json of message",
+    'usage': "/json\n/json [reply to message]"
+}, admin_only=True)
+async def _json(message: Message):
     msg = str(message.reply_to_message) if message.reply_to_message else str(message)
     if len(msg) > Config.MAX_MSG_LENGTH:
         await message.reply("`too large !`")

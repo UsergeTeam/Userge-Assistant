@@ -6,15 +6,16 @@
 #
 # All rights reserved.
 
-from pyrogram import filters
-from pyrogram.types import Message
+__commands__ = ["report"]
 
-from assistant import bot, cus_filters, Config
+from assistant import bot, Config, Message
 from assistant.utils import is_self, is_admin, is_dev
 
 
-@bot.on_message(filters.command("report") & cus_filters.auth_chats)
-async def _report(_, msg: Message):
+@bot.on_cmd("report", about={
+    'description': "Report to admins",
+    'usage': "/report [reply to message] [reason]"})
+async def _report(msg: Message):
     replied = msg.reply_to_message
     if not replied:
         return

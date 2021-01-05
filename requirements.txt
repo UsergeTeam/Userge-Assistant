@@ -2,3 +2,4 @@ aiofiles
 aiohttp
 pyrogram==1.1.6
 python-dotenv
+TgCrypto

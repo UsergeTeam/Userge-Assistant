@@ -6,15 +6,16 @@
 #
 # All rights reserved.
 
+__commands__ = ["warn", "setwarn", "resetwarn", "warns"]
+
 import time
 import json
 
-from pyrogram import filters
 from pyrogram.types import (
-    Message, CallbackQuery, ChatPermissions,
+    CallbackQuery, ChatPermissions,
     InlineKeyboardMarkup, InlineKeyboardButton)
 
-from assistant import bot, cus_filters, DB, save_data, load_data
+from assistant import bot, filters, Message
 from assistant.utils import is_admin, is_dev, is_self, sed_sticker
 
 
@@ -22,9 +23,9 @@ async def warn(msg: Message, chat_id: int, user_id: int, reason: str = "None"):
     replied = msg.reply_to_message or msg
     mention = f"[{replied.from_user.first_name}](tg://user?id={user_id})"
 
-    w_lt = await load_data(DB.WARN_LIMIT_ID)
-    w_me = await load_data(DB.WARN_MODE_ID)
-    DATA = await load_data(DB.WARN_DATA_ID)
+    w_lt = await bot.load_data(bot.WARN_LIMIT_ID)
+    w_me = await bot.load_data(bot.WARN_MODE_ID)
+    DATA = await bot.load_data(bot.WARN_DATA_ID)
 
     if not DATA.get(str(chat_id)):
         DATA[str(chat_id)] = {}
@@ -91,14 +92,16 @@ async def warn(msg: Message, chat_id: int, user_id: int, reason: str = "None"):
             r_t = f"**#Warned**\n{mention} `has {nw_l}/{w_l} warnings.`\n"
             r_t += f"**Reason:** `{reason}`"   # r_t = reply text
             await replied.reply_text(r_t, reply_markup=keyboard)
-    await save_data(DB.WARN_DATA_ID, json.dumps(DATA))
-    await save_data(DB.WARN_MODE_ID, json.dumps(w_me))
-    await save_data(DB.WARN_LIMIT_ID, json.dumps(w_lt))
+    await bot.save_data(bot.WARN_DATA_ID, json.dumps(DATA))
+    await bot.save_data(bot.WARN_MODE_ID, json.dumps(w_me))
+    await bot.save_data(bot.WARN_LIMIT_ID, json.dumps(w_lt))
 
 
-@bot.on_message(
-    filters.command("warn") & cus_filters.auth_chats & cus_filters.auth_users)
-async def _warn_user(_, msg: Message):
+@bot.on_cmd("warn", about={
+    'description': "Warn user in Supergroup.",
+    'usage': "/warn [reply to user] [reason: optional]"
+}, admin_only=True)
+async def _warn_user(msg: Message):
     replied = msg.reply_to_message
     if not replied:
         return
@@ -123,7 +126,7 @@ async def _warn_user(_, msg: Message):
 @bot.on_callback_query(filters.regex(pattern=r"rm_warn\((.+?)\)"))
 async def remove_warn(_, c_q: CallbackQuery):
     user_id = str(c_q.matches[0].group(1))
-    DATA = await load_data(DB.WARN_DATA_ID)
+    DATA = await bot.load_data(bot.WARN_DATA_ID)
     if is_admin(c_q.message.chat.id, c_q.from_user.id, check_devs=True):
         if DATA.get(str(c_q.message.chat.id)) is None:
             await c_q.edit_message_text(
@@ -136,7 +139,7 @@ async def remove_warn(_, c_q: CallbackQuery):
                 del DATA[str(c_q.message.chat.id)][user_id]['reason'][-1]
             else:
                 DATA[str(c_q.message.chat.id)].pop(user_id)
-            await save_data(DB.WARN_DATA_ID, json.dumps(DATA))
+            await bot.save_data(bot.WARN_DATA_ID, json.dumps(DATA))
             text = f"[{c_q.from_user.first_name}](tg://user?id={c_q.from_user.id})"
             text += " `removed this Warn.`"
             await c_q.edit_message_text(text)
@@ -148,17 +151,20 @@ async def remove_warn(_, c_q: CallbackQuery):
             "Only Admins can remove this Warn", show_alert=True)
 
 
-@bot.on_message(
-    filters.command("setwarn") & cus_filters.auth_chats & cus_filters.auth_users)
-async def _set_warn_mode_and_limit(_, msg: Message):
+@bot.on_cmd("setwarn", about={
+    'description': "Set Warn mode or Warn limit.",
+    'usage': ["/setwarn [warn limit]", "/setwarn [warn mode]"],
+    'examples': ["/setwarn 5", "/setwarn ban"]
+}, admin_only=True)
+async def _set_warn_mode_and_limit(msg: Message):
     chat_id = str(msg.chat.id)
     cmd = len(msg.text)
     if msg.text and cmd == 8:
         await msg.reply("`Input not found!`")
         return
     _, args = msg.text.split(maxsplit=1)
-    WARN_MODE = await load_data(DB.WARN_MODE_ID)
-    WARN_LIMIT = await load_data(DB.WARN_LIMIT_ID)
+    WARN_MODE = await bot.load_data(bot.WARN_MODE_ID)
+    WARN_LIMIT = await bot.load_data(bot.WARN_LIMIT_ID)
     _MODE = {chat_id: 'ban'}
     _LIMIT = {chat_id: 3}
     if 'ban' in args.lower():
@@ -173,7 +179,7 @@ async def _set_warn_mode_and_limit(_, msg: Message):
     elif args[0].isnumeric():
         input_ = int(args[0])
         if input_ < 3:
-            await msg.reply("`Can't Warn Limit less then 3`")
+            await msg.reply("`Can't set Warn Limit less then 3`")
             return
         _LIMIT = {chat_id: input_}
         await msg.reply(f"`Warn limit Updated to {input_} Warns.`")
@@ -181,13 +187,15 @@ async def _set_warn_mode_and_limit(_, msg: Message):
         await msg.reply("`invalid arguments, exiting...`")
     WARN_MODE.update(_MODE)
     WARN_LIMIT.update(_LIMIT)
-    await save_data(DB.WARN_MODE_ID, json.dumps(WARN_MODE))
-    await save_data(DB.WARN_LIMIT_ID, json.dumps(WARN_LIMIT))
+    await bot.save_data(bot.WARN_MODE_ID, json.dumps(WARN_MODE))
+    await bot.save_data(bot.WARN_LIMIT_ID, json.dumps(WARN_LIMIT))
 
 
-@bot.on_message(
-    filters.command("resetwarn") & cus_filters.auth_chats & cus_filters.auth_users)
-async def _reset_all_warns(_, msg: Message):
+@bot.on_cmd("resetwarn", about={
+    'description': "Reset all Warns of User.",
+    'usage': "/resetwarn [reply to user]"
+}, admin_only=True)
+async def _reset_all_warns(msg: Message):
     replied = msg.reply_to_message
     if not replied:
         return
@@ -200,20 +208,22 @@ async def _reset_all_warns(_, msg: Message):
     if is_admin(msg.chat.id, user_id):
         await msg.reply("`He is admin, I never Warned him.`")
         return
-    DATA = await load_data(DB.WARN_DATA_ID)
+    DATA = await bot.load_data(bot.WARN_DATA_ID)
     if DATA.get(str(msg.chat.id)) is None:
         await msg.reply("`User already not have any warn.`")
         return
     if DATA[str(msg.chat.id)].get(str(user_id)):
         DATA[str(msg.chat.id)].pop(str(user_id))
-        await save_data(DB.WARN_DATA_ID, json.dumps(DATA))
+        await bot.save_data(bot.WARN_DATA_ID, json.dumps(DATA))
         await msg.reply("`All Warns are removed for this User.`")
     else:
         await msg.reply("`User already not have any warn.`")
 
 
-@bot.on_message(filters.command("warns") & cus_filters.auth_chats)
-async def _check_warns_of_user(_, msg: Message):
+@bot.on_cmd("warns", about={
+    'description': "See Warnings.",
+    'usage': ["/warns", "/warns [reply to user]"]})
+async def _check_warns_of_user(msg: Message):
     replied = msg.reply_to_message
     if replied:
         user_id = str(replied.from_user.id)
@@ -232,8 +242,8 @@ async def _check_warns_of_user(_, msg: Message):
     if replied and not is_admin(msg.chat.id, msg.from_user.id, check_devs=True):
         await msg.reply("`You can only see your Warnings.`")
         return
-    DATA = await load_data(DB.WARN_DATA_ID)
-    w_l = (await load_data(DB.WARN_LIMIT_ID)).get(str(msg.chat.id))
+    DATA = await bot.load_data(bot.WARN_DATA_ID)
+    w_l = (await bot.load_data(bot.WARN_LIMIT_ID)).get(str(msg.chat.id))
     if DATA.get(str(msg.chat.id)) is None:
         await msg.reply("`Warnings not Found.`")
         return

@@ -6,14 +6,15 @@
 #
 # All rights reserved.
 
-from pyrogram import filters
-from pyrogram.types import Message
+__commands__ = ["id"]
 
-from assistant import bot, cus_filters
+from assistant import bot, Message
 
 
-@bot.on_message(filters.command("id") & cus_filters.auth_chats)
-async def _id(_, message: Message):
+@bot.on_cmd("id", about={
+    'description': "Check Ids",
+    'usage': "/id\n/id [reply to message]"})
+async def _id(message: Message):
     msg = message.reply_to_message or message
     out_str = f"👥 **Chat ID** : `{(msg.forward_from_chat or msg.chat).id}`\n"
     out_str += f"💬 **Message ID** : `{msg.forward_from_message_id or msg.message_id}`\n"

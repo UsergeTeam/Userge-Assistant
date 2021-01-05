@@ -6,7 +6,4 @@
 #
 # All rights reserved.
 
-from assistant import bot
-
-if __name__ == "__main__":
-    bot.begin()
+from .client import Bot, START_TIME  # noqa

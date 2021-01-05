@@ -6,24 +6,32 @@
 #
 # All rights reserved.
 
+__commands__ = [
+    "ban", "tban", "kick", "unban"
+    "mute", "tmute", "unmute",
+    "promote", "demote",
+    "pin", "unpin", "zombies"
+]
+
 import time
 import asyncio
 
-from pyrogram import filters
-from pyrogram.types import Message, ChatPermissions
+from pyrogram.types import ChatPermissions
 from pyrogram.errors import (
     FloodWait, UserAdminInvalid, UsernameInvalid, PeerIdInvalid, UserIdInvalid)
 
-from assistant import bot, cus_filters
+from assistant import bot, Message
 from assistant.utils import (
     is_dev, is_self, is_admin,
     sed_sticker, check_rights,
     check_bot_rights, extract_time)
 
 
-@bot.on_message(
-    filters.command("ban") & cus_filters.auth_chats & cus_filters.auth_users)
-async def _ban_user(_, msg: Message):
+@bot.on_cmd("ban", about={
+    'description': "Ban user in Supergroup.",
+    'usage': "/ban [reply to user | user_id] [reason: optional]"
+}, admin_only=True)
+async def _ban_user(msg: Message):
     chat_id = msg.chat.id
     if not await check_rights(chat_id, msg.from_user.id, "can_restrict_members"):
         return
@@ -74,9 +82,12 @@ async def _ban_user(_, msg: Message):
         await sent.edit(f"`Something went wrong! 🤔`\n\n**ERROR:** `{e_f}`")
 
 
-@bot.on_message(
-    filters.command("tban") & cus_filters.auth_chats & cus_filters.auth_users)
-async def _tban_user(_, msg: Message):
+@bot.on_cmd("tban", about={
+    'description': "Temp Ban user in Supergroup.",
+    'usage': "/tban [reply to user | user_id] [time] [reason: optional]",
+    'examples': "/tban 112540954 1h [reason: optional]"
+}, admin_only=True)
+async def _tban_user(msg: Message):
     chat_id = msg.chat.id
     if not await check_rights(chat_id, msg.from_user.id, "can_restrict_members"):
         return
@@ -142,9 +153,11 @@ async def _tban_user(_, msg: Message):
         await sent.edit(f"`Something went wrong 🤔`\n\n**ERROR**: `{e_f}`")
 
 
-@bot.on_message(
-    filters.command("unban") & cus_filters.auth_chats & cus_filters.auth_users)
-async def _unban_user(_, msg: Message):
+@bot.on_cmd("unban", about={
+    'description': "UnBan user in Supergroup.",
+    'usage': "/unban [reply to user | user_id]"
+}, admin_only=True)
+async def _unban_user(msg: Message):
     chat_id = msg.chat.id
     if not await check_rights(chat_id, msg.from_user.id, "can_restrict_members"):
         return
@@ -178,9 +191,11 @@ async def _unban_user(_, msg: Message):
         await sent.edit(f"`Something went wrong! 🤔`\n\n**ERROR:** `{e_f}`")
 
 
-@bot.on_message(
-    filters.command("kick") & cus_filters.auth_chats & cus_filters.auth_users)
-async def _kick_user(_, msg: Message):
+@bot.on_cmd("kick", about={
+    'description': "Kick user in Supergroup.",
+    'usage': "/kick [reply to user | user_id] [reason: optional]"
+}, admin_only=True)
+async def _kick_user(msg: Message):
     chat_id = msg.chat.id
     if not await check_rights(chat_id, msg.from_user.id, "can_restrict_members"):
         return
@@ -231,9 +246,11 @@ async def _kick_user(_, msg: Message):
         await sent.edit(f"`Something went wrong! 🤔`\n\n**ERROR:** `{e_f}`")
 
 
-@bot.on_message(
-    filters.command("promote") & cus_filters.auth_chats & cus_filters.auth_users)
-async def _promote_user(_, msg: Message):
+@bot.on_cmd("promote", about={
+    'description': "Promote user in Supergroup.",
+    'usage': "/promote [reply to user | user_id]"
+}, admin_only=True)
+async def _promote_user(msg: Message):
     chat_id = msg.chat.id
     if not await check_rights(chat_id, msg.from_user.id, "can_promote_members"):
         return
@@ -272,9 +289,11 @@ async def _promote_user(_, msg: Message):
         await sent.edit(f"`Something went wrong! 🤔`\n\n**ERROR:** `{e_f}`")
 
 
-@bot.on_message(
-    filters.command("demote") & cus_filters.auth_chats & cus_filters.auth_users)
-async def _demote_user(_, msg: Message):
+@bot.on_cmd("demote", about={
+    'description': "Demote user in Supergroup.",
+    'usage': "/demote [reply to user | user_id]"
+}, admin_only=True)
+async def _demote_user(msg: Message):
     chat_id = msg.chat.id
     if not await check_rights(chat_id, msg.from_user.id, "can_promote_members"):
         return
@@ -316,9 +335,11 @@ async def _demote_user(_, msg: Message):
         await sent.edit(f"`Something went wrong! 🤔`\n\n**ERROR:** `{e_f}`")
 
 
-@bot.on_message(
-    filters.command("mute") & cus_filters.auth_chats & cus_filters.auth_users)
-async def _mute_user(_, msg: Message):
+@bot.on_cmd("mute", about={
+    'description': "Mute user in Supergroup.",
+    'usage': "/mute [reply to user | user_id] [reason: optional]"
+}, admin_only=True)
+async def _mute_user(msg: Message):
     chat_id = msg.chat.id
     if not await check_rights(chat_id, msg.from_user.id, "can_restrict_members"):
         return
@@ -371,9 +392,12 @@ async def _mute_user(_, msg: Message):
         await sent.edit(f"`Something went wrong 🤔`\n\n**ERROR**: `{e_f}`")
 
 
-@bot.on_message(
-    filters.command("tmute") & cus_filters.auth_chats & cus_filters.auth_users)
-async def _tmute_user(_, msg: Message):
+@bot.on_cmd("tmute", about={
+    'description': "Temp Mute user in Supergroup.",
+    'usage': "/tmute [reply to user | user_id] [time] [reason: optional]",
+    'example': "/tmute 112584151 1h reason: optional"
+}, admin_only=True)
+async def _tmute_user(msg: Message):
     chat_id = msg.chat.id
     if not await check_rights(chat_id, msg.from_user.id, "can_restrict_members"):
         return
@@ -439,9 +463,11 @@ async def _tmute_user(_, msg: Message):
         await sent.edit(f"`Something went wrong 🤔`\n\n**ERROR**: `{e_f}`")
 
 
-@bot.on_message(
-    filters.command("unmute") & cus_filters.auth_chats & cus_filters.auth_users)
-async def _unmute_user(_, msg: Message):
+@bot.on_cmd("unmute", about={
+    'description': "Unmute users in Supergroup.",
+    'usage': "/unmute [user_id | reply to user]"
+}, admin_only=True)
+async def _unmute_user(msg: Message):
     chat_id = msg.chat.id
     if not await check_rights(chat_id, msg.from_user.id, "can_restrict_members"):
         return
@@ -475,9 +501,12 @@ async def _unmute_user(_, msg: Message):
         await sent.edit(f"`Something went wrong!` 🤔\n\n**ERROR:** `{e_f}`")
 
 
-@bot.on_message(
-    filters.command("zombies") & cus_filters.auth_chats & cus_filters.auth_users)
-async def _zombie_clean(_, msg: Message):
+@bot.on_cmd("zombies", about={
+    'description': "Ban deleted accounts in Supergroup.",
+    'flags': {'clean': "to clean delete accounts"},
+    'usage': ["/zombies", "/zombies clean"]
+}, admin_only=True)
+async def _zombie_clean(msg: Message):
     chat_id = msg.chat.id
     if "clean" in msg.text.lower():
         del_users = 0
@@ -524,9 +553,12 @@ async def _zombie_clean(_, msg: Message):
             await sent.edit(f"{del_stats}")
 
 
-@bot.on_message(
-    filters.command("pin") & cus_filters.auth_chats & cus_filters.auth_users)
-async def _pin(_, msg: Message):
+@bot.on_cmd("pin", about={
+    'description': "Pin messages in Supergroup.",
+    'flags': {'silent': "pin messages silently"},
+    'usage': ["/pin [reply to message]", "/pin silent [reply to message]"]
+}, admin_only=True)
+async def _pin(msg: Message):
     chat_id = msg.chat.id
     if not await check_rights(chat_id, msg.from_user.id, "can_pin_messages"):
         return
@@ -552,9 +584,11 @@ async def _pin(_, msg: Message):
             await msg.reply(f"`Something went wrong! 🤔`\n\n**ERROR:** `{e_f}`")
 
 
-@bot.on_message(
-    filters.command("unpin") & cus_filters.auth_chats & cus_filters.auth_users)
-async def _unpin(_, msg: Message):
+@bot.on_cmd("unpin", about={
+    'description': "Unpin messages in Supergroup.",
+    'usage': ["/unpin", "/unpin [reply to message]"]
+}, admin_only=True)
+async def _unpin(msg: Message):
     chat_id = msg.chat.id
     if not await check_rights(chat_id, msg.from_user.id, "can_pin_messages"):
         return
@@ -564,7 +598,7 @@ async def _unpin(_, msg: Message):
         return
     try:
         if msg.reply_to_message:
-            await bot.unpin_chat_message(chat_id, message.reply_to_message.message_id)
+            await bot.unpin_chat_message(chat_id, msg.reply_to_message.message_id)
         else:
             await bot.unpin_all_chat_messages(chat_id)
     except Exception as e_f:  # pylint: disable=broad-except

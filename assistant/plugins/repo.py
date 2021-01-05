@@ -6,15 +6,15 @@
 #
 # All rights reserved.
 
-from pyrogram import filters
-from pyrogram.types import (
-    Message, InlineKeyboardMarkup, InlineKeyboardButton)
+__commands__ = ["repo"]
 
-from assistant import bot, cus_filters
+from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+
+from assistant import bot, Message
 
 
-@bot.on_message(filters.command("repo") & cus_filters.auth_chats)
-async def _rules(_, message: Message):
+@bot.on_cmd("repo", about="Userge offical Repositories and Updates channel.")
+async def _rules(message: Message):
     replied = message.reply_to_message
     if replied:
         msg_id = replied.message_id

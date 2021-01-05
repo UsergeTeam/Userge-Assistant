@@ -6,16 +6,14 @@
 #
 # All rights reserved.
 
-from pyrogram import filters
-from pyrogram.types import (
-    Message, InlineKeyboardMarkup, InlineKeyboardButton)
+from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
-from assistant import bot
+from assistant import bot, Message, filters
 from assistant.utils.docs import HELP
 
 
-@bot.on_message(filters.private)
-async def _start_(_, msg: Message):
+@bot.on_filters(filters.private)
+async def _start_(msg: Message):
     await msg.reply(
         HELP,
         disable_web_page_preview=True,

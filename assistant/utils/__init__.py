@@ -7,6 +7,6 @@
 # All rights reserved.
 
 from .tools import (  # noqa
-    is_admin, is_dev, is_self,
-    check_rights, check_bot_rights,
+    is_admin, is_dev, is_self, parse_about,
+    check_rights, check_bot_rights, _is_spammer,
     sed_sticker, time_formatter, extract_time)

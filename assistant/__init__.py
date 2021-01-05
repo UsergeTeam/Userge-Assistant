@@ -6,8 +6,11 @@
 #
 # All rights reserved.
 
+from pyrogram import filters  # noqa
+from pyrogram.types import Message  # noqa
 from .logger import logging  # noqa
 from .config import Config  # noqa
-from .bot import bot  # noqa
+from assistant.core import Bot, START_TIME  # noqa
 from . import cus_filters  # noqa
-from .database import DB, save_data, load_data  # noqa
+
+bot = Bot()  # bot is the client name

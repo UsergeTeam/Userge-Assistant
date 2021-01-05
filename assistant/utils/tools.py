@@ -6,7 +6,9 @@
 #
 # All rights reserved.
 
+import re
 import time
+from typing import Union, List, Dict
 
 from pyrogram.types import Message
 
@@ -64,6 +66,54 @@ def is_dev(user_id: int) -> bool:
     return user_id in Config.DEV_USERS
 
 
+def parse_about(about) -> str:
+    if isinstance(about, str):
+        return about
+    tmp_chelp = ''
+    if about.get('example') and isinstance(about['description'], str):
+        tmp_chelp += ("\n\n📝 <u><b>Description</b></u> :\n\n    "
+                      f"<i>{about['description']}</i>")
+        del about['description']
+    if about.get('flags'):
+        tmp_chelp += "\n\n⛓ <u><b>Available Flags</b></u> :\n"
+        if isinstance(about['flags'], dict):
+            for f_n, f_d in about['flags'].items():
+                tmp_chelp += f"\n    ▫ <code>{f_n}</code> : <i>{f_d.lower()}</i>"
+        else:
+            tmp_chelp += f"\n    {about['flags']}"
+        del about['flags']
+    if about.get('usage'):
+        tmp_chelp += f"\n\n✒ <u><b>Usage</b></u> :"
+        if isinstance(about['usage'], list):
+            for us_ in about['usage']:
+                tmp_chelp += f"\n\n    <code>{us_}</code>"
+        else:
+            tmp_chelp += "\n\n<code>{about['usage']}</code>"
+        del about['usage']
+    if about.get('examples'):
+        tmp_chelp += "\n\n✏ <u><b>Examples</b></u> :"
+        if isinstance(about['examples'], list):
+            for ex_ in about['examples']:
+                tmp_chelp += f"\n\n    <code>{ex_}</code>"
+        else:
+            tmp_chelp += f"\n\n    <code>{about['examples']}</code>"
+        del about['examples']
+    if about:
+        for t_n, t_d in about.items():
+            tmp_chelp += f"\n\n⚙ <u><b>{t_n.title()}</b></u> :\n"
+            if isinstance(t_d, dict):
+                for o_n, o_d in t_d.items():
+                    tmp_chelp += f"\n    ▫ <code>{o_n}</code> : <i>{o_d.lower()}</i>"
+            elif isinstance(t_d, list):
+                tmp_chelp += '\n'
+                for _opt in t_d:
+                    tmp_chelp += f"    <code>{_opt}</code> ,"
+            else:
+                tmp_chelp += '\n'
+                tmp_chelp += t_d
+    return tmp_chelp
+
+
 async def is_self(user_id: int) -> bool:
     """ returns user is assistant or not """
     global _BOT_ID  # pylint: disable=global-statement
@@ -94,6 +144,24 @@ async def check_bot_rights(chat_id: int, rights: str) -> bool:
         if getattr(bot_, rights, None):
             return True
         return False
+    return False
+
+
+async def _is_spammer(chat_id: int, user_id: int, bio: str = None) -> bool:
+    """ Manage new members Spambots """
+    if not bio:
+        bio = (await bot.get_chat(user_id)).bio
+        if not bio:
+            return False
+    pattern = r"( |^|[^\w])@date4ubot( |$|[^\w])"
+    if re.search(pattern, bio, re.IGNORECASE):
+        await bot.kick_chat_member(chat_id, user_id)
+        await bot.send_message(
+            chat_id,
+            r"\\ SpamBot Detected //"
+            f"\n\n**USER ID:** {user_id}"
+        )
+        return True
     return False
 
 

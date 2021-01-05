@@ -6,21 +6,23 @@
 #
 # All rights reserved.
 
+__commands__ = ["neko", "paste", "getpaste"]
+
 import os
 
 import aiohttp
 from aiohttp import ClientResponseError, ServerTimeoutError, TooManyRedirects
-from pyrogram import filters
-from pyrogram.types import Message
 
-from assistant import bot, cus_filters, Config
+from assistant import bot, Config, Message
 
 DOGBIN_URL = "https://del.dog/"
 NEKOBIN_URL = "https://nekobin.com/"
 
 
-@bot.on_message(filters.command("paste") & cus_filters.auth_chats)
-async def dogbin_paste(_, message: Message):
+@bot.on_cmd("paste", about={
+    'description': "Paste to Dogbin",
+    'usage': "/paste [reply to message]"})
+async def dogbin_paste(message: Message):
     """ pastes the text directly to dogbin  """
     cmd = len(message.text)
     msg = await message.reply("`Processing...`")
@@ -58,8 +60,10 @@ async def dogbin_paste(_, message: Message):
                 await msg.edit("`Failed to reach Dogbin`")
 
 
-@bot.on_message(filters.command("neko") & cus_filters.auth_chats)
-async def nekobin_paste(_, message: Message):
+@bot.on_cmd("neko", about={
+    'description': "Paste to Nekobin",
+    'usage': "/neko [reply to message]"})
+async def nekobin_paste(message: Message):
     """ pastes the text directly to nekobin  """
     cmd = len(message.text)
     msg = await message.reply("`Processing...`")
@@ -93,8 +97,10 @@ async def nekobin_paste(_, message: Message):
                 await msg.edit("`Failed to reach Nekobin`")
 
 
-@bot.on_message(filters.command("getpaste") & cus_filters.auth_chats)
-async def get_paste_(_, message: Message):
+@bot.on_cmd("getpaste", about={
+    'description': "Get text from pasted urls.",
+    'usage': "/getpaste [reply to message]"})
+async def get_paste_(message: Message):
     """ fetches the content of a dogbin or nekobin URL """
     if message.text and len(message.text) == 9:
         await message.reply("`input not found!`")
