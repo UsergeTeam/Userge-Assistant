@@ -6,15 +6,15 @@
 #
 # All rights reserved.
 
-__commands__ = ["rules"]
+from pyrogram import filters
+from pyrogram.types import (
+    Message, InlineKeyboardMarkup, InlineKeyboardButton)
 
-from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
-
-from assistant import bot, Message
+from assistant import bot, cus_filters
 
 
-@bot.on_cmd("rules", about="Rules for @UsereOt")
-async def _rules(message: Message):
+@bot.on_message(filters.command("rules") & cus_filters.auth_chats)
+async def _rules(_, message: Message):
     replied = message.reply_to_message
     if replied:
         msg_id = replied.message_id

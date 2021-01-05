@@ -6,16 +6,14 @@
 #
 # All rights reserved.
 
-__commands__ = ["reply"]
+from pyrogram import filters
+from pyrogram.types import Message
 
-from assistant import bot, Message
+from assistant import bot, cus_filters
 
 
-@bot.on_cmd("reply", about={
-    'description': "Reply for myself (fun command)",
-    'usage': "/reply [reply to message] [text]"
-}, admin_only=True)
-async def _reply(message: Message):
+@bot.on_message(filters.command("reply") & cus_filters.auth_chats & cus_filters.auth_users)
+async def _reply(_, message: Message):
     replid = message.reply_to_message
     if not replid:
         return

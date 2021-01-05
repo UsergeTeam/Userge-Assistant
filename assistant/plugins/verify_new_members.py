@@ -6,21 +6,21 @@
 #
 # All rights reserved.
 
-import re
 import asyncio
 
+from pyrogram import filters
 from pyrogram.types import (
-    ChatPermissions, CallbackQuery,
+    Message, ChatPermissions, CallbackQuery,
     InlineKeyboardMarkup, InlineKeyboardButton)
 from pyrogram.errors.exceptions.bad_request_400 import UserNotParticipant
 
-from assistant import bot, cus_filters, filters, Message
-from assistant.utils import check_bot_rights, is_admin, _is_spammer
+from assistant import bot, cus_filters
+from assistant.utils import check_bot_rights
 
 
-@bot.on_filters(
+@bot.on_message(
     filters.group & filters.new_chat_members & cus_filters.auth_chats)
-async def _verify_msg_(msg: Message):
+async def _verify_msg_(_, msg: Message):
     """ Verify Msg for New chat Members """
     chat_id = msg.chat.id
     for member in msg.new_chat_members:
@@ -30,8 +30,6 @@ async def _verify_msg_(msg: Message):
                 continue
         except Exception:
             pass
-        if await _is_spammer(chat_id, member.id):
-            return
         if member.is_bot or not await check_bot_rights(chat_id, "can_restrict_members"):
             file_id, text, buttons = await wc_msg(member)
             reply = await msg.reply_animation(
@@ -49,7 +47,7 @@ async def _verify_msg_(msg: Message):
                 await force_sub(msg, member)
             else:
                 await verify_keyboard(msg, member)
-    msg.continue_propagation()       
+    msg.continue_propagation()
 
 
 async def verify_keyboard(msg: Message, user):

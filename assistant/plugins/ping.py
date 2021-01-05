@@ -6,15 +6,16 @@
 #
 # All rights reserved.
 
-__commands__ = ["ping"]
-
 from datetime import datetime
 
-from assistant import bot, Message
+from pyrogram import filters
+from pyrogram.types import Message
+
+from assistant import bot, cus_filters
 
 
-@bot.on_cmd("ping", about="Check how long it takes to ping.")
-async def _ping(message: Message):
+@bot.on_message(filters.command("ping") & cus_filters.auth_chats)
+async def _ping(_, message: Message):
     start = datetime.now()
     replied = await message.reply('`Pong!`')
     end = datetime.now()
