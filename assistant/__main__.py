@@ -7,24 +7,17 @@
 # All rights reserved.
     
 import os
+import asyncio
 import importlib
 
 from assistant import bot, Config, DB, logging
 
 _LOG = logging.getLogger(__name__)
-msg = None
 
 
-async def _init():
-    global msg  # pylint: disable=global-statement
+async def _loader():
     if len(Config.PLUGINS_ID) > 0:
         msg = await bot.get_messages(DB.CHANNEL_ID, Config.PLUGINS_ID)
-
-
-if __name__ == "__main__":
-    bot.run()
-
-    if msg and len(Config.PLUGINS_ID) > 0:
         _LOG.info("Loading Temp PLugins...")
         plg_list = []
         
@@ -56,3 +49,8 @@ def load_plugin(name: str):
     except ImportError as i_e:
         _LOG.error(i_e)
         raise
+
+if __name__ == "__main__":
+    _LOG.info("Starting Assistant Bot!")
+    bot.run()
+    asyncio.run(_loader())
