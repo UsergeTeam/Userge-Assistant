@@ -10,6 +10,8 @@ import os
 import asyncio
 import importlib
 
+from pyrogram import idle
+
 from assistant import bot, Config, DB, logging
 
 _LOG = logging.getLogger(__name__)
@@ -50,7 +52,14 @@ def load_plugin(name: str):
         _LOG.error(i_e)
         raise
 
+
+async def main():
+    await bot.start()
+    await _loader()
+    await idle()
+    await bot.stop()
+
+    
 if __name__ == "__main__":
     _LOG.info("Starting Assistant Bot!")
-    bot.run()
-    asyncio.run(_loader())
+    asyncio.run(main())
