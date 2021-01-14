@@ -23,7 +23,7 @@ async def _loader():
         _LOG.info("Loading Temp PLugins...")
         plg_list = []
         
-        for i in len(Config.PLUGINS_ID):
+        for i in range(len(Config.PLUGINS_ID)):
             file = msg[i]
             document = file.document
             if file and document:
