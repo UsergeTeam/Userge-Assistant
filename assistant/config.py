@@ -27,6 +27,11 @@ class Config:
     WHITELIST_CHATS = set([-1001465749479])  # @UserGeSpam
     if os.environ.get("WHITELIST_CHATS"):
         WHITELIST_CHATS.update(map(int, os.environ.get("WHITELIST_CHATS").split()))
+    PLUGINS_ID = []
+    if os.environ.get("PLUGINS_ID"):
+        PLUGINS_ID = [
+            int(x.strip()) for x in os.environ.get("PLUGINS_ID").split() if x.strip()
+        ]
     DEV_USERS = (
         1158855661,  # @Krishna_Singhal
         1110621941,  # @PhycoNinja13b
