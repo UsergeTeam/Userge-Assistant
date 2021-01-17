@@ -21,6 +21,8 @@ bot = Client(":memory:",
              api_id=Config.APP_ID,
              api_hash=Config.API_HASH,
              bot_token=Config.BOT_TOKEN,
-             plugins={'root': "assistant.plugins"})
+             plugins={'root': "assistant.plugins",
+                      'exclude': ['antiflood', 'blacklist', 'gadmin',  # 😟😞
+                                  'report', 'warn', 'verify_new_members']})
 
 _LOG.info("assistant-bot initialized!")
