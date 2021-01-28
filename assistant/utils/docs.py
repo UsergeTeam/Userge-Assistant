@@ -263,6 +263,11 @@ VARS = [
         f"[LOAD_UNOFFICIAL_PLUGINS]({deployment}#1-load_unofficial_plugins)"
     ),
     (
+        "Plugin Channel ID.",
+        "How to Add/Load Custom Plugins?",
+        f"[PLUGINS_CHANNEL_ID]({faqs}#26-how-to-addload-custom-plugins)"
+    ),
+    (
         "Workers",
         "Explained Workers Var",
         f"[Workers]({deployment}#2-workers)"
@@ -420,7 +425,7 @@ FAQS = [
     ("What is dyno saver and what is .die cmd?",
     f"{faqs}#10-what-is-dyno-saver-what-is-die-only-for-heroku-users"),
     ("How to add buttons in Notes/Filters?",
-    f"{faqs}#11-how-to-add-buttons-in-notesfilters-"),
+    f"{faqs}#11-how-to-add-buttons-in-text-notes-and-filters"),
     ("How to setup Lydia ?",
     f"{faqs}#12-how-to-setup-lydia-"),
     ("What is floodwait?", f"{faqs}#13-what-is-floodwait"),
@@ -428,23 +433,16 @@ FAQS = [
     ("What is spamwatch?", f"{faqs}#15-what-is-spamwatch"),
     ("How to set your own custom media for .alive?",
     f"{faqs}#16how-to-set-your-own-custom-media-for-alive"),
-    ("How to use YouTube cmd in UserGe?",
-    f"{faqs}#17-how-to-use-youtube-cmd-of-userge-properly"),
-    ("What are index link?", f"{faqs}#18what-are-index-link"),
     ("How to send secret message in userge bot ?",
-    f"{faqs}#19how-to-send-secret-message-in-userge-bot-"),
-    ("What is the purpose of Worker VAR?",
-    f"{faqs}#20-whats-the-purpose-of-worker-var"),
-    ("How to clear download path?", f"{faqs}#21-how-to-clear-download-path"),
-    ("How to stop autopic?", f"{faqs}#22-how-to-stop-autopic"),
-    ("How to use upload and download Using userge?",
-    f"{faqs}#23-how-to-use-upload-and-download-feature-of-userge-properly-"),
-    ("How to add media in pm permit?", f"{faqs}#24-how-to-add-media-in-custom-pm-permit"),
-    ("How to delete profile pic in Telegram?",
-    f"{faqs}#25-how-to-delete-all-profile-pic-of-your-telegram-account"),
-    ("How to use spam watch api?", f"{faqs}#26-how-to-use-spam-watch-api"),
-    ("How to update userbot?", f"{faqs}#27-how-to-update-userbot"),
-    ("How to know dyno usage?", f"{faqs}#28-how-to-know-dyno-usage"),
+    f"{faqs}#17-how-to-send-secret-message-using-your-userge-bot"),
+    ("How to clear download path?", f"{faqs}#18-how-to-clear-downloads-path"),
+    ("How to stop autopic?", f"{faqs}#19-how-to-stop-autopic"),
+    ("How to Unzip, Unrar and Unpacks files?", f"{faqs}#20-how-to-unzip-unrar-and-unpack-files-in-userge"),
+    ("How to add media in pm permit?", f"{faqs}#21-how-to-add-media-in-custom-pm-permit"),
+    ("How to use spam watch api?", f"{faqs}#22-how-to-use-spam-watch-api"),
+    ("How to update userbot?", f"{faqs}#23-how-to-update-userge-userbot"),
+    ("How to know dyno usage?", f"{faqs}#24-how-to-know-dyno-usage"),
     ("File type issue while downloading from direct link?",
-    f"{faqs}#29-file-type-issue-while-downloading-from-direct-link")
+    f"{faqs}#25-file-type-issue-while-downloading-from-link"),
+    ("How to Add/Load Custom Plugins?", f"{faqs}#26-how-to-addload-custom-plugins")
 ]
