@@ -234,8 +234,14 @@ async def inline_docs(_, i_q: InlineQuery):
                     photo_url=f"{docs.ERRORS[i][2]}",
                     title=f"{docs.ERRORS[i][0]}",
                     caption=(
-                        f"[{docs.ERRORS[i][0]}]({docs.errors}{docs.ERRORS[i][1]})"
-                    )
+                        "__Click On the below Button to Get the Solution.__"
+                    ),
+                    reply_markup=InlineKeyboardMarkup([[
+                        InlineKeyboardButton(
+                            "📚 Solution",
+                            url=f"{docs.errors}{docs.ERRORS[i][1]}"
+                        )
+                    ]]),
                 )
             )
     if results:
