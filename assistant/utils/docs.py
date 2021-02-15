@@ -371,6 +371,11 @@ VARS = [
         "Insta Id and Insta Pass",
         "What is Insta Id and Insta Pass",
         f"[INSTA_ID & INSTA_PASS]({deployment}#22-insta_id--insta_pass)"
+    ),
+    (
+        "Custom Plugins Repo",
+        "Add custom plugins repo",
+        f"[CUSTOM_PLUGINS_REPO]({deployment}#25-custom_plugins_repo)"
     )
 ]
 
