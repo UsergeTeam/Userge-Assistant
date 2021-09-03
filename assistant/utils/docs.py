@@ -243,14 +243,144 @@ VARS = [
         f"[LOG_CHANNEL_ID]({deployment}#3-log_channel_id)"
     ),
     (
-        "Heroku App Name",
-        "How to get Heroku App Name",
-        f"[HEROKU_APP_NAME]({deployment}#24-heroku_app_name)"
+        "Load Unofficial Plugins",
+        "How to Load Unofficial Plugins.",
+        f"[LOAD_UNOFFICIAL_PLUGINS]({deployment}#1-load_unofficial_plugins)"
+    ),
+    (
+        "Custom Plugins Repo",
+        "Add custom plugins repo",
+        f"[CUSTOM_PLUGINS_REPO]({deployment}#2-custom_plugins_repo)"
+    ),
+    (
+        "Assert single instance",
+        "What is assert single instance",
+        f"[ASSERT_SINGLE_INSTANCE]({deployment}#3-assert_single_instance)"
+    ),
+    (
+        "Workers",
+        "Explained Workers Var",
+        f"[WORKERS]({deployment}#4-workers)"
+    ),
+    (
+        "Rss chat id",
+        "What is rss chat id",
+        f"[RSS_CHAT_ID]({deployment}#5-rss_chat_id)"
+    ),
+    (
+        "Gdrive Client Id and Client Secret",
+        "How to get G_DRIVE_CLIENT_ID and G_DRIVE_CLIENT_SECRET",
+        f"[G_DRIVE_CLIENT_ID and G_DRIVE_CLIENT_SECRET]({deployment}#6-g_drive_client_id--g_drive_client_secret)"
+    ),
+    (
+        "G_DRIVE_ID_TD",
+        "Explained G_DRIVE_IS_TD",
+        f"[G_DRIVE_IS_TD]({deployment}#7-g_drive_is_td)"
+    ),
+    (
+        "G_DRIVE_INDEX_LINK",
+        "How to get Index Link",
+        f"[G_DRIVE_INDEX_LINK]({deployment}#8-g_drive_index_link)"
+    ),
+    (
+        "Down Path",
+        "Explained about Download Path",
+        f"[DOWN_PATH]({deployment}#9-down_path)"
+    ),
+    (
+        "Preferred Language",
+        "Explained Preferred Language",
+        f"[PREFERRED_LANGUAGE]({deployment}#10-preferred_language)"
+    ),
+    (
+        "Currency Api",
+        "How to get Currency Api",
+        f"[CURRENCY_API]({deployment}#11-currency_api)"
+    ),
+    (
+        "Ocr Space Api Key",
+        "How to get Ocr Space Pai Key.",
+        f"[OCR_SPACE_API_KEY]({deployment}#12-next-var-is-ocr_space_api_key)"
+    ),
+    (
+        "Weather Defcity",
+        "Weather Default City.",
+        f"[WEATHER_DEFCITY]({deployment}#13-weather_defcity)"
+    ),
+    (
+        "Userge antispam api",
+        "What is userge antispam api",
+        f"[USERGE_ANTISPAM_API]({deployment}#14-userge_antispam_api)"
+    ),
+    (
+        "Spamwatch Api",
+        "How to get SpamWatch Api.",
+        f"[SPAM_WATCH_API]({deployment}#15-spam_watch_api)"
+    ),
+    (
+        "Open Weather Map",
+        "How to get Open Weather Map.",
+        f"[OEPN_WEATHER_MAP]({deployment}#16-open_weather_map)"
+    ),
+    (
+        "Remove Background Api",
+        "How to get Remove Background Api.",
+        f"[REMOVE_BG_API_KEY]({deployment}#17-remove_bg_api_key)"
+    ),
+    (
+        "Gdrive Parent folder Id",
+        "How to get Gdrive Parent folder Id",
+        f"[G_DRIVE_PARENT_ID]({deployment}#18-g_drive_parent_id)"
+    ),
+    (
+        "Command Trigger",
+        "What is Command Trigger.",
+        f"[CMD_TRIGGER]({deployment}#19-cmd_trigger)"
+    ),
+    (
+        "Sudo Trigger",
+        "What is Sudo Trigger.",
+        f"[SUDO_TRIGGER]({deployment}#20-sudo_trigger)"
+    ),
+    (
+        "Upstream Repo",
+        "What is Upstream Repo",
+        f"[UPSTREAM_REPO]({deployment}#21-upstream_repo)"
+    ),
+    (
+        "Finished Progress Bar",
+        "What is Finished Progress Bar.",
+        f"[FINISHED_PROGRESS_STR]({deployment}#22-finished_progress_str)"
+    ),
+    (
+        "UnFinished Progress Bar",
+        "What is UnFinished Progress Bar.",
+        f"[UNFINISHED_PROGRESS_STR]({deployment}#23-unfinished_progress_str)"
+    ),
+    (
+        "Custom Pack Name",
+        "What is Custom Pack Name.",
+        f"[CUSTOM_PACK_NAME]({deployment}#24-custom_pack_name)"
+    ),
+    (
+        "Alive Media",
+        "How to get Alive Media var.",
+        f"[ALIVE_MEDIA]({deployment}#25-alive_media)"
     ),
     (
         "Heroku Api Key",
         "How to get Heroku Api Key",
-        f"[HEROKU_API_KEY]({deployment}#23-heroku_api_key)"
+        f"[HEROKU_API_KEY]({deployment}#26-heroku_api_key)"
+    ),
+    (
+        "Heroku App Name",
+        "How to get Heroku App Name",
+        f"[HEROKU_APP_NAME]({deployment}#27-heroku_app_name)"
+    ),
+    (
+        "Max duration",
+        "What is max duration",
+        f"[MAX_DURATION]({deployment}#28-max_duration)"
     ),
     (
         "Heroku Session String",
@@ -258,125 +388,10 @@ VARS = [
         f"[HU_STRING_SESSION]({deployment}#1-user-mode)"
     ),
     (
-        "Load Unofficial Plugins",
-        "How to Load Unofficial Plugins.",
-        f"[LOAD_UNOFFICIAL_PLUGINS]({deployment}#1-load_unofficial_plugins)"
-    ),
-    (
         "Plugin Channel ID.",
         "How to Add/Load Custom Plugins?",
         f"[PLUGINS_CHANNEL_ID]({faqs}#26-how-to-addload-custom-plugins)"
     ),
-    (
-        "Workers",
-        "Explained Workers Var",
-        f"[Workers]({deployment}#2-workers)"
-    ),
-    (
-        "Client Id and Client Secret",
-        "How to get CLIENT_ID and CLIENT_SECRET",
-        f"[CLIENT_ID and CLIENT_SECRET]({deployment}#3-g_drive_client_id--g_drive_client_secret)"
-    ),
-    (
-        "G_DRIVE_ID_TD",
-        "Explained G_DRIVE_IS_TD",
-        f"[G_DRIVE_IS_TD]({deployment}#4-g_drive_is_td)"
-    ),
-    (
-        "G_DRIVE_INDEX_LINK",
-        "How to get Index Link",
-        f"[G_DRIVE_INDEX_LINK]({deployment}#5-g_drive_index_link)"
-    ),
-    (
-        "Gdrive Parent folder Id",
-        "How to get Gdrive Parent folder Id",
-        f"[G_DRIVE_PARENT_ID]({deployment}#14-g_drive_parent_id)"
-    ),
-    (
-        "Down Path",
-        "Explained about Download Path",
-        f"[DOWN_PATH]({deployment}#6-down_path)"
-    ),
-    (
-        "Preferred Language",
-        "Explained Preferred Language",
-        f"[PREFERRED_LANGUAGE]({deployment}#7-preferred_language)"
-    ),
-    (
-        "Currency Api",
-        "How to get Currency Api",
-        f"[CURRENCY_API]({deployment}#8-currency_api)"
-    ),
-    (
-        "Ocr Space Api Key",
-        "How to get Ocr Space Pai Key.",
-        f"[OCR_SPACE_API_KEY]({deployment}#9-next-var-is-ocr_space_api_key)"
-    ),
-    (
-        "Weather Defcity",
-        "Weather Default City.",
-        f"[WEATHER_DEFCITY]({deployment}#10-weather_defcity)"
-    ),
-    (
-        "Spamwatch Api",
-        "How to get SpamWatch Api.",
-        f"[SPAM_WATCH_API]({deployment}#11-spam_watch_api)"
-    ),
-    (
-        "Open Weather Map",
-        "How to get Open Weather Map.",
-        f"[OEPN_WEATHER_MAP]({deployment}#12-open_weather_map)"
-    ),
-    (
-        "Remove Background Api",
-        "How to get Remove Background Api.",
-        f"[REMOVE_BG_API_KEY]({deployment}#13-remove_bg_api_key)"
-    ),
-    (
-        "Command Trigger",
-        "What is Command Trigger.",
-        f"[CMD_TRIGGER]({deployment}#15-cmd_trigger)"
-    ),
-    (
-        "Sudo Trigger",
-        "What is Sudo Trigger.",
-        f"[SUDO_TRIGGER]({deployment}#16-sudo_trigger)"
-    ),
-    (
-        "Upstream Repo",
-        "What is Upstream Repo",
-        f"[UPSTREAM_REPO]({deployment}#17-upstream_repo)"
-    ),
-    (
-        "Finished Progress Bar",
-        "What is Finished Progress Bar.",
-        f"[FINISHED_PROGRESS_STR]({deployment}#18-finished_progress_str)"
-    ),
-    (
-        "UnFinished Progress Bar",
-        "What is UnFinished Progress Bar.",
-        f"[UNFINISHED_PROGRESS_STR]({deployment}#19-unfinished_progress_str)"
-    ),
-    (
-        "Custom Pack Name",
-        "What is Custom Pack Name.",
-        f"[CUSTOM_PACK_NAME]({deployment}#20-custom_pack_name)"
-    ),
-    (
-        "Alive Media",
-        "How to get Alive Media var.",
-        f"[ALIVE_MEDIA]({deployment}#21-alive_media)"
-    ),
-    (
-        "Insta Id and Insta Pass",
-        "What is Insta Id and Insta Pass",
-        f"[INSTA_ID & INSTA_PASS]({deployment}#22-insta_id--insta_pass)"
-    ),
-    (
-        "Custom Plugins Repo",
-        "Add custom plugins repo",
-        f"[CUSTOM_PLUGINS_REPO]({deployment}#25-custom_plugins_repo)"
-    )
 ]
 
 MODES = [
