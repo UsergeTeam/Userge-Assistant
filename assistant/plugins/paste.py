@@ -8,6 +8,7 @@
 
 import os
 
+import aiofiles
 import aiohttp
 from aiohttp import ClientResponseError, ServerTimeoutError, TooManyRedirects
 from assistant import Config, bot, cus_filters
@@ -18,7 +19,7 @@ NEKOBIN_URL = "https://nekobin.com/"
 
 @bot.on_message(filters.command("paste") & cus_filters.auth_chats)
 async def nekobin_paste(_, message: Message):
-    """ pastes the text directly to nekobin  """
+    """ Pastes the text directly to Nekobin  """
     cmd = len(message.text)
     msg = await message.reply("`Processing...`")
     text = None
@@ -49,6 +50,7 @@ async def nekobin_paste(_, message: Message):
                 await msg.edit(reply_text, disable_web_page_preview=True)
             else:
                 await msg.edit("`Failed to reach Nekobin`")
+
 
 
 @bot.on_message(filters.command("getpaste") & cus_filters.auth_chats)
