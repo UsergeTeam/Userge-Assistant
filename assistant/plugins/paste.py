@@ -10,55 +10,13 @@ import os
 
 import aiohttp
 from aiohttp import ClientResponseError, ServerTimeoutError, TooManyRedirects
+from assistant import Config, bot, cus_filters
 from pyrogram import filters
 from pyrogram.types import Message
 
-from assistant import bot, cus_filters, Config
-
-DOGBIN_URL = "https://del.dog/"
 NEKOBIN_URL = "https://nekobin.com/"
 
-
 @bot.on_message(filters.command("paste") & cus_filters.auth_chats)
-async def dogbin_paste(_, message: Message):
-    """ pastes the text directly to dogbin  """
-    cmd = len(message.text)
-    msg = await message.reply("`Processing...`")
-    text = None
-    if message.text and cmd > 6:
-        _, args = message.text.split(maxsplit=1)
-        text = args
-    replied = message.reply_to_message
-    file_ext = '.txt'
-    if not cmd > 6 and replied and replied.document and replied.document.file_size < 2 ** 20 * 10:
-        file_ext = os.path.splitext(replied.document.file_name)[1]
-        path = await replied.download("downloads/")
-        with open(path, 'r') as d_f:
-            text = d_f.read()
-        os.remove(path)
-    elif not cmd > 6 and replied and replied.text:
-        text = replied.text
-    if not text:
-        await msg.edit("`input not found!`")
-        return
-    await msg.edit("`Pasting text...`")
-    async with aiohttp.ClientSession() as ses:
-        async with ses.post(DOGBIN_URL + "documents", data=text.encode('utf-8')) as resp:
-            if resp.status == 200:
-                response = await resp.json()
-                key = response['key']
-                final_url = DOGBIN_URL + key
-                if response['isUrl']:
-                    reply_text = (f"**Shortened** [URL]({final_url})\n"
-                                  f"**Dogbin** [URL]({DOGBIN_URL}v/{key})")
-                else:
-                    reply_text = f"**Dogbin** [URL]({final_url}{file_ext})"
-                await msg.edit(reply_text, disable_web_page_preview=True)
-            else:
-                await msg.edit("`Failed to reach Dogbin`")
-
-
-@bot.on_message(filters.command("neko") & cus_filters.auth_chats)
 async def nekobin_paste(_, message: Message):
     """ pastes the text directly to nekobin  """
     cmd = len(message.text)
@@ -95,24 +53,14 @@ async def nekobin_paste(_, message: Message):
 
 @bot.on_message(filters.command("getpaste") & cus_filters.auth_chats)
 async def get_paste_(_, message: Message):
-    """ fetches the content of a dogbin or nekobin URL """
+    """ fetches the content of a Nekobin URL """
     if message.text and len(message.text) == 9:
         await message.reply("`input not found!`")
         return
     _, args = message.text.split(maxsplit=1)
     link = args
     msg = await message.reply("`Getting paste content...`")
-    format_view = f'{DOGBIN_URL}v/'
-    if link.startswith(format_view):
-        link = link[len(format_view):]
-        raw_link = f'{DOGBIN_URL}raw/{link}'
-    elif link.startswith(DOGBIN_URL):
-        link = link[len(DOGBIN_URL):]
-        raw_link = f'{DOGBIN_URL}raw/{link}'
-    elif link.startswith("del.dog/"):
-        link = link[len("del.dog/"):]
-        raw_link = f'{DOGBIN_URL}raw/{link}'
-    elif link.startswith(NEKOBIN_URL):
+    if link.startswith(NEKOBIN_URL):
         link = link[len(NEKOBIN_URL):]
         raw_link = f'{NEKOBIN_URL}raw/{link}'
     elif link.startswith("nekobin.com/"):
