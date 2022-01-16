@@ -8,7 +8,6 @@
 
 import os
 
-import aiofiles
 import aiohttp
 from aiohttp import ClientResponseError, ServerTimeoutError, TooManyRedirects
 from assistant import Config, bot, cus_filters
@@ -23,18 +22,18 @@ async def nekobin_paste(_, message: Message):
     cmd = len(message.text)
     msg = await message.reply("`Processing...`")
     text = None
-    if message.text and cmd > 5:
+    if message.text and cmd > 6:
         _, args = message.text.split(maxsplit=1)
         text = args
     replied = message.reply_to_message
     file_ext = '.txt'
-    if not cmd > 5 and replied and replied.document and replied.document.file_size < 2 ** 20 * 10:
+    if not cmd > 6 and replied and replied.document and replied.document.file_size < 2 ** 20 * 10:
         file_ext = os.path.splitext(replied.document.file_name)[1]
         path = await replied.download("downloads/")
         with open(path, 'r') as d_f:
             text = d_f.read()
         os.remove(path)
-    elif not cmd > 5 and replied and replied.text:
+    elif not cmd > 6 and replied and replied.text:
         text = replied.text
     if not text:
         await msg.edit("`input not found!`")
